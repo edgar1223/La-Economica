@@ -15,19 +15,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Edgar
  */
+
 @Entity
 @Table(name = "empleado")
+@XmlRootElement
 public class Empleado {
-    @Id
+      @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int clave;
+    @Column(name = "clave")
+    private Integer clave;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "nombre", nullable = false, length = 50)
     private String nombre;
 
     @Column(name = "apellido_paterno", nullable = false, length = 50)
@@ -36,28 +40,116 @@ public class Empleado {
     @Column(name = "apellido_materno", length = 50)
     private String apellidoMaterno;
 
-    @Column(nullable = false)
-    private int edad;
+    @Column(name = "edad", nullable = false)
+    private Integer edad;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "domicilio", nullable = false, length = 100)
     private String domicilio;
 
-    @Column(nullable = false)
-    private int telefono;
+    @Column(name = "telefono", nullable = false)
+    private Integer telefono;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "jornada", nullable = false, length = 50)
     private String jornada;
 
-    @Column(nullable = false)
-    private float sueldo;
+    @Column(name = "sueldo", nullable = false)
+    private Float sueldo;
 
     @Column(name = "jornada_laboral", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date jornadaLaboral;
+    private java.sql.Date jornadaLaboral;
 
     @ManyToOne
     @JoinColumn(name = "sucursal_id", nullable = false)
     private Sucursal sucursal;
 
-    // Getters y setters
+    public Integer getClave() {
+        return clave;
+    }
+
+    public void setClave(Integer clave) {
+        this.clave = clave;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
+
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    public Integer getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(Integer telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getJornada() {
+        return jornada;
+    }
+
+    public void setJornada(String jornada) {
+        this.jornada = jornada;
+    }
+
+    public Float getSueldo() {
+        return sueldo;
+    }
+
+    public void setSueldo(Float sueldo) {
+        this.sueldo = sueldo;
+    }
+
+    public java.sql.Date getJornadaLaboral() {
+        return jornadaLaboral;
+    }
+
+    public void setJornadaLaboral(java.sql.Date jornadaLaboral) {
+        this.jornadaLaboral = jornadaLaboral;
+    }
+
+    public Sucursal getSucursal() {
+        return sucursal;
+    }
+
+    public void setSucursal(Sucursal sucursal) {
+        this.sucursal = sucursal;
+    }
+    
+    
 }
+
