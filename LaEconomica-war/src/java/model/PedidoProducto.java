@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -21,6 +22,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "pedido_producto")
+@XmlRootElement
 public class PedidoProducto {
     @EmbeddedId
     private PedidoProductoId id;

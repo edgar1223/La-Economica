@@ -4,7 +4,6 @@
  */
 package model;
 
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,20 +12,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Edgar
  */
-
 @Entity
 @Table(name = "empleado")
 @XmlRootElement
 public class Empleado {
-      @Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "clave")
     private Integer clave;
@@ -60,7 +58,7 @@ public class Empleado {
 
     @ManyToOne
     @JoinColumn(name = "sucursal_id", nullable = false)
-    private Sucursal sucursal;
+    private Sucursal sucursal_id;
 
     public Integer getClave() {
         return clave;
@@ -142,14 +140,12 @@ public class Empleado {
         this.jornadaLaboral = jornadaLaboral;
     }
 
-    public Sucursal getSucursal() {
-        return sucursal;
+    public Sucursal getSucursal_id() {
+        return sucursal_id;
     }
 
-    public void setSucursal(Sucursal sucursal) {
-        this.sucursal = sucursal;
+    public void setSucursal_id(Sucursal sucursal_id) {
+        this.sucursal_id = sucursal_id;
     }
-    
-    
+
 }
-

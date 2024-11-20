@@ -1,0 +1,94 @@
+/* General */
+body {
+    margin: 10px;
+    font-family: Arial, sans-serif;
+    background-color: #EAF5E5;
+    color: #333;
+}
+
+/* Contenedor principal */
+.container {
+    margin: auto;
+    max-width: 1200px;
+}
+
+/* Estilo del Carrusel */
+.carousel-container {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Título del Carrusel */
+.carousel-title {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #3a663a;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Elementos individuales del carrusel */
+.gasto-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cce7cc;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #f9fdf9;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.gasto-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Contenedor de la tabla */
+.table-container {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de la tabla */
+.ui-datatable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.9rem;
+}
+
+.ui-datatable-header {
+    font-weight: bold;
+    color: #3a663a;
+    padding: 10px;
+}
+
+.ui-datatable tr:nth-child(odd) {
+    background-color: #f7f7f7;
+}
+
+.ui-datatable tr:hover {
+    background-color: #e0f7df;
+}
+
+.ui-datatable th, .ui-datatable td {
+    text-align: left;
+    padding: 10px;
+}
+.ui-datatable-filter {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 90%;
+}

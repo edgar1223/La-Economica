@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence">
+    <persistence-unit name="LaEconomica-warPU" transaction-type="RESOURCE_LOCAL">
+        <class>model.Empleado</class>
+        <!-- Reemplaza con tu clase de entidad -->
+        <class>model.Inventario</class>
+        <class>model.InventarioProducto</class>
+        <class>model.Pedido</class>
+        <class>model.PedidoProducto</class>
+        <class>model.Producto</class>
+        <class>model.Rol</class>
+        <class>model.Sucursal</class>
+        <class>model.Venta</class>
+        <class>model.VentaProducto</class>
+        <class>model.RegistroHoras</class>
+
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <!-- Configuración de la conexión a la base de datos -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/laeconomica"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>

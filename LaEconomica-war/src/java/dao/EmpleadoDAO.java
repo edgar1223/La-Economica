@@ -8,6 +8,7 @@ import model.Empleado;
 import proxy.DatabaseProxy;
 import javax.persistence.EntityManager;
 import java.util.List;
+import model.RegistroHoras;
 
 /**
  *
@@ -38,12 +39,16 @@ public class EmpleadoDAO {
     public List<Empleado> mostrarEmpleados() {
         EntityManager em = DatabaseProxy.getEntityManager();
         try {
+
             System.out.print(em.createQuery("SELECT e FROM Empleado e", Empleado.class).getResultList());
+            System.out.print(em.createQuery("SELECT e FROM RegistroHoras e", RegistroHoras.class).getResultList());
+
             return em.createQuery("SELECT e FROM Empleado e", Empleado.class).getResultList();
         } finally {
             em.close();
         }
     }
+
     public void actualizarEmpleado(Empleado empleado) {
         EntityManager em = DatabaseProxy.getEntityManager();
         try {

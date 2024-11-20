@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 /**
  * 
  */
@@ -23,6 +24,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "rol")
+@XmlRootElement
 public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

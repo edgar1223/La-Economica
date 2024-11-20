@@ -1,0 +1,59 @@
+	
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2faf1;
+    margin: 0;
+    padding: 0;
+}
+
+/* DataList Styles */
+.ui-datalist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0;
+    list-style: none; /* Elimina los puntos/marcas de la lista */
+}
+
+/* Card Styles */
+.ui-card {
+    width: 20rem; /* Reduce el tamaño de las tarjetas */
+    margin: 1em;
+    padding: 1.5em;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ui-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Title Styles */
+.ui-card .ui-card-title {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #2c3e50;
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+
+/* Content Styles */
+.ui-card p {
+    font-size: 1em;
+    color: #34495e;
+    text-align: center;
+}
+
+/* Remove default padding/margins */
+.ui-datalist li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}

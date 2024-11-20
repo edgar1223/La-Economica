@@ -7,9 +7,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Table(name = "inventario_producto")
+@XmlRootElement
 public class InventarioProducto {
     @EmbeddedId
     private InventarioProductoId id;
