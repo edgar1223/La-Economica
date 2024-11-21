@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -38,6 +42,8 @@ public class Empleado {
     @Column(name = "apellido_materno", length = 50)
     private String apellidoMaterno;
 
+    @Min(value = 18, message = "La edad debe ser al menos 18 años")
+    @Max(value = 150, message = "La edad no debe superar los 150 años")
     @Column(name = "edad", nullable = false)
     private Integer edad;
 
@@ -50,11 +56,12 @@ public class Empleado {
     @Column(name = "jornada", nullable = false, length = 50)
     private String jornada;
 
+    @DecimalMin(value = "207.01", inclusive = false, message = "El sueldo debe ser mayor a 207")
     @Column(name = "sueldo", nullable = false)
     private Float sueldo;
 
     @Column(name = "jornada_laboral", nullable = false)
-    private java.sql.Date jornadaLaboral;
+    private LocalDate jornadaLaboral;
 
     @ManyToOne
     @JoinColumn(name = "sucursal_id", nullable = false)
@@ -132,11 +139,11 @@ public class Empleado {
         this.sueldo = sueldo;
     }
 
-    public java.sql.Date getJornadaLaboral() {
+    public LocalDate getJornadaLaboral() {
         return jornadaLaboral;
     }
 
-    public void setJornadaLaboral(java.sql.Date jornadaLaboral) {
+    public void setJornadaLaboral(LocalDate jornadaLaboral) {
         this.jornadaLaboral = jornadaLaboral;
     }
 

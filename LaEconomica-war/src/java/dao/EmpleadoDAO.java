@@ -4,6 +4,7 @@
  */
 package dao;
 
+import java.time.LocalDate;
 import model.Empleado;
 import proxy.DatabaseProxy;
 import javax.persistence.EntityManager;
@@ -20,6 +21,7 @@ public class EmpleadoDAO {
         EntityManager em = DatabaseProxy.getEntityManager();
         try {
             em.getTransaction().begin();
+            
             em.persist(empleado);
             em.getTransaction().commit();
         } finally {
@@ -49,15 +51,28 @@ public class EmpleadoDAO {
         }
     }
 
-    public void actualizarEmpleado(Empleado empleado) {
+    public void actualizarEmpleado(Empleado empleado,int id) {
         EntityManager em = DatabaseProxy.getEntityManager();
+        System.out.print("actia;izando ");
         try {
-            em.getTransaction().begin();
+        em.getTransaction().begin();
+                    empleado.setClave(id);
+
+        // Verificar si el empleado existe en la base de datos
+        Empleado empleadoExistente = em.find(Empleado.class, id);
+        if (empleadoExistente != null) {
+            // Si existe, actualizar
+            empleado.setClave(id);
             em.merge(empleado);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
+        } else {
+            // Si no existe, lanzar una excepción o manejarlo según sea necesario
+            System.out.println("El empleado no existe, no se puede actualizar.");
         }
+        
+        em.getTransaction().commit();
+    } finally {
+        em.close();
+    }
     }
 
     public void eliminarEmpleado(int clave) {

@@ -46,5 +46,62 @@ public class Sucursal {
     private Inventario inventarioSucursal;
 
     // Getters y setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    public int getEmpleados() {
+        return empleados;
+    }
+
+    public void setEmpleados(int empleados) {
+        this.empleados = empleados;
+    }
+
+    public int getInventario() {
+        return inventario;
+    }
+
+    public void setInventario(int inventario) {
+        this.inventario = inventario;
+    }
+
+    public int getVentas() {
+        return ventas;
+    }
+
+    public void setVentas(int ventas) {
+        this.ventas = ventas;
+    }
+
+    public Inventario getInventarioSucursal() {
+        return inventarioSucursal;
+    }
+
+    public void setInventarioSucursal(Inventario inventarioSucursal) {
+        this.inventarioSucursal = inventarioSucursal;
+    }
+    
 }
 

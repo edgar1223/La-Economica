@@ -4,14 +4,22 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       >
     <h:head>
         <title>Gestión de Empleados</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" type="text/css" href="styles/costos.css" />
+        <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+
     </h:head>
     <h:body>
+        <div class="menu-banner">
+            <ui:include src="/menu.xhtml" />
+        </div>
         <div class="container">
+            <p:messages id="messages" closable="true" />
+
             <!-- Carrusel -->
             <div class="carousel-container">
                 <p:carousel value="#{registroHorasController.gastosMensuales}" var="gasto" numVisible="4" numScroll="2">
@@ -33,8 +41,11 @@
             <!-- Tabla -->
             <div class="table-container">
                 <h:form id="formHoras">
-
-                    <p:dataTable value="#{empleadoController.empleados}" var="empleado" paginator="true" rows="8">
+                    <p:button value="Agregar Empleado" outcome="agregarEmpleado" styleClass="btn-agregar-empleado" />
+                    <p:dataTable id="tablaEmpleados" value="#{empleadoController.empleados}" var="empleado" paginator="true" rows="8">
+                        <p:column headerText="Clave">
+                            <h:outputText value="#{empleado.clave}" />
+                        </p:column>
                         <p:column headerText="Nombre">
                             <h:outputText value="#{empleado.nombre}" />
                         </p:column>
@@ -58,17 +69,97 @@
 
                         <!-- Columna con el botón para calcular el total -->
                         <p:column headerText="Horas Trabajadas">
-                            <p:commandButton value="Calcular Total"
+                            <p:commandButton value="Calcular Salario"
                                              actionListener="#{registroHorasController.obtenerHorasTrabajadasEmpleado(empleado.clave, empleado.sueldo)}"
                                              update="totalHorasOutput"
-                                             process="@this" />
+                                             process="@this" 
+                                             styleClass="btn-calcular-salario" />
                             <h:outputText id="totalHorasOutput" value="#{registroHorasController.totalSueldo}">
                                 <f:convertNumber type="currency" currencySymbol="$" />
                             </h:outputText>
+                        </p:column>
+                        <!-- Columna Acciones -->
+                        <p:column headerText="Acciones">
+                            <div class="acciones">
+                                <p:commandButton icon="pi pi-dollar" title="Pagar"  />
+
+                                <p:commandButton icon="pi pi-pencil"
+                                                 styleClass="edit-button"
+                                                 title="Editar"
+                                                 process="@this"
+                                                 update=":dialogs:editDialogContent"
+                                                 oncomplete="PF('editDialog').show()">
+                                    <f:setPropertyActionListener value="#{empleado}" target="#{empleadoController.empleado}" />
+                                </p:commandButton>
+
+                                <p:commandButton icon="pi pi-eye" title="Ver"  />
+                                <p:commandButton icon="pi pi-trash" 
+                                                 title="Eliminar" 
+                                                 actionListener="#{empleadoController.eliminarEmpleado(empleado.clave)}" 
+                                                 update=":formHoras:tablaEmpleados, :messages" />
+                            </div>
                         </p:column>
                     </p:dataTable>
                 </h:form>
             </div>
         </div>
+        <h:form id="dialogs">
+            <p:dialog id="editDialog" header="Editar Empleado" widgetVar="editDialog" modal="true" resizable="false" width="50%" styleClass="dialog-container">
+                <p:outputPanel id="editDialogContent" styleClass="ui-fluid">
+                    <p:outputPanel rendered="#{not empty empleadoController.empleado}">
+                        <h1 class="panel-header">Agregar Empleado</h1>
+                        <p:messages id="messages" closable="true" />
+
+                        <div class="form-grid">
+                            <div>
+                                <p:outputLabel for="clave" value="Clave" />
+                                <p:inputText id="clave" value="#{empleadoController.empleado.clave}" required="true" readonly="true" />
+                                <h:inputHidden id="claveHidden" value="#{empleadoController.empleado.clave}" />
+
+
+                                <p:outputLabel for="nombre" value="Nombre:" />
+                                <p:inputText id="nombre" value="#{empleadoController.empleado.nombre}" required="true" />
+
+                                <p:outputLabel for="apellidoPaterno" value="Apellido Paterno:" />
+                                <p:inputText id="apellidoPaterno" value="#{empleadoController.empleado.apellidoPaterno}" required="true" />
+
+                                <p:outputLabel for="apellidoMaterno" value="Apellido Materno:" />
+                                <p:inputText id="apellidoMaterno" value="#{empleadoController.empleado.apellidoMaterno}" />
+
+                                <p:outputLabel for="edad" value="Edad:" />
+                                <p:inputText id="edad" value="#{empleadoController.empleado.edad}" required="true" />
+
+
+                            </div>
+                            <div>
+                                <p:outputLabel for="domicilio" value="Domicilio:" />
+                                <p:inputText id="domicilio" value="#{empleadoController.empleado.domicilio}" required="true" />
+
+                                <p:outputLabel for="telefono" value="Teléfono:" />
+                                <p:inputText id="telefono" value="#{empleadoController.empleado.telefono}" required="true" />
+
+                                <p:outputLabel for="jornada" value="Jornada:" />
+                                <p:inputText id="jornada" value="#{empleadoController.empleado.jornada}" required="true" />
+
+                                <p:outputLabel for="sueldo" value="Sueldo:" />
+                                <p:inputText id="sueldo" value="#{empleadoController.empleado.sueldo}" required="true" />
+
+                                <p:outputLabel for="jornadaLaboral" value="Jornada Laboral:" />
+                                <p:calendar id="jornadaLaboral" value="#{empleadoController.empleado.jornadaLaboral}" required="true" />
+                            </div>
+                        </div>
+
+                        <div class="center-button">
+                            <p:commandButton value="Actualizar" action="#{empleadoController.actualizarEmpleado(empleadoController.empleado.clave)}" update="formEmpleado messages" />
+                            <p:commandButton value="Cancelar" icon="pi pi-times"
+                                             onclick="PF('editDialog').hide()" />
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
+
+            </p:dialog>
+        </h:form>
+
+
     </h:body>
 </html>

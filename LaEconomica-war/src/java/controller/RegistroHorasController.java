@@ -36,16 +36,16 @@ public class RegistroHorasController implements Serializable {
     //mejor manjear un map con calve empleado y totalSueldo
     private double totalSueldo;
 
-    @PostConstruct
-    public void init() {
+
+
+    public List<Object[]> getGastosMensuales() {
+        if(gastosMensuales==null){
         try {
             gastosMensuales = registroHorasService.obtenerGastosUltimosMeses(1);
         } catch (Exception e) {
             System.err.println("Error al cargar gastos mensuales: " + e.getMessage());
         }
-    }
-
-    public List<Object[]> getGastosMensuales() {
+        }
         return gastosMensuales;
     }
 

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>Agregar Empleado</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="styles/FormularioEmpleado.css" />
+        <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+
+    </h:head>
+    <h:body>
+       <div class="menu-banner">
+            <ui:include src="/menu.xhtml" />
+        </div>
+
+        <div class="container">
+            <h:form id="formEmpleado">
+                <p:panel>
+                    <p:messages id="messages" closable="true" />
+
+                    <div class="form-grid">
+                        <div>
+                            <p:outputLabel for="nombre" value="Nombre:" />
+                            <p:inputText id="nombre" value="#{empleadoController.empleado.nombre}" required="true" />
+
+                            <p:outputLabel for="apellidoPaterno" value="Apellido Paterno:" />
+                            <p:inputText id="apellidoPaterno" value="#{empleadoController.empleado.apellidoPaterno}" required="true" />
+
+                            <p:outputLabel for="apellidoMaterno" value="Apellido Materno:" />
+                            <p:inputText id="apellidoMaterno" value="#{empleadoController.empleado.apellidoMaterno}" />
+
+                            <p:outputLabel for="edad" value="Edad:" />
+                            <p:inputText id="edad" value="#{empleadoController.empleado.edad}" required="true" />
+
+                            <p:outputLabel for="domicilio" value="Domicilio:" />
+                            <p:inputText id="domicilio" value="#{empleadoController.empleado.domicilio}" required="true" />
+                        </div>
+                        <div>
+                            <p:outputLabel for="telefono" value="Teléfono:" />
+                            <p:inputText id="telefono" value="#{empleadoController.empleado.telefono}" required="true" />
+
+                            <p:outputLabel for="jornada" value="Jornada:" />
+                            <p:inputText id="jornada" value="#{empleadoController.empleado.jornada}" required="true" />
+
+                            <p:outputLabel for="sueldo" value="Sueldo:" />
+                            <p:inputText id="sueldo" value="#{empleadoController.empleado.sueldo}" required="true" />
+
+                            <p:outputLabel for="jornadaLaboral" value="Jornada Laboral:" />
+                            <p:calendar id="jornadaLaboral" value="#{empleadoController.empleado.jornadaLaboral}" required="true" />
+                        </div>
+                    </div>
+
+                    <div class="center-button">
+                        <p:commandButton value="Agregar" action="#{empleadoController.agregarEmpleado}" update="formEmpleado messages" />
+                    </div>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

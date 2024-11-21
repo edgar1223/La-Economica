@@ -36,11 +36,12 @@ public class RegistroHorasDAO {
             System.out.println("Registros de horas: " + em.createQuery("SELECT r FROM RegistroHoras r", RegistroHoras.class).getResultList());
 
             // Consulta JPQL para obtener el mes y las horas trabajadas filtrando por la sucursal ID
-            String jpql = "SELECT FUNCTION('MONTH', r.fecha), SUM(r.horasTrabajadas) "
+            String jpql = "SELECT FUNCTION('MONTH', r.fecha), SUM((r.horasTrabajadas * r.empleado_clave.sueldo) + (r.horasExtras * (r.empleado_clave.sueldo * 2))) "
                     + "FROM RegistroHoras r "
                     + "WHERE r.fecha >= :fechaInicio "
                     + "AND r.empleado_clave.sucursal_id.id = :sucursalId "
-                    + "GROUP BY FUNCTION('MONTH', r.fecha)";
+                    + "GROUP BY FUNCTION('MONTH', r.fecha) "
+                    + "ORDER BY FUNCTION('MONTH', r.fecha) DESC";
 
             TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
             query.setParameter("fechaInicio", fechaInicio);
