@@ -16,7 +16,7 @@
                 <p:column>
                     <p:submenu >
                         <p:menuitem value="Ver Empleados" outcome="Empleado" icon="pi pi-fw pi-eye" />
-                        <p:menuitem value="Agregar Empleado" outcome="agregarEmpleado" icon="pi pi-fw pi-plus" />
+                        <p:menuitem value="Agregar Empleado"  action="agregarEmpleado"  actionListener="#{empleadoController.EliminarEmpleadoCargado()}" icon="pi pi-fw pi-plus" />
 
                     </p:submenu>
 

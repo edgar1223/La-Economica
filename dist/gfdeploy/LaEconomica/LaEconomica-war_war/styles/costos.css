@@ -9,6 +9,7 @@ body {
 /* Contenedor principal */
 .container {
     margin: auto;
+     padding: 25px 30px;
     max-width: 1200px;
 }
 
@@ -91,4 +92,183 @@ body {
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 90%;
+}
+/* Botón "Agregar Empleado" */
+.btn-agregar-empleado {
+    background-color: #4CAF50 !important; 
+    color: white !important;
+    font-size: 0.9rem;
+    padding: 10px 15px; 
+    border: none !important; 
+    border-radius: 8px !important; 
+    cursor: pointer; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease; 
+    text-align: center; 
+    display: inline-block; 
+    width: 15rem;
+      font-weight: bold;
+}
+
+.btn-agregar-empleado:hover {
+    background-color: #45a049 !important; 
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón "Calcular Salario" */
+.btn-calcular-salario {
+    background-color: #2196F3 !important; /* Fondo azul claro */
+    color: white !important; /* Texto blanco */
+    font-size: 1rem !important; /* Tamaño de fuente pequeño */
+    font-weight: bold; /* Texto en negrita */
+    padding: 8px 12px; /* Espaciado interno */
+    border: none !important; /* Sin borde */
+    border-radius: 8px !important; /* Bordes redondeados */
+    cursor: pointer; /* Cursor tipo mano */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    transition: all 0.3s ease; /* Transición para hover */
+    text-align: justify; /* Texto justificado */
+    width: 6rem; /* Ancho fijo */
+    height: auto; /* Altura ajustable al texto */
+    display: inline-block; /* Elemento en línea */
+    text-align-last: right; /* Alineación final del texto hacia la derecha */
+}
+
+.btn-calcular-salario:hover {
+    background-color: #1976D2 !important; /* Fondo más oscuro al pasar el mouse */
+    box-shadow: 0 5px 7px rgba(0, 0, 0, 0.2); /* Sombra más intensa */
+}
+
+/* Centrado adicional dentro de un contenedor flex */
+.container-btn {
+    display: flex; /* Contenedor flex */
+    justify-content: flex-end; /* Alineación a la derecha */
+    align-items: center; /* Centrado vertical */
+}
+.acciones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 10px; /* Espaciado entre los botones */
+    justify-items: center; /* Centrar los botones */
+    align-items: center; /* Alinear verticalmente */
+}
+
+/* Estilo general para los botones */
+.acciones .ui-button {
+    padding: 3px 8px; /* Botones más pequeños */
+    font-size: 12px; /* Texto más pequeño */
+    color: white;
+    border-radius: 5px;
+}
+
+/* Íconos de los botones */
+.acciones .ui-button .pi {
+    font-size: 14px;
+}
+
+/* Colores específicos por acción */
+.acciones .ui-button.pi-dollar {
+    background-color: #28a745;
+}
+
+.acciones .ui-button.pi-pencil {
+    background-color: #ffc107;
+}
+
+.acciones .ui-button.pi-eye {
+    background-color: #007bff;
+}
+
+.acciones .ui-button.pi-trash {
+    background-color: #dc3545;
+}
+/* Estilo del contenedor del diálogo */
+.dialog-container {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* Botones más pequeños con mayor separación */
+.center-button .small-button {
+    background-color: #3a663a;
+    color: #fff;
+    font-size: 0.85rem; /* Tamaño más pequeño */
+    font-weight: bold;
+    border: none;
+    padding: 8px 20px; /* Botones más compactos */
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 10px; /* Mayor separación horizontal */
+}
+
+.center-button .small-button:hover {
+    background-color: #2e502e;
+    transform: translateY(-2px);
+}
+
+/* Espaciado entre los botones */
+.center-button {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Separación entre botones */
+}
+/* Encabezado */
+.panel-header {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #3a663a;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.panel-header::after {
+    content: "";
+    width: 50px;
+    height: 3px;
+    background-color: #3a663a;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* Estilo del formulario */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px 25px;
+    margin-bottom: 20px;
+}
+
+.form-grid label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.form-grid input,
+.form-grid .ui-calendar {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 0.95rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-grid input:focus,
+.form-grid .ui-calendar:focus {
+    border-color: #3a663a;
+    box-shadow: 0 0 5px rgba(58, 102, 58, 0.5);
+    outline: none;
 }

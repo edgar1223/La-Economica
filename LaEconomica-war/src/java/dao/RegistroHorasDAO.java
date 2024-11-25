@@ -4,22 +4,33 @@
  */
 package dao;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import javax.persistence.TypedQuery;
-import javax.persistence.EntityManager;
-import java.util.List;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import model.Empleado;
 import model.RegistroHoras;
 import proxy.DatabaseProxy;
 
 /**
+ * Data Access Object (DAO) para la entidad RegistroHoras. Proporciona métodos
+ * para realizar consultas relacionadas con registros de horas trabajadas.
  *
  * @author Edgar
  */
-public class RegistroHorasDAO {
+public class RegistroHorasDAO implements Serializable {
 
+    /**
+     * Obtiene los gastos por horas trabajadas y extras en los últimos 7 meses
+     * para una sucursal específica.
+     *
+     * @param sucursalId ID de la sucursal a consultar.
+     * @return Lista de arreglos de objetos donde cada elemento contiene el mes
+     * y el gasto total.
+     */
     public List<Object[]> getGastosUltimosMeses(int sucursalId) {
         System.out.println("Iniciando consulta de gastos últimos meses");
         EntityManager em = DatabaseProxy.getEntityManager(); // Obtiene el EntityManager
@@ -32,11 +43,9 @@ public class RegistroHorasDAO {
             Date fechaInicio = cal.getTime();
             System.out.println("Fecha de inicio: " + fechaInicio);
 
-            // Depuración: verificar qué registros existen en la base
-            System.out.println("Registros de horas: " + em.createQuery("SELECT r FROM RegistroHoras r", RegistroHoras.class).getResultList());
-
-            // Consulta JPQL para obtener el mes y las horas trabajadas filtrando por la sucursal ID
-            String jpql = "SELECT FUNCTION('MONTH', r.fecha), SUM((r.horasTrabajadas * r.empleado_clave.sueldo) + (r.horasExtras * (r.empleado_clave.sueldo * 2))) "
+            // Consulta JPQL para obtener mes y gasto total filtrando por sucursal
+            String jpql = "SELECT FUNCTION('MONTH', r.fecha), "
+                    + "SUM((r.horasTrabajadas * r.empleado_clave.sueldo) + (r.horasExtras * (r.empleado_clave.sueldo * 2))) "
                     + "FROM RegistroHoras r "
                     + "WHERE r.fecha >= :fechaInicio "
                     + "AND r.empleado_clave.sucursal_id.id = :sucursalId "
@@ -47,31 +56,27 @@ public class RegistroHorasDAO {
             query.setParameter("fechaInicio", fechaInicio);
             query.setParameter("sucursalId", sucursalId);
 
-            System.out.println("Ejecutando consulta: " + query);
-
-            // Ejecutar consulta y obtener resultados
+            // Ejecutar la consulta y obtener resultados
             resultados = query.getResultList();
             System.out.println("Consulta exitosa. Resultados: " + resultados);
 
-        } catch (IllegalArgumentException e) {
-            System.err.println("Error en los parámetros de la consulta: " + e.getMessage());
-            e.printStackTrace();
-        } catch (IllegalStateException e) {
-            System.err.println("Error con el estado del EntityManager: " + e.getMessage());
-            e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("Error inesperado durante la consulta: " + e.getMessage());
-            e.printStackTrace();
+            manejarExcepcion(e, "Error al consultar gastos de los últimos meses");
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close(); // Asegura cerrar el EntityManager
-                System.out.println("EntityManager cerrado.");
-            }
+            cerrarEntityManager(em);
         }
 
         return resultados;
     }
 
+    /**
+     * Obtiene los registros de horas trabajadas de los últimos 15 días para un
+     * empleado específico.
+     *
+     * @param claveEmpleado Clave del empleado a consultar.
+     * @return Lista de arreglos de objetos donde cada elemento contiene la
+     * fecha y las horas trabajadas.
+     */
     public List<Object[]> obtenerRegistroPorEmpleado(int claveEmpleado) {
         System.out.println("Iniciando consulta de registros de horas para el empleado: " + claveEmpleado);
         EntityManager em = DatabaseProxy.getEntityManager(); // Obtiene el EntityManager
@@ -84,7 +89,7 @@ public class RegistroHorasDAO {
             Date fechaInicio = cal.getTime();
             System.out.println("Fecha de inicio para los últimos 15 días: " + fechaInicio);
 
-            // Consulta JPQL para obtener las horas trabajadas filtrando por clave del empleado y fecha
+            // Consulta JPQL para obtener fecha y horas trabajadas filtrando por clave del empleado
             String jpql = "SELECT r.fecha, r.horasTrabajadas "
                     + "FROM RegistroHoras r "
                     + "WHERE r.fecha >= :fechaInicio "
@@ -95,28 +100,93 @@ public class RegistroHorasDAO {
             query.setParameter("fechaInicio", fechaInicio);
             query.setParameter("claveEmpleado", claveEmpleado);
 
-            System.out.println("Ejecutando consulta: " + query);
-
-            // Ejecutar consulta y obtener resultados
+            // Ejecutar la consulta y obtener resultados
             resultados = query.getResultList();
             System.out.println("Consulta exitosa. Resultados: " + resultados);
 
-        } catch (IllegalArgumentException e) {
-            System.err.println("Error en los parámetros de la consulta: " + e.getMessage());
-            e.printStackTrace();
-        } catch (IllegalStateException e) {
-            System.err.println("Error con el estado del EntityManager: " + e.getMessage());
-            e.printStackTrace();
         } catch (Exception e) {
-            System.err.println("Error inesperado durante la consulta: " + e.getMessage());
-            e.printStackTrace();
+            manejarExcepcion(e, "Error al consultar registros por empleado");
         } finally {
-            if (em != null && em.isOpen()) {
-                em.close(); // Asegura cerrar el EntityManager
-                System.out.println("EntityManager cerrado.");
-            }
+            cerrarEntityManager(em);
         }
 
         return resultados;
+    }
+
+    /**
+     * Obtiene los registros de horas trabajadas y detalles del empleado para un
+     * mes y sucursal específicos.
+     *
+     * @param mes Mes a consultar.
+     * @param sucursalId ID de la sucursal a consultar.
+     * @return Lista de arreglos de objetos donde cada elemento contiene los
+     * detalles del empleado y registros.
+     */
+    public List<Object[]> getEmpleadoYRegistrosPorMesYSucursal(int mes, int sucursalId) {
+        System.out.println("Iniciando consulta para obtener empleado y registros por mes y sucursal");
+        EntityManager em = DatabaseProxy.getEntityManager(); // Obtiene el EntityManager
+        List<Object[]> resultados = new ArrayList<>();
+
+        try {
+            // Consulta JPQL para obtener detalles del empleado y registros de RegistroHoras
+            String jpql = "SELECT e.nombre, e.sueldo, r.fecha, r.horasTrabajadas, r.horasExtras, r.esDiaFestivo "
+                    + "FROM RegistroHoras r "
+                    + "JOIN r.empleado_clave e "
+                    + "WHERE FUNCTION('MONTH', r.fecha) = :mes "
+                    + "AND e.sucursal_id.id = :sucursalId "
+                    + "ORDER BY r.fecha ASC";
+
+            TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
+            query.setParameter("mes", mes);
+            query.setParameter("sucursalId", sucursalId);
+
+            // Ejecutar la consulta y obtener resultados
+            resultados = query.getResultList();
+            System.out.println("Consulta exitosa. Resultados obtenidos: " + resultados.size());
+
+        } catch (Exception e) {
+            manejarExcepcion(e, "Error al consultar empleado y registros por mes y sucursal");
+        } finally {
+            cerrarEntityManager(em);
+        }
+
+        return resultados;
+    }
+
+    /**
+     * Maneja excepciones durante las consultas.
+     *
+     * @param e Excepción capturada.
+     * @param mensaje Mensaje adicional para el error.
+     */
+    private void manejarExcepcion(Exception e, String mensaje) {
+        System.err.println(mensaje + ": " + e.getMessage());
+        e.printStackTrace();
+    }
+
+    public void agregarHoras(RegistroHoras horas) {
+        EntityManager em = DatabaseProxy.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(horas);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw e; // Propaga el error para que sea manejado en la capa de servicio
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Cierra el EntityManager de manera segura.
+     *
+     * @param em Instancia de EntityManager a cerrar.
+     */
+    private void cerrarEntityManager(EntityManager em) {
+        if (em != null && em.isOpen()) {
+            em.close();
+            System.out.println("EntityManager cerrado.");
+        }
     }
 }

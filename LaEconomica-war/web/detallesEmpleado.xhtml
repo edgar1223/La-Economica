@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Detalles del Empleado</title>
+    <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+        <link rel="stylesheet" type="text/css" href="styles/DetalleEmpleado.css" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</h:head>
+<h:body class="page-body">
+    <div class="menu-banner">
+        <ui:include src="/menu.xhtml" />
+    </div>
+   <div class="container">
+    <h:form id="formDetalles" class="form-container">
+        <div class="grid-layout">
+            <!-- Información general del empleado -->
+            <div class="grid-item">
+                <p:panel header="Información del Empleado">
+                    <div class="info-row">
+                        <h:outputText value="Nombre: #{empleadoController.empleadoSeleccionado.nombre}" />
+                    </div>
+                    <div class="info-row">
+                        <h:outputText value="Apellidos: #{empleadoController.empleadoSeleccionado.apellidoPaterno} #{empleadoController.empleadoSeleccionado.apellidoMaterno}" />
+                    </div>
+                    <div class="info-row">
+                        <h:outputText value="Edad: #{empleadoController.empleadoSeleccionado.edad}" />
+                    </div>
+                    <div class="info-row">
+                        <h:outputText value="Domicilio: #{empleadoController.empleadoSeleccionado.domicilio}" />
+                    </div>
+                    <div class="info-row">
+                        <h:outputText value="Teléfono: #{empleadoController.empleadoSeleccionado.telefono}" />
+                    </div>
+                    <div class="info-row">
+                        <h:outputText value="Sueldo: #{empleadoController.empleadoSeleccionado.sueldo}">
+                            <f:convertNumber type="currency" currencySymbol="$" />
+                        </h:outputText>
+                    </div>
+                </p:panel>
+            </div>
+
+            <!-- Pagos -->
+            <div class="grid-item">
+                <p:panel header="Pagos">
+                    <p:dataTable value="#{empleadoController.listaPagos}" var="pago" rows="5" paginator="true" class="data-table">
+                        <p:column headerText="Fecha de Pago">
+                            <h:outputText value="#{pago.fechaPago}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Total Pagado">
+                            <h:outputText value="#{pago.totalPagado}">
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </div>
+
+            <!-- Ventas -->
+            <div class="grid-item">
+                <p:panel header="Ventas">
+                    <p:dataTable value="#{empleadoController.listaVentas}" var="venta" rows="5" paginator="true" class="data-table">
+                        <p:column headerText="Fecha">
+                            <h:outputText value="#{venta.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Descuento">
+                            <h:outputText value="#{venta.descuento}">
+                                <f:convertNumber type="percent" />
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </div>
+
+            <!-- Horas Trabajadas -->
+            <div class="grid-item">
+                <p:panel header="Horas Trabajadas Último Mes">
+                    <p:dataTable value="#{empleadoController.listaHoras}" var="hora" rows="5" paginator="true" class="data-table">
+                        <p:column headerText="Fecha">
+                            <h:outputText value="#{hora.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Horas Trabajadas">
+                            <h:outputText value="#{hora.horasTrabajadas}" />
+                        </p:column>
+                        <p:column headerText="Horas Extras">
+                            <h:outputText value="#{hora.horasExtras}" />
+                        </p:column>
+                        <p:column headerText="Día Festivo">
+                            <h:outputText value="#{hora.esDiaFestivo ? 'Sí' : 'No'}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </div>
+        </div>
+    </h:form>
+</div>
+
+</h:body>
+</html>

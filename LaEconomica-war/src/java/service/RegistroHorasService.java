@@ -5,72 +5,129 @@
 package service;
 
 import dao.RegistroHorasDAO;
+import java.util.ArrayList;
 import java.util.Date;
-import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
-import javax.inject.Inject;
+import model.HorasTrabajadasResult;
 import model.RegistroHoras;
 
 /**
- *
+ * Servicio para la gestión de registros de horas trabajadas por empleados.
+ * Proporciona métodos para obtener información relacionada con horas trabajadas,
+ * cálculos de sueldo y reportes por sucursal o empleado.
+ * 
  * @author Edgar
  */
-@ApplicationScoped
 public class RegistroHorasService {
 
-    @Inject
-    private RegistroHorasDAO registroHorasDAO;
-
+    // Instancia del DAO para acceso a datos
+    private RegistroHorasDAO registroHorasDAO = new RegistroHorasDAO();
+    public boolean agregarHoras(RegistroHoras horas){
+     try {
+            registroHorasDAO.agregarHoras(horas);
+            return true; // Operación exitosa
+        } catch (Exception e) {
+            // Aquí puedes registrar el error si es necesario
+            System.err.println("Error al agregar las horas: " + e.getMessage());
+            return false; // Operación fallida
+        }
+    } 
+    /**
+     * Obtiene los gastos de los últimos meses para una sucursal específica.
+     * 
+     * @param sucursalId ID de la sucursal.
+     * @return Lista de objetos con los datos de gastos.
+     */
     public List<Object[]> obtenerGastosUltimosMeses(int sucursalId) {
         System.out.println("Obteniendo gastos últimos meses desde el DAO");
         return registroHorasDAO.getGastosUltimosMeses(sucursalId);
     }
 
-    public double ObtenerHorasTrabajasEmpleado(int claveEmpleado, Float sueldo) {
+    /**
+     * Calcula las horas trabajadas y el sueldo total para un empleado
+     * basándose en los registros obtenidos.
+     * 
+     * @param claveEmpleado Clave del empleado.
+     * @param sueldo Tarifa por hora del empleado.
+     * @return Objeto HorasTrabajadasResult con el total y las fechas relevantes.
+     */
+    public HorasTrabajadasResult obtenerHorasTrabajadasEmpleado(int claveEmpleado, Float sueldo) {
         System.out.println("Obteniendo horas trabajadas para el empleado con clave: " + claveEmpleado);
 
-        // Obtener los registros de horas desde el DAO
+        // Obtener registros desde el DAO
         List<Object[]> registros = registroHorasDAO.obtenerRegistroPorEmpleado(claveEmpleado);
-        System.out.println(registros);
 
-        // Verificar si la lista está vacía o nula
         if (registros == null || registros.isEmpty()) {
             System.out.println("No se encontraron registros para el empleado con clave: " + claveEmpleado);
-            return 0; // Devuelve 0 si no hay registros
+            return new HorasTrabajadasResult(0, null, null);
         }
 
-        // Variable para acumular el total
         double total = 0;
+        Date fechaMasCercana = null;
+        Date fechaMasAlejada = null;
 
-        // Recorrer los registros y calcular el sueldo para cada uno
         for (Object[] registro : registros) {
             try {
-                // Extraer los valores de fecha y horasTrabajadas del Object[]
-                Date fecha = (Date) registro[0]; // Fecha (Object[0])
+                Date fecha = (Date) registro[0];
+                double horasTrabajadas = ((Number) registro[1]).doubleValue();
 
-                // Manejar el caso en el que registro[1] sea Float
-                double horasTrabajadas = ((Number) registro[1]).doubleValue(); // Convertir Float a Double
-
-                // Verificar si las horas trabajadas son válidas
                 if (horasTrabajadas < 0) {
                     System.out.println("Error: Las horas trabajadas no pueden ser negativas.");
-                    continue; // Saltar al siguiente registro si hay un valor incorrecto
+                    continue;
                 }
 
-                // Calcular el sueldo total para este registro
-                double sueldoPorHoras = (horasTrabajadas * sueldo);
+                if (fechaMasCercana == null || fecha.before(fechaMasCercana)) {
+                    fechaMasCercana = fecha;
+                }
+                if (fechaMasAlejada == null || fecha.after(fechaMasAlejada)) {
+                    fechaMasAlejada = fecha;
+                }
 
-                // Sumar al total
-                total += sueldoPorHoras;
-
+                total += horasTrabajadas * sueldo;
             } catch (Exception e) {
-                // Capturar cualquier error en el cálculo o si algún registro tiene datos inválidos
                 System.err.println("Error procesando el registro: " + e.getMessage());
-                continue; // Saltar este registro y seguir con el siguiente
+                continue;
             }
         }
 
-        // Devolver el total calculado
-        return total;
+        return new HorasTrabajadasResult(total, fechaMasCercana, fechaMasAlejada);
+    }
+
+    /**
+     * Obtiene los registros de empleados y horas trabajadas por mes y sucursal,
+     * calculando el pago total por empleado incluyendo horas extras.
+     * 
+     * @param mes Mes a consultar.
+     * @param sucursalId ID de la sucursal.
+     * @return Lista de registros con los cálculos realizados.
+     */
+    public List<Object[]> getEmpleadoYRegistrosPorMesYSucursal(int mes, int sucursalId) {
+        List<Object[]> registrosOriginales = registroHorasDAO.getEmpleadoYRegistrosPorMesYSucursal(mes, sucursalId);
+        List<Object[]> registrosConCalculos = new ArrayList<>();
+
+        for (Object[] registro : registrosOriginales) {
+            String nombreEmpleado = (String) registro[0];
+            Float sueldo = (Float) registro[1];
+            Date fecha = (Date) registro[2];
+            Float horasTrabajadas = (Float) registro[3];
+            Float horasExtras = (Float) registro[4];
+            Boolean esDiaFestivo = (Boolean) registro[5];
+
+            Float totalPagoHoras = (sueldo * horasTrabajadas) + ((sueldo * 2) * horasExtras);
+
+            Object[] registroConCalculo = {
+                nombreEmpleado,
+                sueldo,
+                fecha,
+                horasTrabajadas,
+                horasExtras,
+                esDiaFestivo,
+                totalPagoHoras
+            };
+
+            registrosConCalculos.add(registroConCalculo);
+        }
+
+        return registrosConCalculos;
     }
 }

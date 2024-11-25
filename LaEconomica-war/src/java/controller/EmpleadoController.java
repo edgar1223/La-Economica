@@ -4,37 +4,43 @@
  */
 package controller;
 
-import java.io.IOException;
-import javax.inject.Named;
-import javax.enterprise.context.Dependent;
-import javax.inject.Named;
-import javax.enterprise.context.Dependent;
-import model.Empleado;
-import service.EmpleadoService;
-import javax.inject.Inject;
-import javax.faces.bean.ManagedBean;
+import java.io.Serializable;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.inject.Named;
+import model.Empleado;
+import model.Pago;
+import model.RegistroHoras;
 import model.Sucursal;
+import model.Venta;
+import service.EmpleadoService;
+
+import javax.faces.context.ExternalContext;
 
 /**
+ * Controlador para la gestión de empleados. Maneja operaciones como agregar,
+ * eliminar, actualizar y visualizar detalles de empleados.
  *
  * @author Edgar
  */
 @Named(value = "empleadoController")
-@RequestScoped
-public class EmpleadoController {
+@SessionScoped
+public class EmpleadoController implements Serializable {
 
-    @Inject
+    // Variables y dependencias
     private EmpleadoService empleadoService;
     private String mensaje;
     private Empleado empleado = new Empleado();
     private Integer claveEmpleado = 0;
     private List<Empleado> empleados;
+    private Empleado empleadoSeleccionado = new Empleado();
+    private List<Pago> listaPagos;
+    private List<Venta> listaVentas;
+    private List<RegistroHoras> listaHoras;
 
+    // Métodos getters y setters
     public Empleado getEmpleado() {
         return empleado;
     }
@@ -42,29 +48,31 @@ public class EmpleadoController {
     public void setEmpleado(Empleado empleado) {
         if (empleado != null) {
             System.out.println("Cargando empleado: " + empleado.getNombre());
-            if(claveEmpleado==0)
-                 claveEmpleado = empleado.getClave();
-            System.out.print("clave" + claveEmpleado);
-            System.out.print("clave" + empleado.getClave());
-
+            if (claveEmpleado == 0) {
+                claveEmpleado = empleado.getClave();
+            }
             this.empleado = empleado;
         } else {
-
-            System.out.print("error empleado null");
+            System.out.println("Error: empleado es null");
         }
     }
 
     public List<Empleado> getEmpleados() {
-        if (empleados == null) { // Solo carga si es nulo
+        if (empleados == null) {
             try {
+                empleadoService = new EmpleadoService();
                 empleados = empleadoService.mostrarEmpleados();
             } catch (Exception e) {
-                this.mensaje = "Error al cargar la lista de empleados: " + e.getMessage();
+                mensaje = "Error al cargar la lista de empleados: " + e.getMessage();
             }
         }
         return empleados;
     }
 
+    // Operaciones principales
+    /**
+     * Agrega un nuevo empleado con validaciones básicas.
+     */
     public void agregarEmpleado() {
         try {
             if (empleado.getEdad() < 18 || empleado.getEdad() > 150) {
@@ -79,22 +87,18 @@ public class EmpleadoController {
             }
 
             Sucursal sucursalFicticia = new Sucursal();
-            sucursalFicticia.setId(1); // Asignar ID ficticio
-
+            sucursalFicticia.setId(1); // ID ficticio para la sucursal
             empleado.setSucursal_id(sucursalFicticia);
+
+            empleadoService = new EmpleadoService();
             empleadoService.agregarEmpleado(empleado);
 
-            // Guardar el mensaje en el contexto Flash para la redirección
             FacesContext facesContext = FacesContext.getCurrentInstance();
             ExternalContext externalContext = facesContext.getExternalContext();
             externalContext.getFlash().setKeepMessages(true);
-
-            facesContext.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "El empleado " + empleado.getNombre() + " fue agregado exitosamente.",
-                            "El empleado " + empleado.getNombre() + " fue agregado exitosamente."));
-            //  empleado = null;
-            // Redirigir a la página de empleados
-            externalContext.redirect("Empleado.xhtml"); // Resetear el formulario
+            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Empleado agregado exitosamente.", "El empleado " + empleado.getNombre() + " fue agregado."));
+            externalContext.redirect("Empleado.xhtml");
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage("messages",
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo agregar el empleado."));
@@ -102,67 +106,119 @@ public class EmpleadoController {
         }
     }
 
+    /**
+     * Elimina un empleado dado su clave.
+     *
+     * @param clave Clave del empleado a eliminar.
+     */
     public void eliminarEmpleado(int clave) {
         try {
+            empleadoService = new EmpleadoService();
             empleadoService.eliminarEmpleado(clave);
+            empleados = null; // Recargar lista
 
-            // Refrescar la lista de empleados
-            empleados = null; // Para que se recargue en getEmpleados()
-
-            // Mostrar mensaje de éxito
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            facesContext.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Empleado Eliminado Correctamente",
-                            "El empleado con clave " + clave + " fue eliminado."));
-
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_INFO, "Empleado eliminado", "El empleado con clave " + clave + " fue eliminado."));
         } catch (Exception e) {
-            // Mostrar mensaje de error
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo eliminar el empleado."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Error", "No se pudo eliminar el empleado."));
             System.out.println("Error: " + e.getMessage());
         }
     }
 
+    /**
+     * Carga un empleado para su visualización o edición.
+     *
+     * @param ep Empleado a cargar.
+     */
     public void cargarEmpleado(Empleado ep) {
-        System.out.print(ep.getApellidoMaterno());
-        // empleado = null;
         empleado = ep;
-
     }
 
+    /**
+     * Actualiza los datos de un empleado.
+     *
+     * @param id ID del empleado a actualizar.
+     */
     public void actualizarEmpleado(int id) {
-        System.out.print(empleado.getApellidoMaterno());
-        System.out.print(empleado.getApellidoPaterno());
-            System.out.print("clave" + id);
-
-
-        System.out.print(empleado.getDomicilio());
-        System.out.print(empleado.getEdad());
-        System.out.print(empleado.getSueldo());
-
-        System.out.print(empleado.getTelefono());
-
         try {
             if (empleado == null) {
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se encontró el empleado a actualizar."));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "Error", "No se encontró el empleado a actualizar."));
                 return;
             }
+
             Sucursal sucursalFicticia = new Sucursal();
-            sucursalFicticia.setId(1); // Asignar ID ficticio
+            sucursalFicticia.setId(1); // ID ficticio para la sucursal
             empleado.setSucursal_id(sucursalFicticia);
-            empleadoService.actualizarEmpleado(empleado,id);
 
-            // Refrescar la lista de empleados
-            empleados = null; // Forzar la recarga
+            empleadoService = new EmpleadoService();
+            empleadoService.actualizarEmpleado(empleado, id);
 
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Empleado actualizado", "El empleado fue actualizado correctamente."));
+            empleados = null; // Recargar lista
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_INFO, "Empleado actualizado", "El empleado fue actualizado correctamente."));
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo actualizar el empleado."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR, "Error", "No se pudo actualizar el empleado."));
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Muestra los detalles del empleado seleccionado.
+     *
+     * @param clave Clave del empleado.
+     */
+    public void verDetallesEmpleado(Integer clave) {
+        empleadoService = new EmpleadoService();
+        empleadoSeleccionado = empleadoService.obtenerEmpleadoPorId(clave);
+        listaPagos = empleadoService.obtenerPagosPorEmpleado(clave);
+        listaVentas = empleadoService.obtenerVentasPorEmpleado(clave);
+        listaHoras = empleadoService.obtenerHorasTrabajadasUltimoMes(clave);
+    }
+
+    /**
+     * Metodo para eliminar al Empleado, para que no se carguen al al registrar
+     * usuario
+     *
+     */
+    public void EliminarEmpleadoCargado() {
+        empleado = null;
+    }
+
+ 
+    // Getters y setters para datos relacionados
+    public Empleado getEmpleadoSeleccionado() {
+        return empleadoSeleccionado;
+    }
+
+    public void setEmpleadoSeleccionado(Empleado empleadoSeleccionado) {
+        this.empleadoSeleccionado = empleadoSeleccionado;
+    }
+
+    public List<Pago> getListaPagos() {
+        return listaPagos;
+    }
+
+    public void setListaPagos(List<Pago> listaPagos) {
+        this.listaPagos = listaPagos;
+    }
+
+    public List<Venta> getListaVentas() {
+        return listaVentas;
+    }
+
+    public void setListaVentas(List<Venta> listaVentas) {
+        this.listaVentas = listaVentas;
+    }
+
+    public List<RegistroHoras> getListaHoras() {
+        return listaHoras;
+    }
+
+    public void setListaHoras(List<RegistroHoras> listaHoras) {
+        this.listaHoras = listaHoras;
     }
 
 }
