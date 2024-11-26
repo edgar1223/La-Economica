@@ -39,7 +39,7 @@ public class EmpleadoController implements Serializable {
     private List<Pago> listaPagos;
     private List<Venta> listaVentas;
     private List<RegistroHoras> listaHoras;
-
+    private LoginController loginController =new LoginController() ;
     // Métodos getters y setters
     public Empleado getEmpleado() {
         return empleado;
@@ -87,18 +87,16 @@ public class EmpleadoController implements Serializable {
             }
 
             Sucursal sucursalFicticia = new Sucursal();
-            sucursalFicticia.setId(1); // ID ficticio para la sucursal
+            sucursalFicticia.setId(loginController.getEmpleadoLogueado().getSucursal_id().getId()); // ID ficticio para la sucursal
             empleado.setSucursal_id(sucursalFicticia);
 
             empleadoService = new EmpleadoService();
             empleadoService.agregarEmpleado(empleado);
 
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            ExternalContext externalContext = facesContext.getExternalContext();
-            externalContext.getFlash().setKeepMessages(true);
-            facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    "Empleado agregado exitosamente.", "El empleado " + empleado.getNombre() + " fue agregado."));
-            externalContext.redirect("Empleado.xhtml");
+                 FacesMessage messages = new FacesMessage(FacesMessage.SEVERITY_INFO,   "Empleado agregado exitosamente.",
+                    "Pago registrado correctamente para el empleado con clave: " + empleado.getClave());
+            FacesContext.getCurrentInstance().addMessage(null, messages);
+           
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage("messages",
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo agregar el empleado."));
@@ -149,7 +147,7 @@ public class EmpleadoController implements Serializable {
             }
 
             Sucursal sucursalFicticia = new Sucursal();
-            sucursalFicticia.setId(1); // ID ficticio para la sucursal
+            sucursalFicticia.setId(loginController.getEmpleadoLogueado().getSucursal_id().getId()); // ID ficticio para la sucursal
             empleado.setSucursal_id(sucursalFicticia);
 
             empleadoService = new EmpleadoService();
@@ -184,7 +182,7 @@ public class EmpleadoController implements Serializable {
      *
      */
     public void EliminarEmpleadoCargado() {
-        empleado = null;
+        empleado = new Empleado();;
     }
 
  

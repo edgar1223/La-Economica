@@ -33,14 +33,19 @@
 
                             <p:outputLabel for="apellidoMaterno" value="Apellido Materno:" />
                             <p:inputText id="apellidoMaterno" value="#{empleadoController.empleado.apellidoMaterno}" />
+                            
+                            <p:outputLabel for="password" value="Contraseña:" />
+                            <p:inputText id="password" value="#{empleadoController.empleado.password}" required="true" />
 
                             <p:outputLabel for="edad" value="Edad:" />
                             <p:inputText id="edad" value="#{empleadoController.empleado.edad}" required="true" />
 
-                            <p:outputLabel for="domicilio" value="Domicilio:" />
-                            <p:inputText id="domicilio" value="#{empleadoController.empleado.domicilio}" required="true" />
+                          
                         </div>
                         <div>
+                              <p:outputLabel for="domicilio" value="Domicilio:" />
+                            <p:inputText id="domicilio" value="#{empleadoController.empleado.domicilio}" required="true" />
+                            
                             <p:outputLabel for="telefono" value="Teléfono:" />
                             <p:inputText id="telefono" value="#{empleadoController.empleado.telefono}" required="true" />
 
@@ -56,7 +61,7 @@
                     </div>
 
                     <div class="center-button">
-                        <p:commandButton value="Agregar" action="#{empleadoController.agregarEmpleado}" update="formEmpleado messages" />
+                        <p:commandButton value="Agregar" action="Empleado" actionListener="#{empleadoController.agregarEmpleado}" update="messages" />
                     </div>
                 </p:panel>
             </h:form>

@@ -5,7 +5,22 @@
         <data xmlns="http://www.netbeans.org/ns/j2ee-ejbjarproject/3">
             <name>LaEconomica-ejb</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
-            <explicit-platform explicit-source-supported="true"/>
+            <included-library dirs="200">file.reference.cdi-api-2.0.SP1.jar</included-library>
+            <included-library dirs="200">file.reference.commons-io-2.18.0.jar</included-library>
+            <included-library dirs="200">file.reference.eclipselink-5.0.0-B03.jar</included-library>
+            <included-library dirs="200">file.reference.hibernate-core-5.6.15.Final.jar</included-library>
+            <included-library dirs="200">file.reference.itext-4.2.1.jar</included-library>
+            <included-library dirs="200">file.reference.itextpdf-5.5.13.4.jar</included-library>
+            <included-library dirs="200">file.reference.javax.persistence-api-2.2_1_.jar</included-library>
+            <included-library dirs="200">file.reference.javax.persistence-api-2.2.jar</included-library>
+            <included-library dirs="200">file.reference.jbcrypt-0.4.jar</included-library>
+            <included-library dirs="200">file.reference.log4j-api-2.24.2.jar</included-library>
+            <included-library dirs="200">file.reference.log4j-core-2.24.2.jar</included-library>
+            <included-library dirs="200">file.reference.mysql-connector-j-8.0.31-javadoc.jar</included-library>
+            <included-library dirs="200">file.reference.mysql-connector-j-8.0.33.jar</included-library>
+            <included-library dirs="200">file.reference.poi-5.3.0_1_.jar</included-library>
+            <included-library dirs="200">file.reference.poi-ooxml-5.3.0_1_.jar</included-library>
+            <included-library dirs="200">file.reference.primefaces-14.0.7.jar</included-library>
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>

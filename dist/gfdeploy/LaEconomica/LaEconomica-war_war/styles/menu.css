@@ -46,3 +46,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 .container {
 margin-top: 35px;
 }
+.menu-banner {
+    margin-bottom: 20px; /* Ajusta el valor según la separación deseada */
+}

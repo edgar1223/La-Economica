@@ -5,9 +5,9 @@
         <param-value>Development</param-value>
     </context-param>
     <context-param>
-    <param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
-    <param-value>true</param-value>
-</context-param>
+        <param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
+        <param-value>true</param-value>
+    </context-param>
 
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
@@ -18,15 +18,16 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/Empleado.xhtml</welcome-file>
+        <welcome-file>faces/login.xhtml</welcome-file>
     </welcome-file-list>
-      <mime-mapping>
+    <mime-mapping>
         <extension>eot</extension>
         <mime-type>application/vnd.ms-fontobject</mime-type>
     </mime-mapping>

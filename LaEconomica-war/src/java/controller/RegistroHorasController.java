@@ -52,6 +52,8 @@ public class RegistroHorasController implements Serializable {
      * @return Lista de objetos con los gastos mensuales.
      */
     public List<Object[]> getGastosMensuales() {
+                        System.err.println("Error al cargar gastos mensuales: ");
+
         if (gastosMensuales == null) {
             try {
                 registroHorasService = new RegistroHorasService();

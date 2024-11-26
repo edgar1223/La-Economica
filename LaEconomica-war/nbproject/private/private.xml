@@ -3,26 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/web/gastosMensuales.xhtml</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/web/styles/FormularioEmpleado.css</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/web/detallesEmpleado.xhtml</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/src/java/dao/PagoDAO.java</file>
             <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/src/java/controller/EmpleadoController.java</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/src/java/service/PagoService.java</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/web/styles/DetalleEmpleado.css</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/src/java/proxy/DatabaseProxy.java</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/src/java/model/RegistroHoras.java</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/web/Empleado.xhtml</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/web/styles/VerGasotMes.css</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/src/java/service/RegistroHorasService.java</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/src/java/dao/RegistroHorasDAO.java</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/web/styles/menu.css</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/web/menu.xhtml</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/src/java/service/EmpleadoService.java</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/web/agregarEmpleado.xhtml</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/web/styles/costos.css</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/src/java/controller/RegistroHorasController.java</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-war/src/java/dao/EmpleadoDAO.java</file>
         </group>
     </open-files>
 </project-private>

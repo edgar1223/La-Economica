@@ -1,0 +1,73 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 22 nov 2024, 2:10:30 p.m.
+    Author     : Edgar
+*/
+
+/* Estilo de la página */
+body {
+    margin: 10px;
+    font-family: Arial, sans-serif;
+    background-color: #EAF5E5;
+    color: #333;
+}
+
+.container {
+    margin: auto;
+     padding: 25px 30px;
+    max-width: 1200px;
+}
+
+.page-body {
+   
+    padding: 20px;
+}
+
+/* Contenedor del formulario */
+.form-container {
+    margin: 20px auto;
+    padding: 20px;
+   
+}
+
+/* Paneles */
+.panel-info, .panel-payments, .panel-sales, .panel-hours {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f9fdf9;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Filas de información */
+.info-row {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+/* Tablas de datos */
+.data-table {
+    margin-top: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+    gap: 20px; /* Espaciado entre elementos */
+    align-items: stretch; /* Estira los elementos para que tengan la misma altura */
+}
+
+.grid-item {
+    background-color: #f9fdf9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%; /* Asegura que se estire */
+}

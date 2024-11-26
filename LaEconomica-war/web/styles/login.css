@@ -1,0 +1,95 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 25 nov. 2024, 22:13:56
+    Author     : Edgar
+*/
+
+/* General */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #EAF5E5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Contenedor principal del login */
+.login-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Panel del login */
+.login-panel {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+/* Título del login */
+.login-title {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #3a663a;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Estilo de los mensajes */
+.ui-messages {
+    margin-bottom: 15px;
+}
+
+/* Formulario */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: #3a663a;
+    box-shadow: 0 0 5px rgba(58, 102, 58, 0.5);
+    outline: none;
+}
+
+/* Botón */
+.btn-container {
+    text-align: center;
+}
+
+.btn-login {
+    background-color: #4CAF50 !important;
+    color: white !important;
+    font-size: 1rem;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-login:hover {
+    background-color: #45a049 !important;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}

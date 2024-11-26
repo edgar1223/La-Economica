@@ -12,6 +12,7 @@
         <link rel="stylesheet" type="text/css" href="styles/costos.css" />
         <link rel="stylesheet" type="text/css" href="styles/menu.css" />
 
+
     </h:head>
     <h:body>
         <div class="menu-banner">
@@ -22,28 +23,54 @@
 
             <!-- Carrusel -->
             <div class="carousel-container">
-                <p:carousel value="#{registroHorasController.gastosMensuales}" var="gasto" numVisible="4" numScroll="2">
-                    <f:facet name="header">
-                        <h5 class="carousel-title">Gastos Mensuales</h5>
-                    </f:facet>
-                    <div class="gasto-item">
-                        <div class="gasto-item-content">
-                            <h4>#{registroHorasController.getNombreMes(gasto[0])}</h4>
-                            <h6>
-                                <h:outputText value="#{gasto[1]}">
-                                    <f:convertNumber type="currency" currencySymbol="$" pattern="¤#,##0.00" />
-                                </h:outputText>
-                            </h6>
+                <h:form>
+                    <p:carousel value="#{registroHorasController.gastosMensuales}" var="gasto" numVisible="4" numScroll="2">
+                        <f:facet name="header">
+                            <h5 class="carousel-title">Gastos Mensuales</h5>
+                        </f:facet>
+                        <div class="gasto-item">
+                            <div class="gasto-item-content">
+                                <h4>#{registroHorasController.getNombreMes(gasto[0])}</h4>
+                                <h6>
+                                    <h:outputText value="#{gasto[1]}">
+                                        <f:convertNumber type="currency" currencySymbol="$" pattern="¤#,##0.00" />
+                                    </h:outputText>
+                                </h6>
+                                <p:commandButton value="Ver" 
+                                                 styleClass="gasto-button"
+                                                 action="gastosMensuales"
+                                                 actionListener="#{registroHorasController.getEmpleadoYRegistrosPorMesYSucursal(gasto[0])}" 
+                                                 />
+                            </div>
                         </div>
-                    </div>
-                </p:carousel>
+                    </p:carousel>
+                </h:form>
             </div>
+
             <!-- Tabla -->
             <div class="table-container">
                 <h:form id="formHoras">
-                    <p:button value="Agregar Empleado" outcome="agregarEmpleado" styleClass="btn-agregar-empleado" />
-                    <p:messages id="messages" closable="true" />
-                    <p:dataTable id="tablaEmpleados" value="#{empleadoController.empleados}" var="empleado" paginator="true" rows="8">
+
+                    <h:panelGroup styleClass="botones-container">
+                        <p:commandButton 
+                            value="Agregar Empleado" 
+                            action="agregarEmpleado" 
+                            actionListener="#{empleadoController.EliminarEmpleadoCargado()}" 
+                            styleClass="btn btn-agregar-empleado" 
+                            />
+
+                        <h:commandLink id="reportXls" styleClass="btn btn-exportar">
+                            <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
+                            <span>Exportar Excel</span>
+                            <p:dataExporter type="xls" target="tablaEmpleados" fileName="Empleados" encoding="ISO-8859-1" />
+                        </h:commandLink>
+                    </h:panelGroup>
+                    <p:messages id="messagePago" closable="true" />
+                    <p:messages id="messageHora" closable="true" />
+
+                    <p:dataTable id="tablaEmpleados" value="#{empleadoController.empleados}" var="empleado" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                 paginator="true" rows="10" styleClass="mt-2">
+
                         <p:column headerText="Clave">
                             <h:outputText value="#{empleado.clave}" />
                         </p:column>
@@ -70,22 +97,12 @@
 
                         <!-- Columna con el botón para calcular el total -->
                         <p:column headerText="Horas Trabajadas">
-                            <!-- Botón para calcular salario -->
-                            <p:commandButton value="Salario"
-                                             actionListener="#{registroHorasController.obtenerHorasTrabajadasEmpleado(empleado.clave, empleado.sueldo)}"                                            
-                                             update="tablaEmpleados:totalHorasOutput tablaEmpleados:fechaInicio tablaEmpleados:fechaFin"
-                                             process="@this"
-                                             styleClass="btn-calcular-salario" />
 
-
-
-                            <!-- Mostrar el total calculado -->
                             <h:outputText id="totalHorasOutput" 
                                           value="#{registroHorasController.getHorasTrabajadasPorClave(empleado.clave).total}">
                                 <f:convertNumber type="currency" currencySymbol="$" />
                             </h:outputText>
 
-                            <!-- Mostrar las fechas calculadas -->
                             <h:outputText id="fechaInicio" 
                                           value="#{registroHorasController.getHorasTrabajadasPorClave(empleado.clave).fechaMasCercana}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -96,40 +113,46 @@
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
-                        <!-- Columna Acciones -->
-                        <p:column headerText="Acciones">
+                        <p:column headerText="Acciones" exportable="false">
                             <div class="acciones">
-                                <p:commandButton icon="pi pi-dollar" title="Pagar" 
-                                                 actionListener="#{registroHorasController.pagar(empleado)}"
-                                                 />
 
-                                <p:commandButton icon="pi pi-pencil"
-                                                 styleClass="edit-button"
-                                                 title="Editar"
-                                                 process="@this"
+
+                                <p:commandButton icon="pi pi-wallet" title="Pagar"
+                                                 update="formHoras:messagePago"
+                                                 actionListener="#{registroHorasController.pagar(empleado)}" />
+                                <p:commandButton icon="pi pi-dollar" title="Calcular Sueldo"
+                                                 update="tablaEmpleados:totalHorasOutput tablaEmpleados:fechaInicio tablaEmpleados:fechaFin"
+                                                 actionListener="#{registroHorasController.obtenerHorasTrabajadasEmpleado(empleado.clave, empleado.sueldo)}" />
+
+                                <p:commandButton icon="pi pi-pencil" styleClass="edit-button"
+                                                 title="Editar" process="@this"
                                                  update=":dialogs:editDialogContent"
                                                  oncomplete="PF('editDialog').show()">
                                     <f:setPropertyActionListener value="#{empleado}" target="#{empleadoController.empleado}" />
                                 </p:commandButton>
+                                <p:commandButton 
+                                    icon="pi pi-clock" 
+                                    styleClass="edit-button" 
+                                    title="Editar Horario" 
+                                    process="@this" 
+                                    update=":horas:horasDialogContent" 
+                                    oncomplete="PF('horasDialog').show()">
+                                    <f:setPropertyActionListener value="#{empleado}" target="#{empleadoController.empleado}" />
+                                </p:commandButton>
+
 
                                 <p:commandButton icon="pi pi-eye" title="Ver"
-                                                 actionListener="#{empleadoController.verDetallesEmpleado(empleado.clave)}"
-                                                 />
+                                                 action="detallesEmpleado"
+                                                 actionListener="#{empleadoController.verDetallesEmpleado(empleado.clave)}" />
 
-                                <p:commandButton icon="pi pi-trash" 
-                                                 title="Eliminar" 
-                                                 actionListener="#{empleadoController.eliminarEmpleado(empleado.clave)}" 
+                                <p:commandButton icon="pi pi-trash" title="Eliminar"
+                                                 actionListener="#{empleadoController.eliminarEmpleado(empleado.clave)}"
                                                  update=":formHoras:tablaEmpleados, :messages" />
                             </div>
                         </p:column>
+
                     </p:dataTable>
-                    <p:commandButton value="XLS" styleClass="mr-2 mb-2">
-                        <p:dataExporter type="xls" target="tablaEmpleados" fileName="empleados"/>
-                    </p:commandButton>
-                    <p:commandButton value="Exportar a Excel" icon="pi pi-file-excel" 
-                                     styleClass="btn-exportar-excel">
-                        <p:dataExporter type="xlsx" target="tablaEmpleados" fileName="empleados" />
-                    </p:commandButton>
+
                 </h:form>
             </div>
         </div>
@@ -154,6 +177,9 @@
 
                                 <p:outputLabel for="apellidoMaterno" value="Apellido Materno:" />
                                 <p:inputText id="apellidoMaterno" value="#{empleadoController.empleado.apellidoMaterno}" />
+
+                                <p:outputLabel for="password" value="Contraseña:" />
+                                <p:inputText id="password" value="#{empleadoController.empleado.password}" required="true" />
 
                                 <p:outputLabel for="edad" value="Edad:" />
                                 <p:inputText id="edad" value="#{empleadoController.empleado.edad}" required="true" />
@@ -188,7 +214,48 @@
 
             </p:dialog>
         </h:form>
+        <h:form id="horas">
+            <p:dialog id="horasDialog" header="Registrar Horas Empleado #{empleadoController.empleado.nombre}" 
+                      widgetVar="horasDialog" modal="true" resizable="false" width="50%" styleClass="dialog-container">
+                <p:outputPanel id="horasDialogContent" styleClass="ui-fluid">
+                    <p:outputPanel rendered="#{not empty empleadoController.empleado}">
 
+                        <div class="form-grid">
+                            <div>
+                                <!-- Clave del empleado, solo lectura -->
+                                <p:outputLabel for="clave" value="Clave" />
+                                <p:inputText id="clave" value="#{empleadoController.empleado.clave}" required="true" readonly="true" />
+
+                                <!-- Horas trabajadas -->
+                                <p:outputLabel for="horasTrabajadas" value="Horas Trabajadas:" />
+                                <p:inputText id="horasTrabajadas" value="#{registroHorasController.registroHoras.horasTrabajadas}" required="true" />
+
+                                <!-- Horas extras -->
+                                <p:outputLabel for="horasExtras" value="Horas Extras:" />
+                                <p:inputText id="horasExtras" value="#{registroHorasController.registroHoras.horasExtras}" required="true" />
+
+                                <!-- Día festivo -->
+                                <p:outputLabel for="esDiaFestivo" value="¿Es día festivo?" />
+                                <p:selectBooleanCheckbox id="esDiaFestivo" value="#{registroHorasController.registroHoras.esDiaFestivo}" />
+                            </div>
+                        </div>
+
+                        <div class="center-button">
+                            <!-- Botón para guardar -->
+                            <p:commandButton value="Guardar" 
+                                             action="#{registroHorasController.guardarRegistroHoras(empleadoController.empleado, registroHorasController.registroHoras)}" 
+                                             update="formHoras:messageHora"
+                                             oncomplete="PF('horasDialog').hide()" />
+
+                            <!-- Botón para cancelar -->
+                            <p:commandButton value="Cancelar" 
+                                             icon="pi pi-times" 
+                                             onclick="PF('horasDialog').hide()" />
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
 
     </h:body>
 </html>

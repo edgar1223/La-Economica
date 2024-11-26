@@ -120,10 +120,10 @@
                                 <p:commandButton icon="pi pi-wallet" title="Pagar"
                                                  update="formHoras:messagePago"
                                                  actionListener="#{registroHorasController.pagar(empleado)}" />
-                                 <p:commandButton icon="pi pi-dollar" title="Calcular Sueldo"
-                                                  update="tablaEmpleados:totalHorasOutput tablaEmpleados:fechaInicio tablaEmpleados:fechaFin"
+                                <p:commandButton icon="pi pi-dollar" title="Calcular Sueldo"
+                                                 update="tablaEmpleados:totalHorasOutput tablaEmpleados:fechaInicio tablaEmpleados:fechaFin"
                                                  actionListener="#{registroHorasController.obtenerHorasTrabajadasEmpleado(empleado.clave, empleado.sueldo)}" />
-                               
+
                                 <p:commandButton icon="pi pi-pencil" styleClass="edit-button"
                                                  title="Editar" process="@this"
                                                  update=":dialogs:editDialogContent"
@@ -177,6 +177,9 @@
 
                                 <p:outputLabel for="apellidoMaterno" value="Apellido Materno:" />
                                 <p:inputText id="apellidoMaterno" value="#{empleadoController.empleado.apellidoMaterno}" />
+
+                                <p:outputLabel for="password" value="Contraseña:" />
+                                <p:inputText id="password" value="#{empleadoController.empleado.password}" required="true" />
 
                                 <p:outputLabel for="edad" value="Edad:" />
                                 <p:inputText id="edad" value="#{empleadoController.empleado.edad}" required="true" />
