@@ -69,6 +69,18 @@ public class Empleado {
 
     @Column(name = "password", length = 255)
     private String password;
+
+    public Empleado() {
+    }
+
+    public Empleado(Integer clave, String nombre, Sucursal sucursal_id, String password) {
+        this.clave = clave;
+        this.nombre = nombre;
+        this.sucursal_id = sucursal_id;
+        this.password = password;
+    }
+    
+    
     
     public Integer getClave() {
         return clave;

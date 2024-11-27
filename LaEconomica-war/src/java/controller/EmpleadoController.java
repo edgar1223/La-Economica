@@ -18,6 +18,7 @@ import model.Venta;
 import service.EmpleadoService;
 
 import javax.faces.context.ExternalContext;
+import javax.servlet.http.HttpSession;
 
 /**
  * Controlador para la gestión de empleados. Maneja operaciones como agregar,
@@ -39,7 +40,8 @@ public class EmpleadoController implements Serializable {
     private List<Pago> listaPagos;
     private List<Venta> listaVentas;
     private List<RegistroHoras> listaHoras;
-    private LoginController loginController =new LoginController() ;
+    private LoginController loginController = new LoginController();
+
     // Métodos getters y setters
     public Empleado getEmpleado() {
         return empleado;
@@ -86,17 +88,21 @@ public class EmpleadoController implements Serializable {
                 return;
             }
 
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+            Empleado empl = (Empleado) session.getAttribute("empleadoLogueado");
             Sucursal sucursalFicticia = new Sucursal();
-            sucursalFicticia.setId(loginController.getEmpleadoLogueado().getSucursal_id().getId()); // ID ficticio para la sucursal
+            sucursalFicticia.setId(empl.getSucursal_id().getId()); // ID ficticio para la sucursal
             empleado.setSucursal_id(sucursalFicticia);
 
             empleadoService = new EmpleadoService();
             empleadoService.agregarEmpleado(empleado);
+            empleados = empleadoService.mostrarEmpleados();
 
-                 FacesMessage messages = new FacesMessage(FacesMessage.SEVERITY_INFO,   "Empleado agregado exitosamente.",
+            FacesMessage messages = new FacesMessage(FacesMessage.SEVERITY_INFO, "Empleado agregado exitosamente.",
                     "Pago registrado correctamente para el empleado con clave: " + empleado.getClave());
             FacesContext.getCurrentInstance().addMessage(null, messages);
-           
+
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage("messages",
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo agregar el empleado."));
@@ -145,9 +151,11 @@ public class EmpleadoController implements Serializable {
                         FacesMessage.SEVERITY_ERROR, "Error", "No se encontró el empleado a actualizar."));
                 return;
             }
-
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+            Empleado empl = (Empleado) session.getAttribute("empleadoLogueado");
             Sucursal sucursalFicticia = new Sucursal();
-            sucursalFicticia.setId(loginController.getEmpleadoLogueado().getSucursal_id().getId()); // ID ficticio para la sucursal
+            sucursalFicticia.setId(empl.getSucursal_id().getId()); // ID ficticio para la sucursal
             empleado.setSucursal_id(sucursalFicticia);
 
             empleadoService = new EmpleadoService();
@@ -185,7 +193,6 @@ public class EmpleadoController implements Serializable {
         empleado = new Empleado();;
     }
 
- 
     // Getters y setters para datos relacionados
     public Empleado getEmpleadoSeleccionado() {
         return empleadoSeleccionado;

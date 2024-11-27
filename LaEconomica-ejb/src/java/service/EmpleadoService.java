@@ -195,25 +195,34 @@ public class EmpleadoService {
     }
 
     public Empleado login(String nombre, String password) {
-                System.out.println("entro al login service");
+        System.out.println("entro al login service");
 
         if (nombre == null || password == null || nombre.isEmpty() || password.isEmpty()) {
             throw new IllegalArgumentException("El usuario y la contraseña no pueden estar vacíos.");
         }
 
         // Buscar el empleado por nombre
-        Empleado empleado = empleadoDAO.findByNombre(nombre);
-        System.out.println("entro al login"+empleado);
+        List<Empleado> empleadoLogeado = empleadoDAO.findByNombre(nombre);
+        Empleado emple=new Empleado();
+        System.out.println("Entró al login: " + empleadoLogeado);
 
-        if (empleado == null) {
-            throw new IllegalArgumentException("Usuario no encontrado.");
+// Verifica si la lista no está vacía
+        if (empleadoLogeado != null && !empleadoLogeado.isEmpty()) {
+            // Itera sobre la lista
+            for (Empleado em : empleadoLogeado) {
+                // Verifica si la contraseña ingresada coincide con el hash almacenado
+                if (BCrypt.checkpw(password, em.getPassword())) {
+                    System.out.println("Usuario autenticado: " + em);
+                    emple=em;
+                    System.out.println("Usuario autenticado: " + em.getNombre()+" "+emple.getSucursal_id()+" "+emple.getSucursal_id().getId());
+                    // Aquí puedes retornar el usuario o ejecutar lógica adicional
+                } else {
+                    System.out.println("Contraseña incorrecta para el usuario: " + em.getNombre());
+                }
+            }
+        } else {
+            System.out.println("No se encontraron empleados con el nombre: " + nombre);
         }
-
-        // Verificar la contraseña con BCrypt
-        if (!BCrypt.checkpw(password, empleado.getPassword())) {
-            throw new IllegalArgumentException("Contraseña incorrecta.");
-        }
-
-        return empleado;
+        return emple;
     }
 }

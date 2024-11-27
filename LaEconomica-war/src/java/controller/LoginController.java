@@ -41,7 +41,7 @@ public class LoginController implements Serializable {
 
             return "home.xhtml?faces-redirect=true"; // Redirigir a la página principal
         } catch (IllegalArgumentException e) {
-                    System.out.println("error"+e.getMessage());
+                    System.out.println("error en el login"+e.getMessage());
 
             FacesContext.getCurrentInstance().addMessage(null,
                 new javax.faces.application.FacesMessage(e.getMessage()));
