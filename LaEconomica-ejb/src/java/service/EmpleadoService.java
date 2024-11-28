@@ -42,6 +42,7 @@ public class EmpleadoService {
      */
     public void agregarEmpleado(Empleado empleado) {
         // Validar que el password no sea nulo o vacío
+        System.out.print("enttro a servicios agregar usuarios "+empleado.getPassword());
         if (empleado.getPassword() != null && !empleado.getPassword().isEmpty()) {
             // Encriptar el password
             String hashedPassword = BCrypt.hashpw(empleado.getPassword(), BCrypt.gensalt());
