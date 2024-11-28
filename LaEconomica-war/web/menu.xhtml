@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <link rel="icon" type="image/png" href="images/LogoI.webp" />
     <link rel="stylesheet" type="text/css" href="styles/menu.css" />
     <h:form>
         <p:megaMenu orientation="horizontal" autoDisplay="false">
@@ -25,38 +26,15 @@
 
             </p:submenu>
 
-            <p:submenu label="Users" icon="pi pi-fw pi-users">
+            <p:submenu label="Productos"  icon="pi pi-fw pi-box">
+                <p:column>
+                    <p:submenu >
+                        <p:menuitem value="Ver Producto" outcome="Producto" icon="pi pi-fw pi-eye" />
+                        <p:menuitem value="Agregar Producto"  action="AgregarProducto" 
+                                actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-plus" />
 
-                <p:column>
-                    <p:submenu label="User 1">
-                        <p:menuitem value="User 1.1"/>
-                        <p:menuitem value="User 1.2"/>
                     </p:submenu>
-                    <p:submenu label="User 2">
-                        <p:menuitem value="User 2.1"/>
-                        <p:menuitem value="User 2.2"/>
-                    </p:submenu>
-                </p:column>
 
-                <p:column>
-                    <p:submenu label="User 3">
-                        <p:menuitem value="User 3.1"/>
-                        <p:menuitem value="User 3.2"/>
-                    </p:submenu>
-                    <p:submenu label="User 4">
-                        <p:menuitem value="User 4.1"/>
-                        <p:menuitem value="User 4.2"/>
-                    </p:submenu>
-                </p:column>
-                <p:column>
-                    <p:submenu label="User 5">
-                        <p:menuitem value="User 5.1"/>
-                        <p:menuitem value="User 5.2"/>
-                    </p:submenu>
-                    <p:submenu label="User 6">
-                        <p:menuitem value="User 6.1"/>
-                        <p:menuitem value="User 6.2"/>
-                    </p:submenu>
                 </p:column>
             </p:submenu>
 

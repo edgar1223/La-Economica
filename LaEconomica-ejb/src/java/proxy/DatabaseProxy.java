@@ -51,7 +51,7 @@ public class DatabaseProxy {
     private static void initEntityManagerFactory() {
         try {
             if (emf == null) {
-                emf = Persistence.createEntityManagerFactory("LaEconomica-warPU");
+                emf = Persistence.createEntityManagerFactory("LaEconomica-ejbPU");
                 LOGGER.info("EntityManagerFactory inicializado correctamente.");
             }
         } catch (PersistenceException ex) {

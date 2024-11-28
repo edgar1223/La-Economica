@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>Agregar Empleado</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="styles/FormularioEmpleado.css" />
+        <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+
+    </h:head>
+    <h:body>
+        <div class="menu-banner">
+            <ui:include src="/menu.xhtml" />
+        </div>
+
+        <div class="container">
+            <h:form id="formEmpleado">
+                <p:panel>
+                    <p:messages id="messages" closable="true" />
+                    <h1 class="panel-header">Agregar Producto</h1>
+
+                    <div class="form-grid">
+                        <div>
+                            <p:outputLabel for="nombre" value="Nombre:" />
+                            <p:inputText id="nombre" value="#{productoController.producto.nombre}" required="true" />
+
+                            <p:outputLabel for="precio" value="Precio:" />
+                            <p:inputText id="precio" value="#{productoController.producto.precio}" required="true" />
+
+                            <p:outputLabel for="marca" value="Marca:" />
+                            <p:inputText id="marca" value="#{productoController.producto.marca}" required="true" />
+
+                            <p:outputLabel for="fechaCaducidad" value="Fecha caducidad:" />
+                            <p:calendar id="fechaCaducidad" value="#{productoController.producto.fechaCaducidad}" required="true" />
+
+
+                        </div>
+                        <div>
+                            <p:outputLabel for="descripcion" value="descripcion:" />
+                            <p:inputText id="descripcion" value="#{productoController.producto.descripcion}" required="true" />
+
+                            <p:outputLabel for="proveedor" value="proveedor:" />
+                            <p:inputText id="proveedor" value="#{productoController.producto.proveedor}" required="true" />
+
+                            <p:outputLabel for="promocion" value="promocion:" />
+                            <p:inputText id="promocion" value="#{productoController.producto.promocion}" required="true" />
+
+
+                        </div>
+                    </div>
+
+                    <div class="center-button">
+                        <p:commandButton value="Agregar" action="Producto" actionListener="#{productoController.guardarProducto()}" update="messages" />
+                    </div>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>

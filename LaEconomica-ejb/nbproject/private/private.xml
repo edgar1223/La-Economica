@@ -3,10 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-ejb/src/java/service/EmpleadoService.java</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-ejb/src/conf/persistence.xml</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-ejb/src/java/service/RegistroHorasService.java</file>
-            <file>file:/C:/Users/Edgar/Videos/laEconomica2/La-Economica/LaEconomica-ejb/src/java/service/PagoService.java</file>
+            <file>file:/C:/Users/Edgar/Documents/NetBeansProjects/La-Economica/LaEconomica-ejb/src/java/dao/RegistroHorasDAO.java</file>
+            <file>file:/C:/Users/Edgar/Documents/NetBeansProjects/La-Economica/LaEconomica-ejb/src/java/service/ProductoService.java</file>
+            <file>file:/C:/Users/Edgar/Documents/NetBeansProjects/La-Economica/LaEconomica-ejb/src/java/dao/ProductoDAO.java</file>
         </group>
     </open-files>
 </project-private>

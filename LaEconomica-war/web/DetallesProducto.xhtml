@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Detalles del Producto</title>
+        <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+        <link rel="stylesheet" type="text/css" href="styles/DetalleProducto.css" />
+    </h:head>
+    <h:body>
+        <div class="menu-banner">
+            <ui:include src="/menu.xhtml" />
+        </div>
+        <div class="container">
+            <h:form>
+                <h1>Detalles del Producto "#{productoController.producto.nombre}"</h1>
+
+                <div class="grid-container">
+                    <!-- Columna 1 -->
+                    <div class="grid-item">
+                        <!-- Información del producto -->
+                        <p:fieldset legend="Información del Producto" toggleable="true">
+                            <p:outputLabel value="Nombre: " />
+                            <h:outputText value="#{productoController.producto.nombre}" />
+
+                            <br />
+                            <p:outputLabel value="Descripción: " />
+                            <h:outputText value="#{productoController.producto.descripcion}" />
+
+                            <br />
+                            <p:outputLabel value="Precio: " />
+                            <h:outputText value="#{productoController.producto.precio}" />
+                        </p:fieldset>
+
+                        <!-- Top sucursales por ventas -->
+                        <p:dataTable value="#{productoController.topSucursalesPorVentas}" var="sucursal" 
+                                     paginator="true" rows="5" styleClass="table">
+                            <f:facet name="header">Top Sucursales por Ventas</f:facet>
+                            <p:column headerText="ID">
+                                <h:outputText value="#{sucursal[0]}" />
+                            </p:column>
+                            <p:column headerText="Descripción">
+                                <h:outputText value="#{sucursal[1]}" />
+                            </p:column>
+                            <p:column headerText="Total Ventas">
+                                <h:outputText value="#{sucursal[2]}" />
+                            </p:column>
+                            <p:column headerText="Total Dinero">
+                                <h:outputText value="#{sucursal[3]}" />
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+
+                    <!-- Columna 2 -->
+                    <div class="grid-item">
+                        <!-- Historial de ventas -->
+                        <p:dataTable value="#{productoController.historialVentas}" var="venta" 
+                                     paginator="true" rows="5" styleClass="table">
+                            <f:facet name="header">Historial de Ventas</f:facet>
+                            <p:column headerText="Fecha">
+                                <h:outputText value="#{venta[0]}" />
+                            </p:column>
+                            <p:column headerText="Sucursal">
+                                <h:outputText value="#{venta[1]}" />
+                            </p:column>
+                            <p:column headerText="Cantidad Vendida">
+                                <h:outputText value="#{venta[2]}" />
+                            </p:column>
+                            <p:column headerText="Total Dinero">
+                                <h:outputText value="#{venta[3]}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <!-- Pedidos pendientes -->
+                        <p:dataTable value="#{productoController.pedidosPendientes}" var="pedido" 
+                                     paginator="true" rows="5" styleClass="table">
+                            <f:facet name="header">Pedidos Pendientes</f:facet>
+                            <p:column headerText="ID Pedido">
+                                <h:outputText value="#{pedido[0]}" />
+                            </p:column>
+                            <p:column headerText="Cantidad Pedido">
+                                <h:outputText value="#{pedido[1]}" />
+                            </p:column>
+                            <p:column headerText="Fecha Solicitud">
+                                <h:outputText value="#{pedido[2]}" />
+                            </p:column>
+                            <p:column headerText="Estado">
+                                <h:outputText value="#{pedido[3]}" />
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+    </h:body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Gestión de Productos</title>
+        <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+        <link rel="stylesheet" type="text/css" href="styles/productos.css" />
+
+    </h:head>
+    <h:body>
+        <div class="menu-banner">
+            <ui:include src="/menu.xhtml" />
+        </div>
+        <div class="container">
+            <div class="container2">
+                <p:messages id="messages" closable="true" showDetail="true" />
+
+                <f:view>
+                    <h:form>
+                        <h1><h:outputText value="Lista de Productos" /></h1>
+
+                        <h:panelGroup styleClass="botones-container">
+                            <p:commandButton 
+                                value="Agregar Producto" 
+                                action="AgregarProducto" 
+                                actionListener="#{productoController.ElimnarProductoCargado()}" 
+                                styleClass="btn btn-agregar-empleado" 
+                                />
+
+                            <h:commandLink id="reportXls" styleClass="btn btn-exportar">
+                                <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
+                                <span>Exportar Excel</span>
+                                <p:dataExporter type="xls" target="tablaProductos" fileName="Productos" encoding="ISO-8859-1" />
+                            </h:commandLink>
+                        </h:panelGroup>
+                        <p:dataTable value="#{productoController.productos}" var="item" 
+                                     paginator="true" rows="10" 
+                                     id="tablaProductos"
+                                     styleClass="table-styled">
+
+                            <!-- Columna: ID -->
+                            <p:column headerText="Id">
+                                <h:outputText value="#{item.id}" />
+                            </p:column>
+
+                            <!-- Columna: Nombre -->
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{item.nombre}" />
+                            </p:column>
+
+                            <!-- Columna: Precio -->
+                            <p:column headerText="Precio">
+                                <h:outputText value="#{item.precio}" />
+                            </p:column>
+
+                            <!-- Columna: Marca -->
+                            <p:column headerText="Marca">
+                                <h:outputText value="#{item.marca}" />
+                            </p:column>
+
+                            <!-- Columna: Fecha de Caducidad -->
+                            <p:column headerText="Fecha de Caducidad">
+                                <h:outputText value="#{item.fechaCaducidad}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </p:column>
+
+                            <!-- Columna: Descripción -->
+                            <p:column headerText="Descripción">
+                                <h:outputText value="#{item.descripcion}" />
+                            </p:column>
+
+                            <!-- Columna: Proveedor -->
+                            <p:column headerText="Proveedor">
+                                <h:outputText value="#{item.proveedor}" />
+                            </p:column>
+
+                            <!-- Columna: Promoción -->
+                            <p:column headerText="Promoción">
+                                <h:outputText value="#{item.promocion}" />
+                            </p:column>
+
+                            <!-- Columna: Acciones -->
+                            <p:column headerText="Acciones" style="text-align: center;" exportable="false">
+                                <div class="acciones">
+
+                                    <p:commandButton icon="pi pi-pencil" styleClass="edit-button"
+                                                     title="Editar" process="@this"
+                                                     update=":dialogs:editDialogContent"
+                                                     oncomplete="PF('editDialog').show()">
+                                        <f:setPropertyActionListener value="#{item}" target="#{productoController.producto}" />
+                                    </p:commandButton>
+                                    <p:commandButton icon="pi pi-eye" title="Ver" 
+                                                    action="DetallesProducto"                                       
+                                                    actionListener="#{productoController.cargarDatosProducto(item.id)}" />
+                                    <p:commandButton 
+                                        icon="pi pi-trash" 
+                                        title="Eliminar" 
+                                        actionListener="#{productoController.eliminarProducto(item.id)}"
+                                        update=":tablaProductos, :messages" 
+                                        process="@this"
+                                        />
+
+                                    <p:commandButton icon="pi pi-plus" title="Agregar a Inventario" 
+                                                     />
+                                </div>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </f:view>
+            </div>    
+        </div>
+
+        <h:form id="dialogs">
+            <p:dialog id="editDialog" header="Editar Producto #{productoController.producto.nombre}" widgetVar="editDialog"
+                      modal="true" resizable="false" width="50%" styleClass="dialog-container">
+                <p:outputPanel id="editDialogContent" styleClass="ui-fluid">
+                    <p:outputPanel rendered="#{not empty productoController.producto}">
+                        <p:messages id="messages" closable="true" />
+
+                        <div class="form-grid">
+                            <div>
+                                <p:outputLabel for="id" value="ID" />
+                                <p:inputText id="id" value="#{productoController.producto.id}" required="true" readonly="true" />
+                                <h:inputHidden id="claveHidden" value="#{productoController.producto.id}" />
+
+
+                                <p:outputLabel for="nombre" value="Nombre:" />
+                                <p:inputText id="nombre" value="#{productoController.producto.nombre}" required="true" />
+
+                                <p:outputLabel for="precio" value="Precio:" />
+                                <p:inputText id="precio" value="#{productoController.producto.precio}" required="true" />
+
+                                <p:outputLabel for="marca" value="Marca:" />
+                                <p:inputText id="marca" value="#{productoController.producto.marca}" />
+
+
+
+                            </div>
+                            <div>
+                                <p:outputLabel for="fechaCaducidad" value="Fecha de Caducidad:" />
+                                <p:datePicker id="fechaCaducidad" value="#{productoController.producto.fechaCaducidad}" 
+                                              required="true" pattern="yyyy-MM-dd" />
+
+                                <p:outputLabel for="descripcion" value="Descripción:" />
+                                <p:inputText id="descripcion" value="#{productoController.producto.descripcion}" required="true" />
+
+                                <p:outputLabel for="promocion" value="Proveedor:" />
+                                <p:inputText id="promocion" value="#{productoController.producto.promocion}" required="true" />
+
+
+                            </div>
+                        </div>
+
+                        <div class="center-button">
+                            <p:commandButton value="Actualizar" action="#{productoController.actualizarProducto()}" update="tablaProductos messages" />
+                            <p:commandButton value="Cancelar" icon="pi pi-times"
+                                             onclick="PF('editDialog').hide()" />
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
+
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>

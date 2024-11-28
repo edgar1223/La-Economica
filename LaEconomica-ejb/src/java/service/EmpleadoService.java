@@ -214,7 +214,6 @@ public class EmpleadoService {
                 if (BCrypt.checkpw(password, em.getPassword())) {
                     System.out.println("Usuario autenticado: " + em);
                     emple=em;
-                    System.out.println("Usuario autenticado: " + em.getNombre()+" "+emple.getSucursal_id()+" "+emple.getSucursal_id().getId());
                     // Aquí puedes retornar el usuario o ejecutar lógica adicional
                 } else {
                     System.out.println("Contraseña incorrecta para el usuario: " + em.getNombre());

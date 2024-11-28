@@ -11,7 +11,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import model.Empleado;
-import model.Pago;
 import model.RegistroHoras;
 import model.Sucursal;
 import model.Venta;
@@ -19,6 +18,7 @@ import service.EmpleadoService;
 
 import javax.faces.context.ExternalContext;
 import javax.servlet.http.HttpSession;
+import model.Pago;
 
 /**
  * Controlador para la gestión de empleados. Maneja operaciones como agregar,

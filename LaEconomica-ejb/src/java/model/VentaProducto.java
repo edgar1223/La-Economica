@@ -43,5 +43,46 @@ public class VentaProducto {
     private float precioUnitario;
 
     // Getters y setters
+
+    public VentaProductoId getId() {
+        return id;
+    }
+
+    public void setId(VentaProductoId id) {
+        this.id = id;
+    }
+
+    public Venta getVenta() {
+        return venta;
+    }
+
+    public void setVenta(Venta venta) {
+        this.venta = venta;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public int getCantidadVendida() {
+        return cantidadVendida;
+    }
+
+    public void setCantidadVendida(int cantidadVendida) {
+        this.cantidadVendida = cantidadVendida;
+    }
+
+    public float getPrecioUnitario() {
+        return precioUnitario;
+    }
+
+    public void setPrecioUnitario(float precioUnitario) {
+        this.precioUnitario = precioUnitario;
+    }
+    
 }
 

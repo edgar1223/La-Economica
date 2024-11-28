@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sucursal")
 @XmlRootElement
 public class Sucursal {
-    @Id
+       @Id
     private int id;
 
     @Column(nullable = false, length = 100)
@@ -42,10 +42,8 @@ public class Sucursal {
     private int ventas;
 
     @ManyToOne
-    @JoinColumn(name = "Inventarioid")
+    @JoinColumn(name = "Inventarioid")  // La columna en la base de datos
     private Inventario inventarioSucursal;
-
-    // Getters y setters
 
     public int getId() {
         return id;
@@ -103,5 +101,7 @@ public class Sucursal {
         this.inventarioSucursal = inventarioSucursal;
     }
     
+    
+            
 }
 
