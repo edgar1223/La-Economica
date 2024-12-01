@@ -20,7 +20,7 @@
                 <p:messages id="messages" closable="true" showDetail="true" />
 
                 <f:view>
-                    <h:form>
+                    <h:form id="tablaForm">
                         <h1><h:outputText value="Lista de Productos" /></h1>
 
                         <h:panelGroup styleClass="botones-container">
@@ -95,8 +95,8 @@
                                         <f:setPropertyActionListener value="#{item}" target="#{productoController.producto}" />
                                     </p:commandButton>
                                     <p:commandButton icon="pi pi-eye" title="Ver" 
-                                                    action="DetallesProducto"                                       
-                                                    actionListener="#{productoController.cargarDatosProducto(item.id)}" />
+                                                     action="DetallesProducto"                                       
+                                                     actionListener="#{productoController.cargarDatosProducto(item.id)}" />
                                     <p:commandButton 
                                         icon="pi pi-trash" 
                                         title="Eliminar" 
@@ -105,8 +105,13 @@
                                         process="@this"
                                         />
 
-                                    <p:commandButton icon="pi pi-plus" title="Agregar a Inventario" 
-                                                     />
+                                    <p:commandButton icon="pi pi-tag"
+                                                     title="Aplicar Promocion" process="@this"
+                                                     oncomplete="PF('promoDialog').show()">  
+                                        <f:setPropertyActionListener value="#{item}" target="#{productoController.producto}" />
+                                    </p:commandButton>
+
+
                                 </div>
                             </p:column>
                         </p:dataTable>
@@ -157,13 +162,43 @@
                         </div>
 
                         <div class="center-button">
-                            <p:commandButton value="Actualizar" action="#{productoController.actualizarProducto()}" update="tablaProductos messages" />
+                            <p:commandButton value="Actualizar" 
+                                             action="#{productoController.actualizarProducto()}" 
+                                                            update=":tablaForm:tablaProductos, :messages" 
+                                             oncomplete="PF('editDialog').hide()" />
                             <p:commandButton value="Cancelar" icon="pi pi-times"
                                              onclick="PF('editDialog').hide()" />
                         </div>
+
                     </p:outputPanel>
                 </p:outputPanel>
 
+            </p:dialog>
+        </h:form>
+        <h:form id="dialogsPromo">
+            <p:dialog id="PromoDialog" header="Aplicar Promocion Producto #{productoController.producto.nombre}" 
+                      widgetVar="promoDialog"
+                      modal="true" resizable="false" width="50%" styleClass="dialog-container">
+                <p:outputPanel id="promoDialogContent" styleClass="ui-fluid">
+                    <p:outputPanel>
+                        <p:messages id="messagesPromo" closable="true" />
+
+                        <div class="form-grid">
+                            <p:outputLabel for="descuento" value="Descuento:" />
+                            <p:inputText id="descuento" value="#{productoController.descuento}" required="true" />
+                        </div>
+
+                        <div class="center-button">
+                            <p:commandButton value="Actualizar" 
+                                             action="#{productoController.AplicaPromocion(productoController.producto, productoController.descuento)}" 
+                                                            update=":tablaForm:tablaProductos, :messages" 
+                                             oncomplete="PF('promoDialog').hide()" />
+                            <p:commandButton value="Cancelar" icon="pi pi-times"
+                                             onclick="PF('promoDialog').hide()" />
+                        </div>
+
+                    </p:outputPanel>
+                </p:outputPanel>
             </p:dialog>
         </h:form>
     </h:body>

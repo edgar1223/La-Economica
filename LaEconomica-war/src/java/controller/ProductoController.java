@@ -32,7 +32,8 @@ public class ProductoController implements Serializable {
     private List<Object[]> historialVentas;
     private List<Object[]> stockPorSucursal;
     private List<Object[]> pedidosPendientes;
-    
+    private double descuento;
+
     public Producto getProducto() {
         return producto;
     }
@@ -43,7 +44,7 @@ public class ProductoController implements Serializable {
 
     public List<Producto> getProductos() {
         if (productos == null) {
-            productos = productoService.obtenerTodosLosProductos();
+            cargarProducto();
         }
         return productos;
     }
@@ -58,7 +59,7 @@ public class ProductoController implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Éxito",
                             "El Producto '" + producto.getNombre() + "' ha sido registrado exitosamente."));
-            productos = productoService.obtenerTodosLosProductos();
+
             // Limpia el objeto producto para un nuevo registro
             producto = new Producto();
             productos = null; // Forzar recarga de la lista
@@ -69,6 +70,7 @@ public class ProductoController implements Serializable {
                             "Error",
                             "Ocurrió un error al registrar el producto: " + e.getMessage()));
         }
+        cargarProducto();
     }
 
     public void eliminarProducto(int id) {
@@ -80,18 +82,20 @@ public class ProductoController implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Éxito",
                             "El Producto '" + id + "' ha sido eliminado exitosamente."));
-            productos = productoService.obtenerTodosLosProductos();
+
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Error",
                             "Ocurrió un error al registrar el producto: " + e.getMessage()));
         }
+        cargarProducto();
     }
 
     public void ElimnarProductoCargado() {
         producto = new Producto();
         productos = null;
+        cargarProducto();
     }
 
     public void actualizarProducto() {
@@ -118,6 +122,7 @@ public class ProductoController implements Serializable {
                             "Ocurrió un error al actualizar el producto: " + e.getMessage()));
         }
     }
+
     public void cargarDatosProducto(int idProducto) {
         try {
             // Obtiene los datos relacionados con el producto
@@ -140,6 +145,22 @@ public class ProductoController implements Serializable {
                             "Error",
                             "Ocurrió un error al cargar los datos del producto: " + e.getMessage()));
         }
+    }
+
+    public void AplicaPromocion(Producto producto, double descuento) {
+        System.out.print(producto.getDescripcion());
+        System.out.print(producto.getPrecio());
+        productoService.AplicaPromocion(producto, descuento);
+
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Éxito",
+                        "El Producto '" + producto.getNombre() + "' ha sido aplicado la promocion exitosamente."));
+        cargarProducto();
+    }
+
+    public void cargarProducto() {
+        productos = productoService.obtenerTodosLosProductos();
     }
 
     public ProductoService getProductoService() {
@@ -181,6 +202,13 @@ public class ProductoController implements Serializable {
     public void setPedidosPendientes(List<Object[]> pedidosPendientes) {
         this.pedidosPendientes = pedidosPendientes;
     }
- 
- 
+
+    public double getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(double descuento) {
+        this.descuento = descuento;
+    }
+
 }

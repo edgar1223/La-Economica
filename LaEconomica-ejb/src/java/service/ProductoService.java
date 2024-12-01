@@ -29,7 +29,14 @@ public class ProductoService {
 
     public void guardarProducto(Producto producto) {
         System.out.println("entro al save service");
-
+        if (producto.getPromocion() > 1) {
+            producto.setPrecio_original(producto.getPrecio());
+            float precio = (float) (producto.getPrecio() - (producto.getPrecio() * producto.getPromocion()));
+            producto.setPrecio(precio);
+            producto.setPromocion((float) (producto.getPromocion() * 100));
+        } else {
+            producto.setPrecio_original(producto.getPrecio());
+        }
         productoDAO.save(producto);
     }
 
@@ -38,7 +45,36 @@ public class ProductoService {
     }
 
     public void actualizarProducto(Producto producto) {
+        if (producto.getPromocion() > 1) {
+            producto.setPrecio_original(producto.getPrecio());
+            float precio = (float) (producto.getPrecio() - (producto.getPrecio() * producto.getPromocion()));
+            producto.setPrecio(precio);
+            producto.setPromocion((float) (producto.getPromocion() * 100));
+        } else {
+            producto.setPrecio(producto.getPrecio_original());
+        }
         productoDAO.update(producto);
+    }
+
+    public void AplicaPromocion(Producto producto, double descuento) {
+        // Convertimos el descuento al formato decimal si viene en porcentaje
+        if (descuento > 1) {
+            descuento = descuento / 100.0;
+            producto.setPrecio_original(producto.getPrecio());
+            float precio = (float) (producto.getPrecio() - (producto.getPrecio() * descuento));
+
+            System.out.println("Precio final: " + precio);
+            System.out.println("Cálculo: " + producto.getPrecio() + " - (" + producto.getPrecio() + " * " + descuento + ")");
+
+            producto.setPrecio(precio);
+            producto.setPromocion((float) (descuento * 100));
+
+            productoDAO.update(producto);
+        } else {
+            producto.setPrecio(producto.getPrecio_original());
+            productoDAO.update(producto);
+        }
+
     }
 
     public Producto obtenerProducto(int productoId) {

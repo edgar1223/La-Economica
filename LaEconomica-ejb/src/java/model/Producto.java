@@ -45,6 +45,9 @@ public class Producto {
 
     @Column(nullable = false)
     private float promocion;
+    
+    @Column(nullable = true)
+    private float precio_original;
 
     // Getters y setters
 
@@ -110,6 +113,14 @@ public class Producto {
 
     public void setPromocion(float promocion) {
         this.promocion = promocion;
+    }
+
+    public float getPrecio_original() {
+        return precio_original;
+    }
+
+    public void setPrecio_original(float precio_original) {
+        this.precio_original = precio_original;
     }
     
     
