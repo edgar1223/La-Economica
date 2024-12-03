@@ -13,33 +13,50 @@ import model.Producto;
 import proxy.DatabaseProxy;
 
 /**
+ * DAO para la gestión de productos. Proporciona métodos para realizar
+ * operaciones CRUD y consultas específicas sobre la entidad Producto.
  *
  * @author Edgar
  */
 public class ProductoDAO {
 
-    private EntityManager em;
+    private EntityManager em; // Manejador de entidades para la persistencia.
 
+    /**
+     * Recupera todos los productos registrados en la base de datos.
+     *
+     * @return Lista de productos.
+     */
     public List<Producto> findAll() {
         em = DatabaseProxy.getEntityManager();
         return em.createQuery("SELECT p FROM Producto p", Producto.class).getResultList();
     }
 
+    /**
+     * Busca un producto por su identificador único.
+     *
+     * @param id Identificador del producto.
+     * @return El producto encontrado o null si no existe.
+     */
     public Producto findById(int id) {
         em = DatabaseProxy.getEntityManager();
         return em.find(Producto.class, id);
     }
 
+    /**
+     * Guarda un nuevo producto en la base de datos.
+     *
+     * @param producto Objeto producto a persistir.
+     */
     public void save(Producto producto) {
-
-        EntityTransaction tx = null;  // Transacción para garantizar consistencia.
+        EntityTransaction tx = null; // Transacción para garantizar consistencia.
 
         try {
             em = DatabaseProxy.getEntityManager(); // Obtiene el EntityManager del proxy.
             tx = em.getTransaction();             // Inicia la transacción.
             tx.begin();
 
-            em.persist(producto); // Persiste la entidad Pago en la base de datos.
+            em.persist(producto); // Persiste la entidad Producto en la base de datos.
 
             tx.commit(); // Confirma la transacción.
         } catch (Exception e) {
@@ -48,7 +65,7 @@ public class ProductoDAO {
                 tx.rollback();
             }
             // Lanza una excepción con información detallada del error.
-            throw new RuntimeException("Error al registrar el pago: " + e.getMessage(), e);
+            throw new RuntimeException("Error al registrar el producto: " + e.getMessage(), e);
         } finally {
             // Asegura que el EntityManager se cierre para liberar recursos.
             if (em != null) {
@@ -57,15 +74,19 @@ public class ProductoDAO {
         }
     }
 
+    /**
+     * Elimina un producto por su identificador único.
+     *
+     * @param id Identificador del producto a eliminar.
+     */
     public void delete(int id) {
-
         EntityManager em = DatabaseProxy.getEntityManager();
         try {
-            // Busca al empleado por su clave.
+            // Busca el producto por su identificador.
             Producto p = em.find(Producto.class, id);
             if (p != null) {
                 em.getTransaction().begin();
-                em.remove(p); // Elimina el empleado.
+                em.remove(p); // Elimina el producto.
                 em.getTransaction().commit();
             }
         } finally {
@@ -73,6 +94,11 @@ public class ProductoDAO {
         }
     }
 
+    /**
+     * Actualiza un producto existente en la base de datos.
+     *
+     * @param producto Objeto producto con los datos actualizados.
+     */
     public void update(Producto producto) {
         EntityTransaction tx = null;
         try {
@@ -80,10 +106,10 @@ public class ProductoDAO {
             tx = em.getTransaction();
             tx.begin();
 
-            // Verifica si el producto existe antes de actualizar
+            // Verifica si el producto existe antes de actualizar.
             Producto productoExistente = em.find(Producto.class, producto.getId());
             if (productoExistente != null) {
-                em.merge(producto); // Actualiza el producto
+                em.merge(producto); // Actualiza el producto.
             } else {
                 throw new RuntimeException("Producto con ID " + producto.getId() + " no encontrado.");
             }
@@ -101,26 +127,35 @@ public class ProductoDAO {
         }
     }
 
-    // Datos del producto
+    /**
+     * Obtiene un producto por su identificador y muestra información adicional.
+     *
+     * @param productoId Identificador del producto.
+     * @return Producto encontrado o null si no existe.
+     */
     public Producto obtenerProductoPorId(int productoId) {
-        System.out.println("Entro cargaDatosProducto Dao" + productoId);
+        System.out.println("Entro cargaDatosProducto Dao " + productoId);
 
         EntityManager em = DatabaseProxy.getEntityManager();
         try {
-            // Busca al empleado por su clave.
+            // Busca el producto por su identificador.
             Producto p = em.find(Producto.class, productoId);
-            System.out.println("Entro cargaDatosProducto dao 2" + p);
-            System.out.println("Entro cargaDatosProducto dao 2" + p.getDescripcion());
+            System.out.println("Producto encontrado: " + p);
+            System.out.println("Descripción del producto: " + p.getDescripcion());
             return p;
         } finally {
             em.close();
         }
-
     }
 
-    // Top sucursales por ventas
+    /**
+     * Obtiene las sucursales con mayores ventas de un producto específico.
+     *
+     * @param productoId Identificador del producto.
+     * @return Lista de objetos con la información de sucursales y ventas.
+     */
     public List<Object[]> obtenerTopSucursalesPorProducto(int productoId) {
-        System.out.println("Entro obtenerTopSucursalesPorProducto dao" + productoId);
+        System.out.println("Entro obtenerTopSucursalesPorProducto Dao " + productoId);
 
         em = DatabaseProxy.getEntityManager();
         List<Object[]> resultados = new ArrayList<>();
@@ -139,7 +174,7 @@ public class ProductoDAO {
             System.out.println("Consulta exitosa. Resultados: " + resultados.size());
 
         } catch (Exception e) {
-            manejarExcepcion(e, "Error al consultar gastos de los últimos meses");
+            manejarExcepcion(e, "Error al consultar top sucursales por producto");
         } finally {
             cerrarEntityManager(em);
         }
@@ -147,9 +182,14 @@ public class ProductoDAO {
         return resultados;
     }
 
-    // Historial de ventas
+    /**
+     * Obtiene el historial de ventas de un producto específico.
+     *
+     * @param productoId Identificador del producto.
+     * @return Lista de objetos con información del historial de ventas.
+     */
     public List<Object[]> obtenerHistorialDeVentas(int productoId) {
-        System.out.println("Entro obtenerTopSucursalesPorProducto dao" + productoId);
+        System.out.println("Entro obtenerHistorialDeVentas Dao " + productoId);
 
         em = DatabaseProxy.getEntityManager();
         List<Object[]> resultados = new ArrayList<>();
@@ -167,19 +207,22 @@ public class ProductoDAO {
             System.out.println("Consulta exitosa. Resultados: " + resultados.size());
 
         } catch (Exception e) {
-            manejarExcepcion(e, "Error al consultar gastos de los últimos meses");
+            manejarExcepcion(e, "Error al consultar historial de ventas");
         } finally {
             cerrarEntityManager(em);
         }
 
         return resultados;
-
     }
 
-    // Pedidos pendientes
+    /**
+     * Obtiene los pedidos pendientes relacionados con un producto.
+     *
+     * @param productoId Identificador del producto.
+     * @return Lista de objetos con información de pedidos pendientes.
+     */
     public List<Object[]> obtenerPedidosPendientes(int productoId) {
-
-        System.out.println("Entro obtenerTopSucursalesPorProducto dao" + productoId);
+        System.out.println("Entro obtenerPedidosPendientes Dao " + productoId);
 
         em = DatabaseProxy.getEntityManager();
         List<Object[]> resultados = new ArrayList<>();
@@ -194,15 +237,20 @@ public class ProductoDAO {
             System.out.println("Consulta exitosa. Resultados: " + resultados.size());
 
         } catch (Exception e) {
-            manejarExcepcion(e, "Error al consultar gastos de los últimos meses");
+            manejarExcepcion(e, "Error al consultar pedidos pendientes");
         } finally {
             cerrarEntityManager(em);
         }
 
         return resultados;
-
     }
 
+    /**
+     * Maneja excepciones lanzadas durante las operaciones con la base de datos.
+     *
+     * @param e Excepción lanzada.
+     * @param mensaje Mensaje informativo sobre el contexto del error.
+     */
     private void manejarExcepcion(Exception e, String mensaje) {
         System.err.println(mensaje + ": " + e.getMessage());
         e.printStackTrace();

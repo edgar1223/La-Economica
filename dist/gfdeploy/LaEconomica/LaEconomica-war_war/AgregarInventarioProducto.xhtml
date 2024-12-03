@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Registrar Producto</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="styles/FormularioEmpleado.css" />
+        <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+
+    </h:head>
+    <h:body>
+        <div class="menu-banner">
+            <ui:include src="/menu.xhtml" />
+        </div>
+
+        <div class="container">
+            <h:form>
+                   <p:messages id="messages" closable="true" />
+                <div class="panel-header">Registrar Producto en Inventario</div>
+
+                <div class="form-grid">
+                    <!-- Columna 1 -->
+                    <div class="form-group">
+                        <p:outputLabel for="sucursalId" value="Sucursal ID:" />
+                        <p:inputText id="sucursalId" value="#{inventarioControlador.sucursalId}" readonly="true" class="form-control" />
+
+                        <p:outputLabel for="productoId" value="Producto:" />
+                        <p:selectOneMenu id="productoId" value="#{inventarioControlador.productoId}" class="form-control">
+                            <f:selectItem itemLabel="Seleccione un producto" itemValue="" />
+                            <f:selectItems value="#{inventarioControlador.productosNoEnInventario}" 
+                                           var="producto" 
+                                           itemLabel="#{producto.nombre}" 
+                                           itemValue="#{producto.id}" />
+                        </p:selectOneMenu>
+                    </div>
+
+
+                    <!-- Columna 2 -->
+                    <div>
+                        <p:outputLabel for="productoDisponible" value="Producto Disponible:" />
+                        <p:inputText id="productoDisponible" value="#{inventarioControlador.inventarioProducto.productoDisponible}" />
+
+                        <p:outputLabel for="cantidadMinima" value="Cantidad Mínima:" />
+                        <p:inputText id="cantidadMinima" value="#{inventarioControlador.inventarioProducto.cantidadMinima}" />
+                    </div>
+                </div>
+
+                <!-- Botón centrado -->
+                <div class="center-button">
+                    <p:commandButton value="Registrar" update="messages"  action="Inventario" 
+                                     actionListener="#{inventarioControlador.registrarProducto}" styleClass="ui-button" />
+                </div>
+
+                <!-- Mensajes -->
+               
+            </h:form>
+        </div>
+    </h:body>
+</html>

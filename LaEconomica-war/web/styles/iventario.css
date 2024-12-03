@@ -1,0 +1,221 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 1 dic. 2024, 17:39:56
+    Author     : Edgar
+*/
+
+body {
+    margin: 10px;
+    font-family: Arial, sans-serif;
+    background-color: #EAF5E5;
+    color: #333;
+}
+.container {
+    margin: auto;
+     padding: 25px 30px;
+    max-width: 1200px;
+}
+.container2 {
+    margin: 20px auto;
+    padding: 20px;
+   
+}
+h1, h2, h3 {
+    color: #333;
+}
+
+.panel-header {
+    background-color: #4CAF50; /* Verde suave */
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.general-table, .vendidos-table, .menos-vendidos-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.general-table th, .vendidos-table th, .menos-vendidos-table th,
+.general-table td, .vendidos-table td, .menos-vendidos-table td {
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.general-table th, .vendidos-table th, .menos-vendidos-table th {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.general-table tr:hover, .vendidos-table tr:hover, .menos-vendidos-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 10px 0;
+}
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px; /* Espacio entre los elementos */
+}
+.flex-item {
+    flex: 1;
+    max-width: 48%; /* Cada panel ocupa aproximadamente la mitad del ancho del contenedor */
+}
+
+.flex-item .panel-header {
+    margin-bottom: 0; /* Ajusta el margen para alinear mejor */
+}
+.botones-container {
+    display: flex;
+    gap: 15px; /* Más separación entre botones */
+    align-items: center;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none; /* Sin subrayado */
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+}
+
+.btn-exportar {
+    background-color: #007bff;
+}
+
+.btn-exportar:hover {
+    background-color: #0056b3;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.icono-exportar {
+    margin-right: 8px; /* Espacio entre ícono y texto */
+    vertical-align: middle;
+}
+
+.acciones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 10px; /* Espaciado entre los botones */
+    justify-items: center; /* Centrar horizontalmente */
+    align-items: center; /* Alinear verticalmente */
+    padding: 10px; /* Espaciado interno */
+}
+
+/* Estilo general para los botones */
+.acciones .ui-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Botón ocupa todo el espacio de la celda */
+    font-size: 14px; /* Tamaño de fuente */
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    padding: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.acciones .ui-button:hover {
+    transform: scale(1.05); /* Efecto al pasar el mouse */
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Íconos de los botones */
+.acciones .ui-button .pi {
+    font-size: 18px;
+}
+/* Estilo para etiquetas y entradas */
+.form-label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 0.95rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-input:focus {
+    border-color: #3a663a;
+    box-shadow: 0 0 5px rgba(58, 102, 58, 0.5);
+    outline: none;
+}
+
+/* Botones centrados */
+.center-button {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Espaciado entre botones */
+}
+
+/* Botones específicos */
+.ui-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ui-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón Guardar */
+.ui-button {
+    background-color: #28a745;
+}
+
+.ui-button:hover {
+    background-color: #218838;
+}
+
+/* Botón Cancelar */
+.ui-button-secondary {
+    background-color: #dc3545;
+}
+
+.ui-button-secondary:hover {
+    background-color: #c82333;
+}
+.warning-style {
+    background-color: #fff3cd; /* Fondo amarillo claro */
+    color: #ff0a16; /* Texto amarillo oscuro */
+    font-weight: bold; /* Resalta el texto */
+}

@@ -113,33 +113,21 @@ public class EmpleadoDAO {
         }
     }
 
+     /**
+     * Busca empleados por nombre.
+     *
+     * @param nombre El nombre de los empleados a buscar.
+     * @return Lista de empleados que coinciden con el nombre.
+     */
     public List<Empleado> findByNombre(String nombre) {
-         EntityManager em = DatabaseProxy.getEntityManager();
-        try {
-            // Busca el empleado en la base de datos por su clave.
-            return em.createQuery("SELECT e FROM Empleado e WHERE e.nombre = :nombre", Empleado.class)
-                    .setParameter("nombre", nombre)
-                    .getResultList();
-        } finally {
-            em.close();
-        }
-        /*
         EntityManager em = DatabaseProxy.getEntityManager();
-        System.out.println("ENtro 1");
-        TypedQuery<Empleado> query = em.createQuery(
-                "SELECT e FROM Empleado e WHERE e.nombre = :nombre",
-                Empleado.class
-        );
-        System.out.println("ENtro 2");
-        query.setParameter("nombre", nombre);
-        System.out.println("ENtro 3");
-        // Crear una nueva instancia de Empleado usando los datos obtenidos
-        Empleado result = query.getSingleResult();
-        System.out.println("ENtro 4");
-        System.out.print(query+" "+result);
-                System.out.print("nombre "+result.getNombre());
-
-        return new Empleado(result.getClave(), result.getNombre(), result.getSucursal_id(), result.getPassword());*/
-
+        try {
+            // Realiza una consulta JPQL para buscar empleados por su nombre.
+            return em.createQuery("SELECT e FROM Empleado e WHERE e.nombre = :nombre", Empleado.class)
+                    .setParameter("nombre", nombre) // Asigna el parámetro "nombre" a la consulta.
+                    .getResultList(); // Retorna la lista de resultados.
+        } finally {
+            em.close(); // Cierra el EntityManager para liberar recursos.
+        }
     }
 }

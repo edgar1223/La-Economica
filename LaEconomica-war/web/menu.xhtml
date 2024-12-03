@@ -38,27 +38,15 @@
                 </p:column>
             </p:submenu>
 
-            <p:submenu label="Events" icon="pi pi-fw pi-calendar">
-                <p:column>
-                    <p:submenu label="Event 1">
-                        <p:menuitem value="Event 1.1"/>
-                        <p:menuitem value="Event 1.2"/>
-                    </p:submenu>
-                    <p:submenu label="Event 2">
-                        <p:menuitem value="Event 2.1"/>
-                        <p:menuitem value="Event 2.2"/>
-                    </p:submenu>
-                </p:column>
+            <p:submenu label="Inventario" icon="pi pi-fw pi-calendar">
+                 <p:column>
+                    <p:submenu >
+                        <p:menuitem value="Ver Inventario" outcome="Inventario" icon="pi pi-fw pi-eye" />
+                        <p:menuitem value="Agregar Producto"  action="AgregarInventarioProducto" 
+                                actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-plus" />
 
-                <p:column>
-                    <p:submenu label="Event 3">
-                        <p:menuitem value="Event 3.1"/>
-                        <p:menuitem value="Event 3.2"/>
                     </p:submenu>
-                    <p:submenu label="Event 4">
-                        <p:menuitem value="Event 4.1"/>
-                        <p:menuitem value="Event 4.2"/>
-                    </p:submenu>
+
                 </p:column>
             </p:submenu>
 

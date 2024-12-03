@@ -15,7 +15,10 @@ import model.Producto;
 import service.ProductoService;
 
 /**
- *
+ * Controlador encargado de la gestión de productos.
+ * Maneja las operaciones CRUD y otras funcionalidades relacionadas con los productos.
+ * Utiliza un contexto de sesión para mantener la información del producto cargado.
+ * 
  * @author Edgar
  */
 @Named(value = "productoController")
@@ -23,17 +26,18 @@ import service.ProductoService;
 public class ProductoController implements Serializable {
 
     @EJB
-    private ProductoService productoService;
+    private ProductoService productoService; // Servicio de productos que interactúa con la capa de datos.
 
-    private Producto producto = new Producto();
-    private List<Producto> productos;
+    private Producto producto = new Producto(); // Objeto Producto usado en la vista para operaciones.
+    private List<Producto> productos; // Lista de productos para mostrar en la vista.
 
-    private List<Object[]> topSucursalesPorVentas;
-    private List<Object[]> historialVentas;
-    private List<Object[]> stockPorSucursal;
-    private List<Object[]> pedidosPendientes;
-    private double descuento;
+    private List<Object[]> topSucursalesPorVentas; // Lista con las sucursales top por ventas de un producto.
+    private List<Object[]> historialVentas; // Historial de ventas de un producto.
+    private List<Object[]> stockPorSucursal; // Información del stock por sucursal.
+    private List<Object[]> pedidosPendientes; // Pedidos pendientes para un producto.
+    private double descuento; // Descuento aplicado a un producto.
 
+    // Getters y Setters
     public Producto getProducto() {
         return producto;
     }
@@ -44,78 +48,77 @@ public class ProductoController implements Serializable {
 
     public List<Producto> getProductos() {
         if (productos == null) {
-            cargarProducto();
+            cargarProducto(); // Carga la lista de productos si aún no se ha inicializado.
         }
         return productos;
     }
 
+    /**
+     * Guarda un producto en la base de datos.
+     * Muestra un mensaje de éxito o error según el resultado de la operación.
+     */
     public void guardarProducto() {
         try {
-            // Intenta guardar el producto
-            productoService.guardarProducto(producto);
-
-            // Muestra un mensaje de éxito si no hubo errores
+            productoService.guardarProducto(producto); // Llama al servicio para guardar el producto.
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Éxito",
                             "El Producto '" + producto.getNombre() + "' ha sido registrado exitosamente."));
-
-            // Limpia el objeto producto para un nuevo registro
-            producto = new Producto();
-            productos = null; // Forzar recarga de la lista
+            producto = new Producto(); // Limpia el objeto producto para un nuevo registro.
+            productos = null; // Forzar recarga de la lista.
         } catch (Exception e) {
-            // Maneja errores y muestra un mensaje en la interfaz
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Error",
                             "Ocurrió un error al registrar el producto: " + e.getMessage()));
         }
-        cargarProducto();
+        cargarProducto(); // Recarga la lista de productos.
     }
 
+    /**
+     * Elimina un producto de la base de datos.
+     * @param id Identificador del producto a eliminar.
+     */
     public void eliminarProducto(int id) {
         try {
-            productoService.eliminarProducto(id);
-            productos = null; // Forzar recarga
-
+            productoService.eliminarProducto(id); // Llama al servicio para eliminar el producto.
+            productos = null; // Forzar recarga de la lista.
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Éxito",
                             "El Producto '" + id + "' ha sido eliminado exitosamente."));
-
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Error",
-                            "Ocurrió un error al registrar el producto: " + e.getMessage()));
+                            "Ocurrió un error al eliminar el producto: " + e.getMessage()));
         }
-        cargarProducto();
+        cargarProducto(); // Recarga la lista de productos.
     }
 
+    /**
+     * Limpia el producto cargado y recarga la lista de productos.
+     */
     public void ElimnarProductoCargado() {
-        producto = new Producto();
-        productos = null;
+        producto = new Producto(); // Resetea el producto cargado.
+        productos = null; // Forzar recarga.
         cargarProducto();
     }
 
+    /**
+     * Actualiza un producto en la base de datos.
+     * Muestra un mensaje de éxito o error según el resultado.
+     */
     public void actualizarProducto() {
         try {
-            // Actualiza el producto en la base de datos
-            productoService.actualizarProducto(producto);
-
-            // Muestra un mensaje de éxito
+            productoService.actualizarProducto(producto); // Llama al servicio para actualizar el producto.
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Éxito",
                             "El Producto '" + producto.getNombre() + "' ha sido actualizado exitosamente."));
-
-            // Recargar la lista de productos
-            productos = productoService.obtenerTodosLosProductos();
-
-            // Limpia el objeto producto para evitar conflictos en la vista
-            producto = new Producto();
+            productos = productoService.obtenerTodosLosProductos(); // Recarga la lista de productos.
+            producto = new Producto(); // Limpia el objeto producto para evitar conflictos en la vista.
         } catch (Exception e) {
-            // Maneja errores y muestra un mensaje en la interfaz
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Error",
@@ -123,23 +126,21 @@ public class ProductoController implements Serializable {
         }
     }
 
+    /**
+     * Carga los datos de un producto específico, incluyendo información adicional como historial de ventas.
+     * @param idProducto Identificador del producto a cargar.
+     */
     public void cargarDatosProducto(int idProducto) {
         try {
-            // Obtiene los datos relacionados con el producto
-            System.out.println("Entro cargaDatosProducto " + idProducto);
-            producto = productoService.obtenerProducto(idProducto);
-            topSucursalesPorVentas = productoService.obtenerTopSucursalesPorProducto(idProducto);
-            historialVentas = productoService.obtenerHistorialDeVentas(idProducto);
-
-            pedidosPendientes = productoService.obtenerPedidosPendientes(idProducto);
-
-            // Muestra un mensaje indicando que los datos fueron cargados correctamente
+            producto = productoService.obtenerProducto(idProducto); // Carga los datos del producto.
+            topSucursalesPorVentas = productoService.obtenerTopSucursalesPorProducto(idProducto); // Carga las sucursales top.
+            historialVentas = productoService.obtenerHistorialDeVentas(idProducto); // Carga el historial de ventas.
+            pedidosPendientes = productoService.obtenerPedidosPendientes(idProducto); // Carga los pedidos pendientes.
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "Éxito",
                             "Los datos del producto fueron cargados exitosamente."));
         } catch (Exception e) {
-            // Manejo de errores
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "Error",
@@ -147,22 +148,28 @@ public class ProductoController implements Serializable {
         }
     }
 
+    /**
+     * Aplica una promoción a un producto específico.
+     * @param producto Producto al cual aplicar la promoción.
+     * @param descuento Descuento a aplicar.
+     */
     public void AplicaPromocion(Producto producto, double descuento) {
-        System.out.print(producto.getDescripcion());
-        System.out.print(producto.getPrecio());
-        productoService.AplicaPromocion(producto, descuento);
-
+        productoService.AplicaPromocion(producto, descuento); // Llama al servicio para aplicar la promoción.
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Éxito",
-                        "El Producto '" + producto.getNombre() + "' ha sido aplicado la promocion exitosamente."));
-        cargarProducto();
+                        "El Producto '" + producto.getNombre() + "' ha sido aplicado la promoción exitosamente."));
+        cargarProducto(); // Recarga la lista de productos.
     }
 
+    /**
+     * Carga todos los productos disponibles.
+     */
     public void cargarProducto() {
-        productos = productoService.obtenerTodosLosProductos();
+        productos = productoService.obtenerTodosLosProductos(); // Carga la lista de productos desde el servicio.
     }
 
+    // Getters y Setters adicionales
     public ProductoService getProductoService() {
         return productoService;
     }

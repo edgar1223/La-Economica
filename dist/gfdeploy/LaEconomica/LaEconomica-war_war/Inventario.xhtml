@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Inventario</title>
+        <link rel="stylesheet" href="styles/iventario.css" />
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+
+
+    </h:head>
+    <h:body>
+        <div class="menu-banner">
+            <ui:include src="/menu.xhtml" />
+        </div>
+        <div class="container">
+            <div class="container2">
+                <h2>Iventario </h2>
+                <p:messages id="messages" closable="true" />
+                <h:form id="formInventario">
+
+                    <p:panel header="Inventario General" styleClass="panel-header">
+
+                        <h:panelGroup styleClass="botones-container">
+                              <p:commandButton 
+                            value="Agregar Producto" 
+                            action="AgregarInventarioProducto" 
+                            actionListener="#{inventarioControlador.EliminarProductoCargado()}" 
+                            styleClass="btn btn-agregar-empleado" 
+                            />
+                            <h:commandLink id="reportXls" styleClass="btn btn-exportar">
+                                <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
+                                <span>Exportar Excel</span>
+                                <p:dataExporter type="xls" target="tablaProductoIventario" fileName="Producto" encoding="ISO-8859-1" />
+                            </h:commandLink>
+                        </h:panelGroup>
+                        <p:dataTable id="tablaProductoIventario" value="#{inventarioControlador.listInventarioProducto}" var="item"  styleClass="general-table"
+                                     paginator="true" rows="5">
+                            <p:column headerText="Producto">
+                                <h:outputText value="#{item.producto.nombre}" />
+                            </p:column>
+                            <p:column headerText="Cantidad Disponible" 
+                                      styleClass="#{inventarioControlador.obtenerClaseCantidad(item.productoDisponible, item.cantidadMinima)}">
+                                <h:outputText value="#{item.productoDisponible}" />
+                            </p:column>
+
+
+
+                            <p:column headerText="Cantidad Mínima">
+                                <h:outputText value="#{item.cantidadMinima}" />
+                            </p:column>
+                            <p:column  headerText="Acciones" exportable="false">
+                                <div class="acciones">
+                                    <p:commandButton icon="pi pi-eye" title="Ver" 
+                                                     action="DetallesProducto"                                       
+                                                     actionListener="#{productoController.cargarDatosProducto(item.producto.id)}" />
+                                    <p:commandButton icon="pi pi-pencil" styleClass="edit-button"
+                                                     title="Editar" process="@this"
+                                                     update=":dialogs:editDialogContent"
+                                                     oncomplete="PF('editDialog').show()">
+                                        <f:setPropertyActionListener value="#{item}" target="#{inventarioControlador.inventarioProductoSeleccionado}" />
+
+                                    </p:commandButton>
+
+                                </div>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+
+                    <p:panel header="Análisis de Productos" styleClass="panel-header">
+                        <div class="flex-container">
+                            <div class="flex-item">
+                                <p:panel header="Productos Más Vendidos" styleClass="panel-header">
+                                    <h:panelGroup styleClass="botones-container">
+                                        <h:commandLink id="reportXlsMasVendidos" styleClass="btn btn-exportar">
+                                            <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
+                                            <span>Exportar Excel</span>
+                                            <p:dataExporter type="xls" target="tablaInventarioVendidos" fileName="Producto mas vendidos" encoding="ISO-8859-1" />
+                                        </h:commandLink>
+                                    </h:panelGroup>
+                                    <p:dataTable value="#{inventarioControlador.productoVendidos}" var="vendido" styleClass="vendidos-table"
+                                                 id="tablaInventarioVendidos"   paginator="true" rows="5">
+                                        <p:column headerText="Producto">
+                                            <h:outputText value="#{vendido[0].nombre}" />
+                                        </p:column>
+                                        <p:column headerText="Cantidad Vendida">
+                                            <h:outputText value="#{vendido[1]}" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:panel>
+                            </div>
+                            <div class="flex-item">
+                                <p:panel header="Productos Menos Vendidos" styleClass="panel-header">
+                                    <h:panelGroup styleClass="botones-container">
+                                        <h:commandLink id="reportXlsMenosVendidos" styleClass="btn btn-exportar">
+                                            <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
+                                            <span>Exportar Excel</span>
+                                            <p:dataExporter type="xls" target="tablaProductoMenosVendidos" fileName="Producto menos vendidos" encoding="ISO-8859-1" />
+                                        </h:commandLink>
+                                    </h:panelGroup>
+                                    <p:dataTable value="#{inventarioControlador.producroMenosVendidos}" var="menosVendido" styleClass="menos-vendidos-table"
+                                                 id="tablaProductoMenosVendidos" paginator="true" rows="5">
+                                        <p:column headerText="Producto">
+                                            <h:outputText value="#{menosVendido[0].nombre}" />
+                                        </p:column>
+                                        <p:column headerText="Cantidad Vendida">
+                                            <h:outputText value="#{menosVendido[1]}" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:panel>
+                            </div>
+                        </div>
+                    </p:panel>
+
+                </h:form>
+            </div>
+        </div>
+        <h:form id="dialogs">
+            <p:dialog id="editDialog" 
+                      header="Editar Producto Inventario #{inventarioControlador.inventarioProductoSeleccionado.producto.nombre}" 
+                      widgetVar="editDialog" modal="true" resizable="false" width="50%" 
+                      styleClass="dialog-container">
+                <p:outputPanel id="editDialogContent" styleClass="container">
+                    <p:outputPanel rendered="#{not empty inventarioControlador.inventarioProductoSeleccionado}">
+                        <div class="form-grid">
+                            <!-- Producto -->
+                            <div>
+                                <h:outputLabel value="Producto:" for="producto" class="form-label"/>
+                                <h:inputText id="producto" value="#{inventarioControlador.inventarioProductoSeleccionado.producto.nombre}" 
+                                             disabled="true" class="form-input"/>
+
+                                <h:outputLabel value="Cantidad Disponible:" for="cantidadDisponible" class="form-label"/>
+                                <h:inputText id="cantidadDisponible" value="#{inventarioControlador.inventarioProductoSeleccionado.productoDisponible}" 
+                                             class="form-input"/>
+                            </div>
+
+                            <!-- Cantidad Mínima -->
+                            <div>
+                                <h:outputLabel value="Cantidad Mínima:" for="cantidadMinima" class="form-label"/>
+                                <h:inputText id="cantidadMinima" value="#{inventarioControlador.inventarioProductoSeleccionado.cantidadMinima}" 
+                                             class="form-input"/>
+                            </div>
+
+                            <!-- Botones -->
+                            <div class="center-button">
+                                <p:commandButton value="Guardar" action="#{inventarioControlador.guardarCambios}" 
+                                                 update=":formInventario:tablaProductoIventario, :messages"
+                                                 oncomplete="PF('editDialog').hide()" styleClass="ui-button"/>
+                                <p:commandButton value="Cancelar" onclick="PF('editDialog').hide()" 
+                                                 type="button" styleClass="ui-button ui-button-secondary"/>
+                            </div>
+
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+
+    </h:body>
+</html>

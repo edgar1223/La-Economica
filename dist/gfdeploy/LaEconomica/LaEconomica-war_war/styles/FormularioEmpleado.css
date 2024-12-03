@@ -124,3 +124,24 @@ body {
         grid-template-columns: 1fr;
     }
 }
+/* Separación entre los campos dentro de los grupos */
+.form-group > * {
+    margin-bottom: 15px; /* Espaciado entre campos */
+}
+
+/* Opcional: Estilo específico para input y select */
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 0.95rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control:focus {
+    border-color: #3a663a;
+    box-shadow: 0 0 5px rgba(58, 102, 58, 0.5);
+    outline: none;
+}
