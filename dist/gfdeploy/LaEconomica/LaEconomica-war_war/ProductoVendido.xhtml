@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+        <link rel="stylesheet" type="text/css" href="styles/HisotriaVentas.css" />
+        <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+    </h:head>
+    <h:body>
+        <div class="menu-banner">
+            <ui:include src="/menu.xhtml" />
+        </div>
+        <div class="container">
+            <div class="container2">
+                <h:form>
+                    <h3>Detalles de la venta #{ventaController.venta[0]} de la fecha #{ventaController.venta[0]}</h3>
+                  
+                        <h:panelGroup styleClass="botones-container">                       
+                            <h:commandLink id="reportXls" styleClass="btn btn-exportar">
+                                <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
+                                <span>Exportar Excel</span>
+                                <p:dataExporter type="xls" target="productosTable" fileName="Venta de Producto " encoding="ISO-8859-1" />
+                            </h:commandLink>
+                        </h:panelGroup>
+                        <p:dataTable id="productosTable" value="#{ventaController.productosVendidos}" var="producto" style="width: 80%; margin: auto;" emptyMessage="No se encontraron productos.">
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{producto[0]}" />
+                            </p:column>
+                            <p:column headerText="Precio Unitario">
+                                <h:outputText value="#{producto[1]}" />
+                            </p:column>
+                            <p:column headerText="Cantidad Vendida">
+                                <h:outputText value="#{producto[2]}" />
+                            </p:column>
+                            <p:column headerText="Total">
+                                <h:outputText value="#{producto[3]}" />
+                            </p:column>
+                        </p:dataTable>
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</html>

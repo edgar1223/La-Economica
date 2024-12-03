@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Gestión de Ventas</title>
+        <link rel="stylesheet" type="text/css" href="styles/HisotriaVentas.css" />
+        <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+    </h:head>
+    <h:body>
+        <div class="menu-banner">
+            <ui:include src="/menu.xhtml" />
+        </div>
+        <div class="container">
+            <h:form>
+                <h1>Gestión de Ventas</h1>
+
+                <!-- Filtro por sucursal -->
+
+                <!-- Tabla de Ventas por Sucursal -->
+                <p:panel header="Ventas por Sucursal" styleClass="custom-panel" style="margin-top: 20px;">
+                    <h:panelGroup styleClass="botones-container">                       
+                        <h:commandLink id="reportXls" styleClass="btn btn-exportar">
+                            <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
+                            <span>Exportar Excel</span>
+                            <p:dataExporter type="xls" target="ventasPorSucursal" fileName="Ventas " encoding="ISO-8859-1" />
+                        </h:commandLink>
+                    </h:panelGroup>
+                    <p:dataTable id="ventasPorSucursal" value="#{ventaController.ventasPorSucursal}" var="venta"
+                                 paginator="true" rows="10" rowsPerPageTemplate="5,10,20"
+                                 sortBy="#{venta[0]}" 
+                                 emptyMessage="No hay ventas para mostrar.">
+                        <p:column headerText="ID Venta" sortBy="#{venta[0]}">
+                            <h:outputText value="#{venta[0]}" />
+                        </p:column>
+                        <p:column headerText="Fecha" sortBy="#{venta[1]}">
+                            <h:outputText value="#{venta[1]}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Total" sortBy="#{venta[2]}">
+                            <h:outputText value="#{venta[2]}" />
+                        </p:column>
+                        <p:column headerText="Acciones" exportable="false">
+                            <div class="acciones">
+                                <p:commandButton icon="pi pi-eye" title="Ver"
+                                                 action="ProductoVendido"
+                                                 actionListener="#{ventaController.ObtenerProducto(venta[0],venta)}" />
+
+                            </div>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+
+                <!-- Sección para las dos tablas en la misma fila -->
+                <div class="row">
+                    <!-- Tabla de Top Empleados -->
+                    <p:panel header="Top Empleados por Ventas" styleClass="custom-panel panel-half">
+                        <h:panelGroup styleClass="botones-container">                       
+                            <h:commandLink id="reporTopEmpleadotXls" styleClass="btn btn-exportar">
+                                <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
+                                <span>Exportar Excel</span>
+                                <p:dataExporter type="xls" target="topEmpleados" fileName="Ventas Por Empleado" encoding="ISO-8859-1" />
+                            </h:commandLink>
+                        </h:panelGroup>
+                        <p:dataTable id="topEmpleados" value="#{ventaController.topEmpleados}" var="empleado"
+                                     paginator="true" rows="10" rowsPerPageTemplate="5,10,20"
+                                     sortBy="#{empleado[2]}" 
+                                     emptyMessage="No hay datos para mostrar.">
+                            <p:column headerText="ID Empleado" sortBy="#{empleado[0]}">
+                                <h:outputText value="#{empleado[0]}" />
+                            </p:column>
+                            <p:column headerText="Nombre" sortBy="#{empleado[1]}">
+                                <h:outputText value="#{empleado[1]}" />
+                            </p:column>
+                            <p:column headerText="Total Generado" sortBy="#{empleado[2]}">
+                                <h:outputText value="#{empleado[2]}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+
+                    <!-- Tabla de Ventas por Mes -->
+                    <p:panel header="Ventas por Mes" styleClass="custom-panel panel-half">
+                        <h:panelGroup styleClass="botones-container">                       
+                            <h:commandLink id="reporMesXls" styleClass="btn btn-exportar">
+                                <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
+                                <span>Exportar Excel</span>
+                                <p:dataExporter type="xls" target="ventasPorMes" fileName="Ventas Por Mes" encoding="ISO-8859-1" />
+                            </h:commandLink>
+                        </h:panelGroup>
+                        <p:dataTable id="ventasPorMes" value="#{ventaController.ventasPorMes}" var="mes"
+                                     paginator="true" rows="10" rowsPerPageTemplate="5,10,20"
+                                     sortBy="#{mes[0]}" 
+                                     emptyMessage="No hay datos disponibles.">
+                            <p:column headerText="Mes" sortBy="#{mes[0]}">
+                                <h:outputText value="#{ventaController.getNombreMes(mes[0])}" />
+                            </p:column>
+                            <p:column headerText="Total Generado" sortBy="#{mes[1]}">
+                                <h:outputText value="#{mes[1]}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </div>
+            </h:form>
+        </div>
+    </h:body>
+</html>

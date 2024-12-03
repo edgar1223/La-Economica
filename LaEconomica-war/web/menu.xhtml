@@ -38,40 +38,30 @@
                 </p:column>
             </p:submenu>
 
-            <p:submenu label="Inventario" icon="pi pi-fw pi-calendar">
+            <p:submenu label="Inventario" icon="pi pi-fw pi-box">
                  <p:column>
                     <p:submenu >
                         <p:menuitem value="Ver Inventario" outcome="Inventario" icon="pi pi-fw pi-eye" />
                         <p:menuitem value="Agregar Producto"  action="AgregarInventarioProducto" 
-                                actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-plus" />
+                                actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-plus-circle" />
 
                     </p:submenu>
 
                 </p:column>
             </p:submenu>
 
-            <p:submenu label="Settings" icon="pi pi-fw pi-cog">
+            <p:submenu label="Ventas" icon="pi pi-fw pi-shopping-cart">
                 <p:column>
-                    <p:submenu label="Setting 1">
-                        <p:menuitem value="Setting 1.1"/>
-                        <p:menuitem value="Setting 1.2"/>
+                   <p:submenu >
+                      
+                        <p:menuitem value="Historial de Venta"  action="HistorialVetna" 
+                                actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-file" />
+
                     </p:submenu>
-                    <p:submenu label="Setting 2">
-                        <p:menuitem value="Setting 2.1"/>
-                        <p:menuitem value="Setting 2.2"/>
-                    </p:submenu>
-                    <p:submenu label="Setting 3">
-                        <p:menuitem value="Setting 3.1"/>
-                        <p:menuitem value="Setting 3.2"/>
-                    </p:submenu>
+
                 </p:column>
 
-                <p:column>
-                    <p:submenu label="Setting 4">
-                        <p:menuitem value="Setting 4.1"/>
-                        <p:menuitem value="Setting 4.2"/>
-                    </p:submenu>
-                </p:column>
+              
             </p:submenu>
 
 

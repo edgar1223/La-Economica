@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-11-2024 a las 18:13:19
+-- Tiempo de generación: 03-12-2024 a las 23:47:23
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -47,7 +47,7 @@ CREATE TABLE `empleado` (
 --
 
 INSERT INTO `empleado` (`clave`, `nombre`, `apellido_paterno`, `apellido_materno`, `edad`, `domicilio`, `telefono`, `jornada`, `sucursal_id`, `sueldo`, `jornada_laboral`, `password`) VALUES
-(1, 'ejemplo actualizado', 'ejemploactualizado', 'ejemplo', 33, 'ejemplo', 951453617, 'ejemplo', 1, 666, '2024-11-08', NULL),
+(1, 'ejemplo ', 'ejemploactualizado', 'ejemplo', 33, 'ejemplo', 951453617, 'ejemplo', 1, 666, '2024-11-08', 'ejemplo '),
 (2, 'Juan pedro ', 'pedro ', 'López', 28, 'Av. Siempre Viva 123', 951111111, 'Completa', 1, 999, '2024-11-10', NULL),
 (3, 'Ana', 'García', 'Santos', 35, 'Calle Primavera 45', 951222222, 'Parcial', 1, 35, '2024-11-11', NULL),
 (4, 'Luis felipe pge', 'Hernández', 'Martínez', 40, 'Calle Luna 7', 951333333, 'Completa', 1, 555, '2024-11-12', NULL),
@@ -74,7 +74,11 @@ INSERT INTO `empleado` (`clave`, `nombre`, `apellido_paterno`, `apellido_materno
 (29, 'ejemplo actualizado', 'ejemplo', 'ejemplo', 33, 'ejemplo', 951453617, 'ejemplo', 1, 99999, '2024-11-08', NULL),
 (30, 'weq', 'eqw', 'eqw', 33, 'ads', 951453617, 'ed', 1, 444, '2024-11-26', NULL),
 (31, 'ejemplo actualizado', 'actualizado', 'ejemplo', 33, 'ejemplo', 951453617, 'ejemplo', 1, 666, '2024-11-08', NULL),
-(32, 'ee', 'eee', 'ee', 18, 'ede', 951453617, 'edd', 1, 208, '2024-11-23', NULL);
+(32, 'ee', 'eee', 'ee', 18, 'ede', 951453617, 'edd', 1, 208, '2024-11-23', NULL),
+(33, 'Edgar12', 'Edgar', 'Edgar', 19, 'Edgar12', 95143617, 'Edgar12', 1, 209, '2024-11-26', '$2a$10$qIB4XjX3sdTcPFZM1djn9ecdUrwS5NQhi88OWki/1ANdG.5U5Qn0u'),
+(34, 'juan2332', 'juan2332', 'juan2332', 18, 'juan2332', 951453617, 'juan2332', 1, 233, '2024-11-26', '$2a$10$3IM/bGuU70YecHgTFONPCeigQ2nSsofSGcT41pyvAyKaA4KwjV9fW'),
+(35, 'asd', 'dsa', 'dsa', 21, 'sa', 951453617, 'asd', 1, 222, '2024-11-28', '$2a$10$zWmSpBWBlH6007H1utU43.TSleHT/rxC7GywzanggPur0YsCosxoC'),
+(36, 'emplado nuevo', 'emplado nuevo', 'emplado nuevo', 18, 'emplado nuevo', 951453617, 'lunes  a sabado', 1, 208, '2024-11-30', '$2a$10$bND5TfKNqcpT1RpsBF151u5zgdzIQXLh7XHF8J4jK5n/tHJPCDUSK');
 
 -- --------------------------------------------------------
 
@@ -103,7 +107,21 @@ CREATE TABLE `inventario` (
 --
 
 INSERT INTO `inventario` (`id`, `nombre`) VALUES
-(1, 'ejemplo');
+(1, 'ejemplo'),
+(2, 'Inventario Sucursal Norte'),
+(3, 'Inventario Sucursal Sur'),
+(4, 'Inventario Almacén 1'),
+(5, 'Inventario Almacén 2'),
+(6, 'Inventario Temporal A'),
+(7, 'Inventario Temporal B'),
+(8, 'Inventario de Repuestos'),
+(9, 'Inventario Electrónica'),
+(10, 'Inventario de Ropa'),
+(11, 'Inventario General 1'),
+(12, 'Inventario General 2'),
+(13, 'Inventario Zona Oeste'),
+(14, 'Inventario Zona Este'),
+(15, 'Inventario Productos Perecederos');
 
 -- --------------------------------------------------------
 
@@ -117,6 +135,35 @@ CREATE TABLE `inventario_producto` (
   `producto_disponible` int(11) NOT NULL,
   `cantida_minima` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `inventario_producto`
+--
+
+INSERT INTO `inventario_producto` (`Inventarioid`, `Productoid`, `producto_disponible`, `cantida_minima`) VALUES
+(1, 5, 4, 5),
+(1, 6, 5, 5),
+(1, 7, 120, 3),
+(1, 8, 200, 20),
+(1, 9, 100, 10),
+(1, 10, 500, 50),
+(1, 11, 55, 5),
+(1, 12, 55, 5),
+(1, 13, 44, 44),
+(1, 14, 5, 1),
+(1, 15, 22, 2),
+(1, 22, 28, 28),
+(1, 28, 28, 28),
+(1, 32, 55, 6),
+(7, 5, 80, 8),
+(8, 6, 60, 6),
+(9, 7, 90, 9),
+(10, 8, 70, 7),
+(11, 9, 120, 12),
+(12, 10, 40, 4),
+(13, 5, 130, 13),
+(14, 6, 110, 11),
+(15, 7, 95, 9);
 
 -- --------------------------------------------------------
 
@@ -178,6 +225,13 @@ CREATE TABLE `pedido` (
   `estado` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `pedido`
+--
+
+INSERT INTO `pedido` (`id`, `fecha_solicitud`, `estado`) VALUES
+(1, '2024-11-30', 'Pendiente');
+
 -- --------------------------------------------------------
 
 --
@@ -189,6 +243,13 @@ CREATE TABLE `pedido_producto` (
   `Productoid` int(11) NOT NULL,
   `cantidad_pedido` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pedido_producto`
+--
+
+INSERT INTO `pedido_producto` (`Pedidoid`, `Productoid`, `cantidad_pedido`) VALUES
+(1, 5, 55);
 
 -- --------------------------------------------------------
 
@@ -204,8 +265,46 @@ CREATE TABLE `producto` (
   `fecha_caducidad` date DEFAULT NULL,
   `descripcion` varchar(200) DEFAULT NULL,
   `proveedor` varchar(100) NOT NULL,
-  `promocion` float NOT NULL
+  `promocion` float NOT NULL,
+  `precio_original` float DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `producto`
+--
+
+INSERT INTO `producto` (`id`, `nombre`, `precio`, `marca`, `fecha_caducidad`, `descripcion`, `proveedor`, `promocion`, `precio_original`) VALUES
+(5, 'Mouse Inalámbrico', 399.6, 'Microsoft', '2024-11-27', 'Mouse ergonómico', 'Microsoft Store', 10, 444),
+(6, 'Impresora Multifuncional', -22500, 'Canon', '2026-01-01', 'Impresora con escáner', 'Canon México', 10, 0),
+(7, 'Cámara Digital', 4050, 'Nikon', '2025-06-30', 'Cámara de alta resolución', 'Nikon Distribuidores', 10, 0),
+(8, 'Audífonos Bluetooth', 1500, 'Sony', NULL, 'Audífonos con cancelación de ruido', 'Sony México', 0.07, 0),
+(9, 'Disco Duro Externo 1TB', 1800, 'Seagate', NULL, 'Almacenamiento portátil', 'Seagate Store', 0.05, 0),
+(10, 'Memoria USB 32GB', 250, 'Kingston', NULL, 'Unidad de almacenamiento portátil', 'Kingston México', 0.02, 0),
+(11, 'Tablet Android', 5500, 'Huawei', '2025-09-01', 'Tableta de 10 pulgadas', 'Huawei Store', 0.08, 0),
+(12, 'Cargador Rápido', 427.5, 'Xiaomi', NULL, 'Cargador para dispositivos móviles', 'Xiaomi México', 5, 450),
+(13, 'Bocina ', 1805, 'JBL', '2026-03-15', 'Bocina con sonido envolvente', 'JBL Distribuidores', 5, 1900),
+(14, 'Control de Videojuegos', 1200, 'Xbox', NULL, 'Control inalámbrico', 'Microsoft Store', 0.15, 0),
+(15, 'Smart TV 43 pulgadas', 12000, 'LG', '2027-05-20', 'Televisión inteligente', 'LG México', 0.2, 0),
+(16, 'Microondas', 3200, 'Whirlpool', '2028-01-10', 'Horno de microondas', 'Whirlpool Store', 0.1, 0),
+(17, 'Refrigerador', 18500, 'Samsung', '2029-08-25', 'Refrigerador de dos puertas', 'Samsung Latinoamérica', 0.18, 0),
+(18, 'Licuadora', 900, 'Oster', '2027-07-14', 'Licuadora de alta potencia', 'Oster Store', 0.05, 0),
+(19, 'Estufa 4 quemadores', 6500, 'Mabe', '2030-02-22', 'Estufa de gas', 'Mabe Distribuidores', 0.12, 0),
+(20, 'Ventilador de Piso', 1100, 'Honeywell', NULL, 'Ventilador de alta eficiencia', 'Honeywell México', 0.08, 0),
+(21, 'Purificador de Aire', 4500, 'Philips', '2028-11-30', 'Purificador avanzado', 'Philips Store', 0.15, 0),
+(22, 'Aspiradora', 3600, 'Dyson', '2031-04-01', 'Aspiradora sin bolsa', 'Dyson Distribuidores', 0.1, 0),
+(23, 'Reloj Inteligente', 3000, 'Garmin', '2025-12-01', 'Reloj deportivo', 'Garmin Store', 0.2, 0),
+(24, 'Cámara de Seguridad', 2500, 'Ring', NULL, 'Cámara para exteriores', 'Ring México', 0.12, 0),
+(25, 'Router WiFi', 2200, 'TP-Link', NULL, 'Router de alta velocidad', 'TP-Link Store', 0.07, 0),
+(26, 'Panel Solar', 18000, 'Solmex', '2035-01-01', 'Panel para energía solar', 'Solmex Distribuidores', 0.25, 0),
+(27, 'Kit de Herramientas', 750, 'Truper', NULL, 'Herramientas básicas', 'Truper México', 0.05, 0),
+(28, 'Taladro Eléctrico', 1200, 'Bosch', NULL, 'Taladro para uso doméstico', 'Bosch Store', 0.1, 0),
+(29, 'Cinta Métrica', 120, 'Stanley', NULL, 'Herramienta de medición', 'Stanley México', 0.02, 0),
+(30, 'Guantes de Seguridad', 300, '3M', NULL, 'Guantes resistentes', '3M Distribuidores', 0.15, 0),
+(31, 'producto', 12, 'producto', '2024-11-27', 'producto', 'producto', 1, 0),
+(32, 'Ejemplo1223', 12, 'Ejemplo1223', '2024-11-27', 'Ejemplo1223', 'Ejemplo1223', 10, 0),
+(33, 'otro ejemplo', 122, 'das', '2024-11-28', 'dsa', 'das', 1, 0),
+(34, 'play station', 4750, 'sony', '2024-11-30', 'sas', 'sas', 5, 5000),
+(35, 'Producto ejemplo', 444, 'Producto ', '2024-11-28', 'Producto ', 'Producto ', 0, 444);
 
 -- --------------------------------------------------------
 
@@ -373,6 +472,15 @@ CREATE TABLE `venta` (
   `sucursal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `venta`
+--
+
+INSERT INTO `venta` (`id`, `empleado`, `fecha`, `descuento`, `sucursal`) VALUES
+(0, 33, '2024-12-17', 0, 1),
+(1, 33, '2024-11-30', 0, 1),
+(2, 33, '2024-12-17', 0, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -385,6 +493,14 @@ CREATE TABLE `venta_producto` (
   `cantidad_vendida` int(11) NOT NULL,
   `precio_unitario` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `venta_producto`
+--
+
+INSERT INTO `venta_producto` (`Ventaid`, `Productoid`, `cantidad_vendida`, `precio_unitario`) VALUES
+(1, 5, 22, 222),
+(2, 6, 2, 55);
 
 --
 -- Índices para tablas volcadas
@@ -495,13 +611,19 @@ ALTER TABLE `venta_producto`
 -- AUTO_INCREMENT de la tabla `empleado`
 --
 ALTER TABLE `empleado`
-  MODIFY `clave` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `clave` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT de la tabla `producto`
+--
+ALTER TABLE `producto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_horas`
