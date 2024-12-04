@@ -98,5 +98,13 @@ public class InventarioService {
     public List<Producto> obtenerProductosNoEnInventarioPorSucursal(int sucursalId) {
         return inventarioDao.obtenerProductosNoEnInventarioPorSucursal(sucursalId);
     }
-
+    
+    public Producto verificarProductoEnInventario(int sucursalId, int productoId) 
+    {
+        return inventarioDao.obtenerProductoDeInventario(sucursalId, productoId);
+    }
+     public boolean verificarProductoCantidadDisponible(int sucursalId, int productoId, int cantidadSolicitada)
+     {
+         return inventarioDao.verificarProductoCantidadDisponible(sucursalId, productoId, cantidadSolicitada);
+     }
 }

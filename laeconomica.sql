@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-12-2024 a las 23:47:23
+-- Tiempo de generación: 04-12-2024 a las 08:29:31
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -141,10 +141,10 @@ CREATE TABLE `inventario_producto` (
 --
 
 INSERT INTO `inventario_producto` (`Inventarioid`, `Productoid`, `producto_disponible`, `cantida_minima`) VALUES
-(1, 5, 4, 5),
+(1, 5, 0, 5),
 (1, 6, 5, 5),
-(1, 7, 120, 3),
-(1, 8, 200, 20),
+(1, 7, 102, 3),
+(1, 8, 198, 20),
 (1, 9, 100, 10),
 (1, 10, 500, 50),
 (1, 11, 55, 5),
@@ -479,7 +479,14 @@ CREATE TABLE `venta` (
 INSERT INTO `venta` (`id`, `empleado`, `fecha`, `descuento`, `sucursal`) VALUES
 (0, 33, '2024-12-17', 0, 1),
 (1, 33, '2024-11-30', 0, 1),
-(2, 33, '2024-12-17', 0, 1);
+(2, 33, '2024-12-17', 0, 1),
+(37, 33, '2024-12-04', 0, 1),
+(38, 33, '2024-12-04', 0, 1),
+(39, 33, '2024-12-04', 0, 1),
+(40, 33, '2024-12-04', 0, 1),
+(41, 33, '2024-12-04', 0, 1),
+(42, 33, '2024-12-04', 0, 1),
+(43, 33, '2024-12-04', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -499,8 +506,16 @@ CREATE TABLE `venta_producto` (
 --
 
 INSERT INTO `venta_producto` (`Ventaid`, `Productoid`, `cantidad_vendida`, `precio_unitario`) VALUES
+(0, 5, 3, 399.6),
+(0, 7, 3, 4050),
 (1, 5, 22, 222),
-(2, 6, 2, 55);
+(2, 6, 2, 55),
+(39, 5, 3, 399.6),
+(40, 5, 3, 399.6),
+(41, 5, 1, 399.6),
+(42, 7, 13, 4050),
+(43, 7, 5, 4050),
+(43, 8, 2, 1500);
 
 --
 -- Índices para tablas volcadas
@@ -636,6 +651,12 @@ ALTER TABLE `registro_horas`
 --
 ALTER TABLE `rol`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `venta`
+--
+ALTER TABLE `venta`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Restricciones para tablas volcadas

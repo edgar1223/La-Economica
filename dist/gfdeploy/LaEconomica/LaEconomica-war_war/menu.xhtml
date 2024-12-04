@@ -31,7 +31,7 @@
                     <p:submenu >
                         <p:menuitem value="Ver Producto" outcome="Producto" icon="pi pi-fw pi-eye" />
                         <p:menuitem value="Agregar Producto"  action="AgregarProducto" 
-                                actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-plus" />
+                                    actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-plus" />
 
                     </p:submenu>
 
@@ -39,11 +39,11 @@
             </p:submenu>
 
             <p:submenu label="Inventario" icon="pi pi-fw pi-box">
-                 <p:column>
+                <p:column>
                     <p:submenu >
                         <p:menuitem value="Ver Inventario" outcome="Inventario" icon="pi pi-fw pi-eye" />
                         <p:menuitem value="Agregar Producto"  action="AgregarInventarioProducto" 
-                                actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-plus-circle" />
+                                    actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-plus-circle" />
 
                     </p:submenu>
 
@@ -52,16 +52,18 @@
 
             <p:submenu label="Ventas" icon="pi pi-fw pi-shopping-cart">
                 <p:column>
-                   <p:submenu >
-                      
+                    <p:submenu >
+                        <p:menuitem value="Venta"  action="HacerVenta" 
+                                    icon="pi pi-fw pi-file" />
+
                         <p:menuitem value="Historial de Venta"  action="HistorialVetna" 
-                                actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-file" />
+                                    actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-file" />
 
                     </p:submenu>
 
                 </p:column>
 
-              
+
             </p:submenu>
 
 

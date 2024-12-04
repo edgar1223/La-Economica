@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Inventario de Productos</title>
+        <link rel="stylesheet" type="text/css" href="styles/RelizarVenta.css" />
+        <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+    </h:head>
+    <h:body>
+        <div class="menu-banner">
+            <ui:include src="/menu.xhtml" />
+        </div>
+        <div class="container">
+            <div class="grid container2">
+                <!-- Columna 1: Formulario -->
+                <div class="grid-column">
+                    <p:messages id="messages" closable="true" />
+                    <h:form id="formularioProductos">
+                        <h1>Agregar Producto al Inventario</h1>
+                        <div class="form-group">
+                            <p:outputLabel for="productoId" value="ID del Producto:" />
+                            <p:inputText id="productoId" value="#{ventaController.productoId}" />
+                        </div>
+                        <div class="form-group">
+                            <p:outputLabel for="cantidad" value="Cantidad:" />
+                            <p:inputText id="cantidad" value="#{ventaController.cantidad}" />
+                        </div>
+                        <p:commandButton value="Agregar" action="#{ventaController.verificar}" update="messages productosTable" styleClass="btn btn-primary" />
+                    </h:form>
+                </div>
+
+                <!-- Columna 2: Tabla -->
+                <div class="grid-column">
+                    <h2>Productos en Inventario</h2>
+                    <p:dataTable id="productosTable" value="#{ventaController.productosConCantidad}" var="entry" styleClass="table">
+                        <p:column headerText="ID">
+                            <h:outputText value="#{entry.key.id}" />
+                        </p:column>
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{entry.key.nombre}" />
+                        </p:column>
+                        <p:column headerText="Precio Unitario">
+                            <h:outputText value="#{entry.key.precio}" />
+                        </p:column>
+                        <p:column headerText="Cantidad">
+                            <h:outputText value="#{entry.value}" />
+                        </p:column>
+                        <p:column headerText="Total">
+                            <h:outputText value="#{ventaController.total(entry.key.precio,entry.value)}" />
+                        </p:column>
+                        <p:column headerText="Total Compra" footerText="Total de la Compra: #{ventaController.totalCompra}">
+                            <h:outputText value="#{ventaController.calcularTotalCompra()}" />
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Crear Venta" action="#{ventaController.generarVenta}" update="messages productosTable" styleClass="btn btn-success" >
+                        <p:dataExporter type="xls" target="productosTable" fileName="Venta Realizada" encoding="ISO-8859-1" />
+
+                    </p:commandButton>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>

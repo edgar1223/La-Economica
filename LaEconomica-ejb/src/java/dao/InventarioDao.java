@@ -12,14 +12,16 @@ import model.Producto;
 import proxy.DatabaseProxy;
 
 /**
- * Clase DAO para gestionar operaciones relacionadas con el inventario y productos.
+ * Clase DAO para gestionar operaciones relacionadas con el inventario y
+ * productos.
  *
  * @author Edgar
  */
 public class InventarioDao {
 
     /**
-     * Obtiene los productos de una sucursal específica basándose en su inventario.
+     * Obtiene los productos de una sucursal específica basándose en su
+     * inventario.
      *
      * @param sucursalId Identificador de la sucursal.
      * @return Lista de productos en el inventario de la sucursal.
@@ -178,6 +180,122 @@ public class InventarioDao {
         } finally {
             if (em != null) {
                 em.close(); // Asegurarse de cerrar el EntityManager.
+            }
+        }
+    }
+
+    /**
+     * Obtiene el producto del inventario de una sucursal específica si existe.
+     *
+     * @param sucursalId Identificador de la sucursal.
+     * @param productoId Identificador del producto.
+     * @return El producto si pertenece al inventario de la sucursal, null de lo
+     * contrario.
+     */
+    public Producto obtenerProductoDeInventario(int sucursalId, int productoId) {
+        EntityManager em = null;
+        try {
+            em = DatabaseProxy.getEntityManager();
+            String jpql = "SELECT ip.producto FROM InventarioProducto ip "
+                    + "WHERE ip.producto.id = :productoId "
+                    + "AND ip.inventario.id = (SELECT s.inventarioSucursal.id FROM Sucursal s WHERE s.id = :sucursalId)";
+            return em.createQuery(jpql, Producto.class)
+                    .setParameter("productoId", productoId)
+                    .setParameter("sucursalId", sucursalId)
+                    .getSingleResult(); // Busca el producto específico
+        } catch (javax.persistence.NoResultException e) {
+            // Retorna null si no se encuentra el producto
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace(); // Log del error
+            throw new RuntimeException("Error al obtener el producto del inventario", e);
+        } finally {
+            if (em != null) {
+                em.close(); // Asegurar el cierre del EntityManager
+            }
+        }
+    }
+
+    /**
+     * Verifica si un producto está en el inventario de una sucursal y si la
+     * cantidad solicitada está disponible.
+     *
+     * @param sucursalId Identificador de la sucursal.
+     * @param productoId Identificador del producto.
+     * @param cantidadSolicitada Cantidad solicitada del producto.
+     * @return true si el producto pertenece al inventario de la sucursal y la
+     * cantidad solicitada está disponible; false en caso contrario.
+     */
+    public boolean verificarProductoCantidadDisponible(int sucursalId, int productoId, int cantidadSolicitada) {
+        EntityManager em = null;
+        try {
+            em = DatabaseProxy.getEntityManager();
+            String jpql = "SELECT ip.productoDisponible FROM InventarioProducto ip "
+                    + "WHERE ip.producto.id = :productoId "
+                    + "AND ip.inventario.id = (SELECT s.inventarioSucursal.id FROM Sucursal s WHERE s.id = :sucursalId)";
+
+            // Recupera la cantidad disponible del producto
+            Integer cantidadDisponible = em.createQuery(jpql, Integer.class)
+                    .setParameter("productoId", productoId)
+                    .setParameter("sucursalId", sucursalId)
+                    .getSingleResult();
+
+            // Verifica si la cantidad solicitada está disponible
+            return cantidadDisponible != null && cantidadSolicitada <= cantidadDisponible;
+        } catch (javax.persistence.NoResultException e) {
+            // Retorna false si no se encuentra el producto en el inventario
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace(); // Log del error
+            throw new RuntimeException("Error al verificar la cantidad disponible del producto", e);
+        } finally {
+            if (em != null) {
+                em.close(); // Asegurar el cierre del EntityManager
+            }
+        }
+    }
+
+    /**
+     * Actualiza la cantidad disponible de un producto en el inventario tras
+     * registrar una venta.
+     *
+     * @param sucursalId Identificador de la sucursal.
+     * @param productoId Identificador del producto vendido.
+     * @param cantidadVendida Cantidad vendida del producto.
+     */
+    public void actualizarCantidadDisponibleTrasVenta(int sucursalId, int productoId, int cantidadVendida) {
+        EntityManager em = null;
+        try {
+            em = DatabaseProxy.getEntityManager();
+            em.getTransaction().begin(); // Iniciar la transacción
+
+            // Buscar el producto en el inventario de la sucursal
+            String jpql = "SELECT ip FROM InventarioProducto ip "
+                    + "WHERE ip.producto.id = :productoId "
+                    + "AND ip.inventario.id = (SELECT s.inventarioSucursal.id FROM Sucursal s WHERE s.id = :sucursalId)";
+            InventarioProducto inventarioProducto = em.createQuery(jpql, InventarioProducto.class)
+                    .setParameter("productoId", productoId)
+                    .setParameter("sucursalId", sucursalId)
+                    .getSingleResult();
+
+            // Reducir la cantidad disponible
+            if (inventarioProducto.getProductoDisponible() >= cantidadVendida) {
+                inventarioProducto.setProductoDisponible(inventarioProducto.getProductoDisponible() - cantidadVendida);
+                em.merge(inventarioProducto); // Actualizar la entidad
+            } else {
+                throw new RuntimeException("Cantidad insuficiente en inventario para el producto con ID: " + productoId);
+            }
+
+            em.getTransaction().commit(); // Confirmar la transacción
+        } catch (Exception e) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback(); // Revertir en caso de error
+            }
+            e.printStackTrace(); // Log del error
+            throw new RuntimeException("Error al actualizar la cantidad disponible del producto", e);
+        } finally {
+            if (em != null) {
+                em.close(); // Cerrar el EntityManager
             }
         }
     }

@@ -7,6 +7,8 @@ package model;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,7 +25,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "venta")
 @XmlRootElement
 public class Venta {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
@@ -42,7 +46,6 @@ public class Venta {
     private Sucursal sucursal;
 
     // Getters y setters
-
     public int getId() {
         return id;
     }
@@ -82,6 +85,5 @@ public class Venta {
     public void setSucursal(Sucursal sucursal) {
         this.sucursal = sucursal;
     }
-    
-}
 
+}

@@ -4,9 +4,15 @@
  */
 package service;
 
+import dao.InventarioDao;
 import dao.VentaDAO;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Stateless;
+import model.Empleado;
+import model.Producto;
+import model.Sucursal;
+import model.Venta;
 
 /**
  * Clase de servicio para gestionar las operaciones relacionadas con ventas.
@@ -18,7 +24,7 @@ import javax.ejb.Stateless;
 public class VentaService {
 
     private final VentaDAO ventaDAO;
-
+ private InventarioDao inventarioDao = new InventarioDao();
     /**
      * Constructor de VentaService. Inicializa el DAO de ventas.
      */
@@ -73,4 +79,18 @@ public class VentaService {
         return ventaDAO.obtenerProductosVendidosPorVenta(ventaId);
     }
 
+    public void crearVenta(Empleado empleado, Sucursal sucursal, Map<Producto, float[]> productosConDetalles, Float descuento) {
+         ventaDAO.crearVenta(empleado, sucursal, productosConDetalles, descuento);
+           productosConDetalles.forEach((producto, detalles) -> {
+        if (detalles != null && detalles.length > 0) {
+            int sucursalId = sucursal.getId(); // Obtener el ID de la sucursal
+            int productoId = producto.getId(); // Obtener el ID del producto
+            int cantidadVendida = Math.round(detalles[0]); // Asumimos que la cantidad vendida es el primer elemento
+            
+            // Llamar al método para actualizar el inventario
+            inventarioDao.actualizarCantidadDisponibleTrasVenta(sucursalId, productoId, cantidadVendida);
+        }
+    });
+
+    }
 }
