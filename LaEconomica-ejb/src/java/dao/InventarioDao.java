@@ -265,7 +265,7 @@ public class InventarioDao {
      * @param productoId Identificador del producto vendido.
      * @param cantidadVendida Cantidad vendida del producto.
      */
-    public void actualizarCantidadDisponibleTrasVenta(int sucursalId, int productoId, int cantidadVendida) {
+    public InventarioProducto actualizarCantidadDisponibleTrasVenta(int sucursalId, int productoId, int cantidadVendida) {
         EntityManager em = null;
         try {
             em = DatabaseProxy.getEntityManager();
@@ -289,6 +289,7 @@ public class InventarioDao {
             }
 
             em.getTransaction().commit(); // Confirmar la transacción
+            return inventarioProducto; // Retornar la instancia actualizada
         } catch (Exception e) {
             if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback(); // Revertir en caso de error
@@ -303,7 +304,7 @@ public class InventarioDao {
     }
 
     @Transactional
-   public void crear(Inventario inventario) {
+    public void crear(Inventario inventario) {
         EntityManager em = DatabaseProxy.getEntityManager();
         EntityTransaction transaction = null;
 

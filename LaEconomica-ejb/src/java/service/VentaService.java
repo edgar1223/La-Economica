@@ -9,7 +9,10 @@ import dao.VentaDAO;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import model.Empleado;
+import model.InventarioProducto;
 import model.Producto;
 import model.Sucursal;
 import model.Venta;
@@ -24,7 +27,8 @@ import model.Venta;
 public class VentaService {
 
     private final VentaDAO ventaDAO;
- private InventarioDao inventarioDao = new InventarioDao();
+    private InventarioDao inventarioDao = new InventarioDao();
+
     /**
      * Constructor de VentaService. Inicializa el DAO de ventas.
      */
@@ -80,17 +84,27 @@ public class VentaService {
     }
 
     public void crearVenta(Empleado empleado, Sucursal sucursal, Map<Producto, float[]> productosConDetalles, Float descuento) {
-         ventaDAO.crearVenta(empleado, sucursal, productosConDetalles, descuento);
-           productosConDetalles.forEach((producto, detalles) -> {
-        if (detalles != null && detalles.length > 0) {
-            int sucursalId = sucursal.getId(); // Obtener el ID de la sucursal
-            int productoId = producto.getId(); // Obtener el ID del producto
-            int cantidadVendida = Math.round(detalles[0]); // Asumimos que la cantidad vendida es el primer elemento
-            
-            // Llamar al método para actualizar el inventario
-            inventarioDao.actualizarCantidadDisponibleTrasVenta(sucursalId, productoId, cantidadVendida);
-        }
-    });
+        ventaDAO.crearVenta(empleado, sucursal, productosConDetalles, descuento);
+        productosConDetalles.forEach((producto, detalles) -> {
+            if (detalles != null && detalles.length > 0) {
+                int sucursalId = sucursal.getId(); // Obtener el ID de la sucursal
+                int productoId = producto.getId(); // Obtener el ID del producto
+                int cantidadVendida = Math.round(detalles[0]); // Asumimos que la cantidad vendida es el primer elemento
+
+                // Llamar al método para actualizar el inventario
+                InventarioProducto in = inventarioDao.actualizarCantidadDisponibleTrasVenta(sucursalId, productoId, cantidadVendida);
+                if (in.getProductoDisponible() <= in.getCantidadMinima()) {
+                    if(in.getProductoDisponible()==0)
+                    {
+                         FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia: El stock del producto'"+producto.getNombre()+"' es 0", null));
+                    }else{
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia: El stock del producto'"+producto.getNombre()+"' es bajo", null));
+                    }
+                }
+            }
+        });
 
     }
 }

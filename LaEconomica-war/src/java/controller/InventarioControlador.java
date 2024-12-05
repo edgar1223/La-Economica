@@ -127,7 +127,17 @@ public class InventarioControlador implements Serializable {
      * @param minima Nivel mínimo requerido.
      * @return Clase CSS (vacía o "warning-style").
      */
-    public String obtenerClaseCantidad(int disponible, int minima) {
+    public String obtenerClaseCantidad(int disponible, int minima, String nombre) {
+           if (disponible <= minima) {
+                    if(disponible==0)
+                    {
+                         FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia: El stock del producto'"+nombre+"' es 0", null));
+                    }else{
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia: El stock del producto'"+nombre+"' es bajo", null));
+                    }
+                }
         return disponible <= minima ? "warning-style" : "";
     }
 
