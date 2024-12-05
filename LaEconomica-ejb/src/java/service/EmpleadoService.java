@@ -42,7 +42,7 @@ public class EmpleadoService {
      */
     public void agregarEmpleado(Empleado empleado) {
         // Validar que el password no sea nulo o vacío
-        System.out.print("enttro a servicios agregar usuarios "+empleado.getPassword());
+        System.out.print("enttro a servicios agregar usuarios " + empleado.getPassword());
         if (empleado.getPassword() != null && !empleado.getPassword().isEmpty()) {
             // Encriptar el password
             String hashedPassword = BCrypt.hashpw(empleado.getPassword(), BCrypt.gensalt());
@@ -196,33 +196,18 @@ public class EmpleadoService {
     }
 
     public Empleado login(String nombre, String password) {
-        System.out.println("entro al login service");
-
         if (nombre == null || password == null || nombre.isEmpty() || password.isEmpty()) {
             throw new IllegalArgumentException("El usuario y la contraseña no pueden estar vacíos.");
         }
 
-        // Buscar el empleado por nombre
-        List<Empleado> empleadoLogeado = empleadoDAO.findByNombre(nombre);
-        Empleado emple=new Empleado();
-        System.out.println("Entró al login: " + empleadoLogeado);
-
-// Verifica si la lista no está vacía
-        if (empleadoLogeado != null && !empleadoLogeado.isEmpty()) {
-            // Itera sobre la lista
-            for (Empleado em : empleadoLogeado) {
-                // Verifica si la contraseña ingresada coincide con el hash almacenado
-                if (BCrypt.checkpw(password, em.getPassword())) {
-                    System.out.println("Usuario autenticado: " + em);
-                    emple=em;
-                    // Aquí puedes retornar el usuario o ejecutar lógica adicional
-                } else {
-                    System.out.println("Contraseña incorrecta para el usuario: " + em.getNombre());
+        List<Empleado> empleados = empleadoDAO.findByNombre(nombre);
+        if (empleados != null && !empleados.isEmpty()) {
+            for (Empleado empleado : empleados) {
+                if (BCrypt.checkpw(password, empleado.getPassword())) {
+                    return empleado; // Retornar el empleado autenticado
                 }
             }
-        } else {
-            System.out.println("No se encontraron empleados con el nombre: " + nombre);
         }
-        return emple;
+        return null; // Credenciales incorrectas
     }
 }

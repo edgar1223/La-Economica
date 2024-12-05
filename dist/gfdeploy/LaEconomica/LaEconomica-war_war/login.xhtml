@@ -5,28 +5,29 @@
     <h:head>
         <title>Login</title>
         <link rel="stylesheet" type="text/css" href="styles/login.css" />
-
+    <link rel="icon" type="image/png" href="images/LogoI.webp" />
     </h:head>
     <h:body>
         <div class="login-container">
             <h:form>
                 <p:panel header="Inicio de Sesión" styleClass="login-panel">
                     <h1 class="login-title">Inicia Sesión</h1>
-                    <p:messages closable="true" />
+                    <p:messages id="messages" closable="true" showDetail="true" />
 
                     <div class="form-group">
-                        <p:inputText id="nombre" value="#{loginController.nombre}" label="Usuario" 
+                        <p:inputText id="nombre" value="#{loginController.nombre}" 
                                      placeholder="Usuario" styleClass="form-input" />
                     </div>
                     <div class="form-group">
-                        <p:password id="password" value="#{loginController.password}" label="Contraseña" 
+                        <p:password id="password" value="#{loginController.password}" 
                                     placeholder="Contraseña" styleClass="form-input" />
                     </div>
 
                     <div class="btn-container">
-                        <p:commandButton value="Iniciar Sesión" action="Empleado" 
+                        <p:commandButton value="Iniciar Sesión" 
+                                         action="#{loginController.irPagina}" 
                                          actionListener="#{loginController.login}" 
-                                         styleClass="btn btn-login" />
+                                         styleClass="btn btn-login"  update="@form"/>
                     </div>
                 </p:panel>
             </h:form>

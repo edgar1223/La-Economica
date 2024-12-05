@@ -28,37 +28,40 @@
                             <p:outputLabel for="cantidad" value="Cantidad:" />
                             <p:inputText id="cantidad" value="#{ventaController.cantidad}" />
                         </div>
-                        <p:commandButton value="Agregar" action="#{ventaController.verificar}" update="messages productosTable" styleClass="btn btn-primary" />
+                        <p:commandButton value="Agregar" action="#{ventaController.verificar}" update="messages :ListaProductos:productosTable" styleClass="btn btn-primary" />
                     </h:form>
                 </div>
 
                 <!-- Columna 2: Tabla -->
                 <div class="grid-column">
                     <h2>Productos en Inventario</h2>
-                    <p:dataTable id="productosTable" value="#{ventaController.productosConCantidad}" var="entry" styleClass="table">
-                        <p:column headerText="ID">
-                            <h:outputText value="#{entry.key.id}" />
-                        </p:column>
-                        <p:column headerText="Nombre">
-                            <h:outputText value="#{entry.key.nombre}" />
-                        </p:column>
-                        <p:column headerText="Precio Unitario">
-                            <h:outputText value="#{entry.key.precio}" />
-                        </p:column>
-                        <p:column headerText="Cantidad">
-                            <h:outputText value="#{entry.value}" />
-                        </p:column>
-                        <p:column headerText="Total">
-                            <h:outputText value="#{ventaController.total(entry.key.precio,entry.value)}" />
-                        </p:column>
-                        <p:column headerText="Total Compra" footerText="Total de la Compra: #{ventaController.totalCompra}">
-                            <h:outputText value="#{ventaController.calcularTotalCompra()}" />
-                        </p:column>
-                    </p:dataTable>
-                    <p:commandButton value="Crear Venta" action="#{ventaController.generarVenta}" update="messages productosTable" styleClass="btn btn-success" >
-                        <p:dataExporter type="xls" target="productosTable" fileName="Venta Realizada" encoding="ISO-8859-1" />
+                    <h:form id="ListaProductos">
+                        <p:messages id="messagesForm" closable="true" />
+                        <p:dataTable id="productosTable" value="#{ventaController.productosConCantidad}" var="entry" styleClass="table">
+                            <p:column headerText="ID">
+                                <h:outputText value="#{entry.key.id}" />
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{entry.key.nombre}" />
+                            </p:column>
+                            <p:column headerText="Precio Unitario">
+                                <h:outputText value="#{entry.key.precio}" />
+                            </p:column>
+                            <p:column headerText="Cantidad">
+                                <h:outputText value="#{entry.value}" />
+                            </p:column>
+                            <p:column headerText="Total">
+                                <h:outputText value="#{ventaController.total(entry.key.precio,entry.value)}" />
+                            </p:column>
+                            <p:column headerText="Total Compra" footerText="Total de la Compra: #{ventaController.totalCompra}">
+                                <h:outputText value="#{ventaController.calcularTotalCompra()}" />
+                            </p:column>
+                        </p:dataTable>
+                        <p:commandButton value="Crear Venta" action="#{ventaController.generarVenta}" update="productosTable messagesForm" styleClass="btn btn-success" >
+                            <p:dataExporter type="xls" target="productosTable" fileName="Venta Realizada" encoding="ISO-8859-1" />
 
-                    </p:commandButton>
+                        </p:commandButton>
+                    </h:form>
                 </div>
             </div>
         </div>

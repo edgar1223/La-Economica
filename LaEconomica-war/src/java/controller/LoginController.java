@@ -7,6 +7,7 @@ package controller;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import model.Empleado;
@@ -20,37 +21,39 @@ import service.EmpleadoService;
 @SessionScoped
 public class LoginController implements Serializable {
 
-     private String nombre;
+    private String nombre;
     private String password;
     private Empleado empleadoLogueado;
-
-    
-    private EmpleadoService empleadoService;
+    private String ruta = "Inventario";
+    private EmpleadoService empleadoService = new EmpleadoService();
 
     public String login() {
-        empleadoService=new EmpleadoService();
-        System.out.println("entro al login");
+        System.out.println("entro");
         try {
             empleadoLogueado = empleadoService.login(nombre, password);
-      //  System.out.println(empleadoLogueado.getSucursal_id());
+            System.out.println("entro2");
 
-            // Guardar el empleado en la sesión
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
+            if (empleadoLogueado == null) {
+                ruta = "login";
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Usuario o contraseña incorrectos."));
+                return null; // Permanecer en la misma página
+            }
+
+            // Guardar en sesión
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                    .getExternalContext().getSession(true);
             session.setAttribute("empleadoLogueado", empleadoLogueado);
-
-            return "home.xhtml?faces-redirect=true"; // Redirigir a la página principal
+            ruta = "Inventario";
+            return "home.xhtml?faces-redirect=true"; // Redirigir al home
         } catch (IllegalArgumentException e) {
-                    System.out.println("error en el login"+e.getMessage());
-
             FacesContext.getCurrentInstance().addMessage(null,
-                new javax.faces.application.FacesMessage(e.getMessage()));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
             return null; // Permanecer en la página de login
         }
     }
 
-    // Getters y setters
-
+    // Getters y Setters
     public String getNombre() {
         return nombre;
     }
@@ -71,16 +74,15 @@ public class LoginController implements Serializable {
         return empleadoLogueado;
     }
 
-    public void setEmpleadoLogueado(Empleado empleadoLogueado) {
-        this.empleadoLogueado = empleadoLogueado;
+    public String getRuta() {
+        return ruta;
     }
 
-    public EmpleadoService getEmpleadoService() {
-        return empleadoService;
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
     }
 
-    public void setEmpleadoService(EmpleadoService empleadoService) {
-        this.empleadoService = empleadoService;
+    public String irPagina() {
+        return ruta;
     }
-    
 }

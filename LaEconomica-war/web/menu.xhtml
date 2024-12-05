@@ -16,8 +16,8 @@
             <p:submenu label="Empleado" icon="pi pi-fw pi-users">
                 <p:column>
                     <p:submenu >
-                        <p:menuitem value="Ver Empleados" outcome="Empleado" icon="pi pi-fw pi-eye" />
-                        <p:menuitem value="Agregar Empleado"  action="agregarEmpleado"  actionListener="#{empleadoController.EliminarEmpleadoCargado()}" icon="pi pi-fw pi-plus" />
+                        <p:menuitem value="Ver Empleados" outcome="Empleado" icon="pi pi-fw pi-id-card" />
+                        <p:menuitem value="Agregar Empleado"  action="agregarEmpleado"  actionListener="#{empleadoController.EliminarEmpleadoCargado()}" icon="pi pi-fw pi-user-plus" />
 
                     </p:submenu>
 
@@ -26,10 +26,10 @@
 
             </p:submenu>
 
-            <p:submenu label="Productos"  icon="pi pi-fw pi-box">
+            <p:submenu label="Productos"  icon="pi pi-fw pi-briefcase">
                 <p:column>
                     <p:submenu >
-                        <p:menuitem value="Ver Producto" outcome="Producto" icon="pi pi-fw pi-eye" />
+                        <p:menuitem value="Ver Producto" outcome="Producto" icon="pi pi-fw pi-search" />
                         <p:menuitem value="Agregar Producto"  action="AgregarProducto" 
                                     actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-plus" />
 
@@ -38,12 +38,12 @@
                 </p:column>
             </p:submenu>
 
-            <p:submenu label="Inventario" icon="pi pi-fw pi-box">
+            <p:submenu label="Inventario" icon="pi pi-fw pi-th-large">
                 <p:column>
                     <p:submenu >
-                        <p:menuitem value="Ver Inventario" outcome="Inventario" icon="pi pi-fw pi-eye" />
+                        <p:menuitem value="Ver Inventario" outcome="Inventario" icon="pi pi-fw pi-list" />
                         <p:menuitem value="Agregar Producto"  action="AgregarInventarioProducto" 
-                                    actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-plus-circle" />
+                                    actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-upload" />
 
                     </p:submenu>
 
@@ -54,10 +54,10 @@
                 <p:column>
                     <p:submenu >
                         <p:menuitem value="Venta"  action="HacerVenta" 
-                                    icon="pi pi-fw pi-file" />
+                                    icon="pi pi-fw pi-shopping-bag" />
 
                         <p:menuitem value="Historial de Venta"  action="HistorialVetna" 
-                                    actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-file" />
+                                    actionListener="#{productoController.ElimnarProductoCargado()}" icon="pi pi-fw pi-calendar" />
 
                     </p:submenu>
 
@@ -65,7 +65,19 @@
 
 
             </p:submenu>
+            <p:submenu label="sucursal" icon="pi pi-fw pi-building">
+                <p:column>
+                    <p:submenu >
+                        <p:menuitem value="Sucursal"  action="sucursal" 
+                                    icon="pi pi-fw pi-map-marker" />
 
+                    </p:submenu>
+
+
+                </p:column>
+
+
+            </p:submenu>
 
         </p:megaMenu>
     </h:form>

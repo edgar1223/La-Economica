@@ -4,6 +4,7 @@
  */
 package model;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,6 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Sucursal {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false, length = 100)
@@ -38,11 +41,11 @@ public class Sucursal {
     @Column(nullable = false)
     private int inventario;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private int ventas;
 
-    @ManyToOne
-    @JoinColumn(name = "Inventarioid")
+     @OneToOne(cascade = CascadeType.PERSIST) // Propaga la operación persist
+    @JoinColumn(name = "Inventarioid", referencedColumnName = "id")
     private Inventario inventarioSucursal;
 
     // Getters y setters

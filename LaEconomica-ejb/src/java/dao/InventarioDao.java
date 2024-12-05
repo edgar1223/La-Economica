@@ -6,6 +6,8 @@ package dao;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.transaction.Transactional;
 import model.Inventario;
 import model.InventarioProducto;
 import model.Producto;
@@ -300,4 +302,34 @@ public class InventarioDao {
         }
     }
 
+    @Transactional
+   public void crear(Inventario inventario) {
+        EntityManager em = DatabaseProxy.getEntityManager();
+        EntityTransaction transaction = null;
+
+        try {
+            // Iniciar transacción
+            transaction = em.getTransaction();
+            transaction.begin();
+
+            // Persistir el inventario
+            em.persist(inventario);
+
+            // Confirmar transacción
+            transaction.commit();
+            System.out.println("Inventario insertado correctamente.");
+        } catch (Exception e) {
+            // Si hay un error, revertir la transacción
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+            System.err.println("Error al insertar el inventario: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            // Cerrar el EntityManager
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
 }

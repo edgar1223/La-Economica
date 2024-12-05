@@ -1,0 +1,135 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>Sucursales</title>
+        <link rel="stylesheet" type="text/css" href="styles/sucursal.css" />
+        <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+    </h:head>
+    <h:body>
+        <div class="menu-banner">
+            <ui:include src="/menu.xhtml" />
+        </div>
+        <div class="container">
+            <div class=" container2">
+                <f:view>
+
+                    <p:messages id="messages" closable="true" showDetail="true" />
+                    <h:form id="tablaSucursal">
+                        <h2><h:outputText value="Lista de Sucursales"/></h2>
+                        <h:panelGroup styleClass="botones-container">
+                            <p:commandButton 
+                                value="Agregar Sucursal" 
+                                action="AgregarSucursal" 
+                                actionListener="#{sucursalController.eliminarSucursalCargado()}" 
+                                styleClass="btn btn-agregar-empleado" 
+                                />
+
+                            <h:commandLink id="reportXls" styleClass="btn btn-exportar">
+                                <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
+                                <span>Exportar Excel</span>
+                                <p:dataExporter type="xls" target="tablaSucursales" fileName="Sucursales" encoding="ISO-8859-1" />
+                            </h:commandLink>
+                        </h:panelGroup>
+                        <p:dataTable id="tablaSucursales" value="#{sucursalController.sucursales}" var="item" paginator="true" rows="10" >
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Id"/>
+                                </f:facet>
+                                <h:outputText value="#{item.id}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Descripcion"/>
+                                </f:facet>
+                                <h:outputText value="#{item.descripcion}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Domicilio"/>
+                                </f:facet>
+                                <h:outputText value="#{item.domicilio}"/>
+                            </p:column>
+                            <p:column headerText="Acciones" exportable="false">
+                                <div class="acciones">
+                                    <p:commandButton icon="pi pi-eye" title="Ver"
+                                                     action="SucursalDetalle"
+                                                     actionListener="#{sucursalController.cargarDatosSucursal(item.id)}" />
+                                    <p:commandButton icon="pi pi-pencil" styleClass="edit-button"
+                                                     title="Editar" process="@this"
+                                                     update=":dialogs:editDialogContent"
+                                                     oncomplete="PF('editDialog').show()">
+                                        <f:setPropertyActionListener value="#{item}" target="#{sucursalController.sucursal}" />
+                                    </p:commandButton>
+                                    
+                                     <p:commandButton 
+                                        icon="pi pi-trash" 
+                                        title="Eliminar" 
+                                        actionListener="#{sucursalController.eliminarSucursal(item.id)}"
+                                        update=":tablaSucursal:tablaSucursales, :messages" 
+                                        process="@this"
+                                        />
+                                </div>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </f:view>
+            </div></div>
+
+        <h:form id="dialogs">
+            <p:dialog id="editDialog" header="Editar Sucursal #{sucursalController.sucursal.descripcion}" widgetVar="editDialog"
+                      modal="true" resizable="false" width="50%" styleClass="dialog-container">
+                <p:outputPanel id="editDialogContent" styleClass="ui-fluid">
+                    <p:outputPanel rendered="#{not empty sucursalController.sucursal}">
+                        <p:messages id="messages" closable="true" />
+
+                        <div class="form-grid">
+                            <div>
+                                <p:outputLabel for="id" value="ID" />
+                                <p:inputText id="id" value="#{sucursalController.sucursal.id}" required="true" readonly="true" />
+                                <h:inputHidden id="claveHidden" value="#{sucursalController.sucursal.id}" />
+
+
+                                <p:outputLabel for="descripcion" value="Nombre:" />
+                                <p:inputText id="descripcion" value="#{sucursalController.sucursal.descripcion}" required="true" />
+
+                                <p:outputLabel for="domicilio" value="domicilio:" />
+                                <p:inputText id="domicilio" value="#{sucursalController.sucursal.domicilio}" required="true" />
+
+
+
+
+                            </div>
+                            <div>
+                                <p:outputLabel for="empleados" value="Empleado" />
+                                <p:inputText id="empleados" value="#{sucursalController.sucursal.empleados}" required="true" readonly="true" />
+                                <h:inputHidden id="empleadosHidden" value="#{sucursalController.sucursal.empleados}" />
+
+                                <p:outputLabel for="inventarioSucursal" value="Iventario" />
+                                <p:inputText id="inventarioSucursal" value="#{sucursalController.sucursal.inventarioSucursal.id}" required="true" readonly="true" />
+                                <h:inputHidden id="inventarioSucursalHidden" value="#{sucursalController.sucursal.inventarioSucursal.id}" />
+
+
+                            </div>
+                        </div>
+
+                        <div class="center-button">
+                            <p:commandButton value="Actualizar" 
+                                             action="#{sucursalController.actualizar()}" 
+                                             update="tablaSucursal:tablaSucursales, :messages" 
+                                             oncomplete="PF('editDialog').hide()" />
+                            <p:commandButton value="Cancelar" icon="pi pi-times"
+                                             onclick="PF('editDialog').hide()" />
+                        </div>
+
+                    </p:outputPanel>
+                </p:outputPanel>
+
+            </p:dialog>
+        </h:form>
+
+    </h:body>
+</html>
