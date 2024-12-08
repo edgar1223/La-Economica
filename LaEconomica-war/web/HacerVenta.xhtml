@@ -26,7 +26,7 @@
                         </div>
                         <div class="form-group">
                             <p:outputLabel for="cantidad" value="Cantidad:" />
-                            <p:inputText id="cantidad" value="#{ventaController.cantidad}" />
+                            <p:inputText id="cantidad" value="#{ventaController.cantidad}" validator="#{ventaController.vCantidad}" />
                         </div>
                         <p:commandButton value="Agregar" action="#{ventaController.verificar}" update="messages :ListaProductos:productosTable" styleClass="btn btn-primary" />
                     </h:form>
@@ -56,7 +56,17 @@
                             <p:column headerText="Total Compra" footerText="Total de la Compra: #{ventaController.totalCompra}">
                                 <h:outputText value="#{ventaController.calcularTotalCompra()}" />
                             </p:column>
+                            <p:column headerText="Cambio" footerText="Cambio: #{ventaController.cambio}">
+
+                            </p:column>
+                            <p:column headerText="Atendido Por" footerText="Atendido Por: #{loginController.empleadoLogueado.nombre}">
+
+                            </p:column>
                         </p:dataTable>
+                        <h:outputLabel for="dineroRecibido" value="Dinero Recibido:" />
+                        <p:inputText id="dineroRecibido" value="#{ventaController.dineroRecibido}" >
+                            <p:ajax event="keyup" listener="#{ventaController.procesarPago}" update="productosTable messagesForm"/>
+                        </p:inputText>
                         <p:commandButton value="Crear Venta" action="#{ventaController.generarVenta}" update="productosTable messagesForm" styleClass="btn btn-success" >
                             <p:dataExporter type="xls" target="productosTable" fileName="Venta Realizada" encoding="ISO-8859-1" />
 
@@ -65,6 +75,6 @@
                 </div>
             </div>
         </div>
-        
+
     </h:body>
 </html>

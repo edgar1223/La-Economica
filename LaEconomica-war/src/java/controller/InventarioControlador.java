@@ -5,7 +5,9 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.servlet.http.HttpSession;
 import model.Empleado;
 import model.InventarioProducto;
@@ -97,7 +99,16 @@ public class InventarioControlador implements Serializable {
         }
         return productosDisponibles;
     }
+ public void vProducto(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        int datovp = (int) value;
 
+        if (datovp <= 0) {
+            // Add a validation error message
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error Producto no valido", "Producto no valido");
+            throw new ValidatorException(message);
+        }
+    }
     /**
      * Registra un nuevo producto en el inventario de la sucursal actual.
      * Muestra un mensaje según el éxito o fallo de la operación.

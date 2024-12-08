@@ -16,11 +16,11 @@
 
                     <div class="form-group">
                         <p:inputText id="nombre" value="#{loginController.nombre}" 
-                                     placeholder="Usuario" styleClass="form-input" />
+                                     placeholder="Usuario" styleClass="form-input" required="true" requiredMessage="Usuario requerido" />
                     </div>
                     <div class="form-group">
                         <p:password id="password" value="#{loginController.password}" 
-                                    placeholder="Contraseña" styleClass="form-input" />
+                                    placeholder="Contraseña" styleClass="form-input" required="true" requiredMessage="password requerida"/>
                     </div>
 
                     <div class="btn-container">

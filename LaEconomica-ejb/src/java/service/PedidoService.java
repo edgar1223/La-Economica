@@ -52,4 +52,11 @@ public class PedidoService {
         });
 
     }
+     public HashMap<Pedido, PedidoProducto> obtenerPedidosConProductos(){
+         System.out.print("entro lista");
+         return pedidoDAO.obtenerPedidosConProductos();
+     }
+     public boolean actualizarEstadoPedido(int id){
+     return pedidoDAO.actualizarEstadoPedido(id, "Surtido");
+     }
 }

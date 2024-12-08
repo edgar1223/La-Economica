@@ -4,6 +4,9 @@
  */
 package dao;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import model.Pedido;
 import model.PedidoProducto;
 import model.Sucursal;
@@ -47,6 +50,28 @@ public class PedidoDAO {
         } finally {
             em.close();
         }
+    }
+
+    public HashMap<Pedido, PedidoProducto> obtenerPedidosConProductos() {
+        EntityManager em = DatabaseProxy.getEntityManager();
+        HashMap<Pedido, PedidoProducto> resultado = new HashMap<>();
+
+        try {
+            // Consulta para obtener los datos de Pedido y PedidoProducto
+            String jpql = "SELECT pp FROM PedidoProducto pp JOIN FETCH pp.pedido";
+            List<PedidoProducto> pedidoProductos = em.createQuery(jpql, PedidoProducto.class).getResultList();
+
+            // Construir el HashMap con los resultados
+            for (PedidoProducto pedidoProducto : pedidoProductos) {
+                resultado.put(pedidoProducto.getPedido(), pedidoProducto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+
+        return resultado;
     }
 
     /**
@@ -158,4 +183,31 @@ public class PedidoDAO {
         EntityManager em = DatabaseProxy.getEntityManager();
         return em.find(Pedido.class, id);
     }
+
+    public boolean actualizarEstadoPedido(int pedidoId, String nuevoEstado) {
+        EntityManager em = DatabaseProxy.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            Pedido pedido = em.find(Pedido.class, pedidoId);
+            if (pedido != null) {
+                pedido.setEstado(nuevoEstado); // Cambiar el estado del pedido
+                em.merge(pedido); // Persistir el cambio
+                tx.commit();
+                return true; // Retorna true si se actualizó correctamente
+            } else {
+                tx.rollback();
+                return false; // Retorna false si no se encontró el pedido
+            }
+        } catch (Exception e) {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+            return false; // Retorna false si ocurrió un error
+        } finally {
+            em.close();
+        }
+    }
+
 }

@@ -100,3 +100,59 @@ body {
     text-align: left;
     padding: 10px;
 }
+
+.acciones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 10px; /* Espaciado entre los botones */
+    justify-items: center; /* Centrar horizontalmente */
+    align-items: center; /* Alinear verticalmente */
+    padding: 10px; /* Espaciado interno */
+}
+
+/* Estilo general para los botones */
+.acciones .ui-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Botón ocupa todo el espacio de la celda */
+    font-size: 14px; /* Tamaño de fuente */
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    padding: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.acciones .ui-button:hover {
+    transform: scale(1.05); /* Efecto al pasar el mouse */
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Íconos de los botones */
+.acciones .ui-button .pi {
+    font-size: 18px;
+}
+
+/* Colores específicos por acción */
+.acciones .btn-calcular-salario {
+    background-color: #6c757d; /* Gris oscuro */
+}
+
+.acciones .ui-button.pi-dollar {
+    background-color: #28a745; /* Verde */
+}
+
+.acciones .ui-button.pi-pencil {
+    background-color: #ffc107; /* Amarillo */
+    color: black;
+}
+
+.acciones .ui-button.pi-eye {
+    background-color: #007bff; /* Azul */
+}
+
+.acciones .ui-button.pi-trash {
+    background-color: #dc3545; /* Rojo */
+}

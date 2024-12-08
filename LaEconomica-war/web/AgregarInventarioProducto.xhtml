@@ -28,8 +28,8 @@
                         <p:inputText id="sucursalId" value="#{inventarioControlador.sucursalId}" readonly="true" class="form-control" />
 
                         <p:outputLabel for="productoId" value="Producto:" />
-                        <p:selectOneMenu id="productoId" value="#{inventarioControlador.productoId}" class="form-control">
-                            <f:selectItem itemLabel="Seleccione un producto" itemValue="" />
+                        <p:selectOneMenu id="productoId" value="#{inventarioControlador.productoId}" class="form-control" validator="#{inventarioControlador.vProducto}">
+                            <f:selectItem itemLabel="Seleccione un producto" itemValue="0" />
                             <f:selectItems value="#{inventarioControlador.productosNoEnInventario}" 
                                            var="producto" 
                                            itemLabel="#{producto.nombre}" 

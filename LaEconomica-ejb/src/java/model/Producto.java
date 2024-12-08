@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -26,7 +27,8 @@ public class Producto {
 
     @Column(nullable = false, length = 100)
     private String nombre;
-
+    
+    @DecimalMin(value = "0.1", inclusive = false, message = "El precio debe ser mayor a 0.0")
     @Column(nullable = false)
     private float precio;
 

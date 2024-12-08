@@ -16,6 +16,7 @@
             <ui:include src="/menu.xhtml" />
         </div>
         <div class="container">
+             <h2>Hacer nuevo pedido</h2>
             <div class="form-container">
                  <p:growl id="growl" showDetail="true" />
                 <h:form>
@@ -39,7 +40,9 @@
                         <p:panel header="Agregar Productos al Pedido" rendered="#{pedidoControlller.pedidoCreado}" styleClass="custom-panel panel-right">
                             <p:panelGrid columns="2" styleClass="form-grid">
                                 <p:outputLabel value="Producto:" for="producto" />
-                                <p:selectOneMenu id="producto" value="#{pedidoControlller.idProducto}">
+                                <p:selectOneMenu id="producto" value="#{pedidoControlller.idProducto}"  required="true" 
+                                                 requiredMessage="Selecciona un producto."
+                                                  validator="#{pedidoControlller.vProducto}">
                                     <f:selectItem itemLabel="Seleccione una opción" itemValue="" />
                                     <f:selectItems value="#{pedidoControlller.producto}" 
                                                    var="producto" 
@@ -50,7 +53,7 @@
                                 <p:outputLabel value="Cantidad:" for="cantidadPedido" />
                                 <p:inputText id="cantidadPedido" 
                                              value="#{pedidoControlller.cantidad}" 
-                                             required="true"
+                                             required="true" validator="#{pedidoControlller.vCantidad}"
                                              requiredMessage="La cantidad es requerida." />
                             </p:panelGrid>
                             <p:commandButton value="Agregar Producto" 
