@@ -6,6 +6,7 @@ package model;
 
 import java.util.Date;
 import javax.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "pagos")
@@ -32,10 +33,10 @@ public class Pago {
 
     @ManyToOne
     @JoinColumn(name = "empleado_clave", nullable = false)
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private Empleado empleado;
 
     // Getters y Setters
-
     public Integer getId() {
         return id;
     }

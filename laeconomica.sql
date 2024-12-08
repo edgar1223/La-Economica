@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-12-2024 a las 08:29:31
+-- Tiempo de generación: 08-12-2024 a las 06:19:53
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -47,7 +47,7 @@ CREATE TABLE `empleado` (
 --
 
 INSERT INTO `empleado` (`clave`, `nombre`, `apellido_paterno`, `apellido_materno`, `edad`, `domicilio`, `telefono`, `jornada`, `sucursal_id`, `sueldo`, `jornada_laboral`, `password`) VALUES
-(1, 'ejemplo ', 'ejemploactualizado', 'ejemplo', 33, 'ejemplo', 951453617, 'ejemplo', 1, 666, '2024-11-08', 'ejemplo '),
+(1, 'ejemplo 55', 'ejemploactualizado', 'ejemplo', 33, 'ejemplo', 951453617, 'ejemplo', 1, 666, '2024-11-08', 'ejemplo '),
 (2, 'Juan pedro ', 'pedro ', 'López', 28, 'Av. Siempre Viva 123', 951111111, 'Completa', 1, 999, '2024-11-10', NULL),
 (3, 'Ana', 'García', 'Santos', 35, 'Calle Primavera 45', 951222222, 'Parcial', 1, 35, '2024-11-11', NULL),
 (4, 'Luis felipe pge', 'Hernández', 'Martínez', 40, 'Calle Luna 7', 951333333, 'Completa', 1, 555, '2024-11-12', NULL),
@@ -107,6 +107,7 @@ CREATE TABLE `inventario` (
 --
 
 INSERT INTO `inventario` (`id`, `nombre`) VALUES
+(0, 'edd'),
 (1, 'ejemplo'),
 (2, 'Inventario Sucursal Norte'),
 (3, 'Inventario Sucursal Sur'),
@@ -121,7 +122,13 @@ INSERT INTO `inventario` (`id`, `nombre`) VALUES
 (12, 'Inventario General 2'),
 (13, 'Inventario Zona Oeste'),
 (14, 'Inventario Zona Este'),
-(15, 'Inventario Productos Perecederos');
+(15, 'Inventario Productos Perecederos'),
+(37, 'ddd'),
+(38, 'ddd'),
+(39, 'sss'),
+(40, 'sss'),
+(41, 'sss'),
+(42, 'sss');
 
 -- --------------------------------------------------------
 
@@ -141,13 +148,13 @@ CREATE TABLE `inventario_producto` (
 --
 
 INSERT INTO `inventario_producto` (`Inventarioid`, `Productoid`, `producto_disponible`, `cantida_minima`) VALUES
-(1, 5, 0, 5),
-(1, 6, 5, 5),
-(1, 7, 102, 3),
+(1, 5, 2, 5),
+(1, 6, 1, 5),
+(1, 7, 99, 3),
 (1, 8, 198, 20),
 (1, 9, 100, 10),
 (1, 10, 500, 50),
-(1, 11, 55, 5),
+(1, 11, 53, 5),
 (1, 12, 55, 5),
 (1, 13, 44, 44),
 (1, 14, 5, 1),
@@ -211,7 +218,9 @@ INSERT INTO `pagos` (`id`, `empleado_clave`, `fecha_pago`, `total_pagado`, `fech
 (9, 2, '2024-11-24', 16983, '2024-11-23', '2024-11-15'),
 (10, 2, '2024-11-24', 16983, '2024-11-23', '2024-11-15'),
 (11, 1, '2024-11-24', 6660, '2024-11-24', '2024-11-24'),
-(12, 1, '2024-11-24', 6660, '2024-11-24', '2024-11-24');
+(12, 1, '2024-11-24', 6660, '2024-11-24', '2024-11-24'),
+(13, 1, '2024-12-04', 6660, '2024-11-24', '2024-11-24'),
+(14, 1, '2024-12-04', 6660, '2024-11-24', '2024-11-24');
 
 -- --------------------------------------------------------
 
@@ -230,7 +239,52 @@ CREATE TABLE `pedido` (
 --
 
 INSERT INTO `pedido` (`id`, `fecha_solicitud`, `estado`) VALUES
-(1, '2024-11-30', 'Pendiente');
+(1, '2024-11-30', 'Pendiente'),
+(49, '2024-12-07', 'Urgente'),
+(50, '2024-12-07', 'Normal'),
+(51, '2024-12-07', 'Normal'),
+(52, '2024-12-07', 'Urgente'),
+(53, '2024-12-07', 'Normal'),
+(54, '2024-12-07', 'Normal'),
+(55, '2024-12-07', 'Normal'),
+(56, '2024-12-07', 'Urgente'),
+(57, '2024-12-07', 'Normal'),
+(58, '2024-12-07', 'Urgente'),
+(59, '2024-12-07', 'Urgente'),
+(60, '2024-12-07', 'Normal'),
+(61, '2024-12-07', 'Urgente'),
+(62, '2024-12-07', 'Urgente'),
+(63, '2024-12-07', 'Urgente'),
+(64, '2024-12-07', 'Urgente'),
+(65, '2024-12-07', 'Normal'),
+(66, '2024-12-07', 'Normal'),
+(67, '2024-12-07', 'Urgente'),
+(68, '2024-12-07', 'Normal'),
+(69, '2024-12-07', 'Urgente'),
+(70, '2024-12-07', 'Urgente'),
+(71, '2024-12-07', 'Urgente'),
+(72, '2024-12-07', 'Urgente'),
+(73, '2024-12-07', 'Urgente'),
+(74, '2024-12-07', 'Normal'),
+(75, '2024-12-07', 'Urgente'),
+(76, '2024-12-07', 'Normal'),
+(77, '2024-12-07', 'Normal'),
+(78, '2024-12-07', 'Urgente'),
+(79, '2024-12-07', 'Urgente'),
+(80, '2024-12-07', 'Normal'),
+(81, '2024-12-07', 'Urgente'),
+(82, '2024-12-07', 'Normal'),
+(83, '2024-12-07', 'Normal'),
+(84, '2024-12-07', 'Urgente'),
+(85, '2024-12-07', 'Normal'),
+(86, '2024-12-07', 'Urgente'),
+(87, '2024-12-07', 'Normal'),
+(88, '2024-12-07', 'Urgente'),
+(89, '2024-12-07', 'Urgente'),
+(90, '2024-12-07', 'Urgente'),
+(91, '2024-12-07', 'Urgente'),
+(92, '2024-12-07', 'Urgente'),
+(93, '2024-12-07', 'Urgente');
 
 -- --------------------------------------------------------
 
@@ -249,7 +303,30 @@ CREATE TABLE `pedido_producto` (
 --
 
 INSERT INTO `pedido_producto` (`Pedidoid`, `Productoid`, `cantidad_pedido`) VALUES
-(1, 5, 55);
+(1, 5, 55),
+(63, 10, 33),
+(70, 5, 11),
+(70, 8, 22),
+(71, 6, 1),
+(71, 15, 22),
+(78, 8, 22),
+(78, 10, 0),
+(79, 8, 22),
+(79, 9, 22),
+(80, 7, 22),
+(80, 10, 55),
+(81, 7, 22),
+(81, 9, 22),
+(82, 8, 22),
+(82, 9, 22),
+(83, 9, 55),
+(83, 10, 22),
+(85, 8, 0),
+(85, 10, 88),
+(90, 10, 11),
+(92, 10, 22),
+(92, 14, 11),
+(93, 10, 11);
 
 -- --------------------------------------------------------
 
@@ -304,7 +381,8 @@ INSERT INTO `producto` (`id`, `nombre`, `precio`, `marca`, `fecha_caducidad`, `d
 (32, 'Ejemplo1223', 12, 'Ejemplo1223', '2024-11-27', 'Ejemplo1223', 'Ejemplo1223', 10, 0),
 (33, 'otro ejemplo', 122, 'das', '2024-11-28', 'dsa', 'das', 1, 0),
 (34, 'play station', 4750, 'sony', '2024-11-30', 'sas', 'sas', 5, 5000),
-(35, 'Producto ejemplo', 444, 'Producto ', '2024-11-28', 'Producto ', 'Producto ', 0, 444);
+(35, 'Producto ejemplo', 444, 'Producto ', '2024-11-28', 'Producto ', 'Producto ', 0, 444),
+(36, 'Ejemplo 2332', 12, 'ejemplo', '2024-12-05', 'Ejemplo 2332', 'Ejemplo 2332', 0, 12);
 
 -- --------------------------------------------------------
 
@@ -443,8 +521,8 @@ CREATE TABLE `sucursal` (
   `descripcion` varchar(100) NOT NULL,
   `domicilio` varchar(50) NOT NULL,
   `empleados` int(11) NOT NULL,
-  `inventario` int(11) NOT NULL,
-  `ventas` int(11) NOT NULL,
+  `inventario` int(11) DEFAULT NULL,
+  `ventas` int(11) DEFAULT NULL,
   `Inventarioid` int(11) DEFAULT NULL,
   `Empleadoclave` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -455,8 +533,9 @@ CREATE TABLE `sucursal` (
 
 INSERT INTO `sucursal` (`id`, `descripcion`, `domicilio`, `empleados`, `inventario`, `ventas`, `Inventarioid`, `Empleadoclave`) VALUES
 (0, '', '', 0, 0, 0, NULL, 1),
-(1, 'ejemplo', 'ejemplo', 1, 1, 1, 1, 1),
-(2, 'ejemplito', 'ejemplito', 1, 1, 1, 1, 1);
+(1, 'ejemplo55', 'ejemplo', 1, 1, 1, 1, 1),
+(2, 'ejemplito', 'ejemplito', 1, 1, 1, 1, 1),
+(37, 'ddd', 'ddd', 33, 0, 0, 38, NULL);
 
 -- --------------------------------------------------------
 
@@ -486,7 +565,15 @@ INSERT INTO `venta` (`id`, `empleado`, `fecha`, `descuento`, `sucursal`) VALUES
 (40, 33, '2024-12-04', 0, 1),
 (41, 33, '2024-12-04', 0, 1),
 (42, 33, '2024-12-04', 0, 1),
-(43, 33, '2024-12-04', 0, 1);
+(43, 33, '2024-12-04', 0, 1),
+(44, 33, '2024-12-04', 0, 1),
+(46, 33, '2024-12-04', 0, 1),
+(47, 33, '2024-12-05', 0, 1),
+(48, 33, '2024-12-05', 0, 1),
+(49, 33, '2024-12-05', 0, 1),
+(50, 33, '2024-12-05', 0, 1),
+(51, 33, '2024-12-05', 0, 1),
+(52, 33, '2024-12-07', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -508,14 +595,25 @@ CREATE TABLE `venta_producto` (
 INSERT INTO `venta_producto` (`Ventaid`, `Productoid`, `cantidad_vendida`, `precio_unitario`) VALUES
 (0, 5, 3, 399.6),
 (0, 7, 3, 4050),
-(1, 5, 22, 222),
+(1, 5, 51, 222),
 (2, 6, 2, 55),
 (39, 5, 3, 399.6),
 (40, 5, 3, 399.6),
 (41, 5, 1, 399.6),
 (42, 7, 13, 4050),
 (43, 7, 5, 4050),
-(43, 8, 2, 1500);
+(43, 8, 2, 1500),
+(44, 7, 2, 4050),
+(46, 7, 1, 4050),
+(47, 5, 53, 399.6),
+(48, 5, 1, 399.6),
+(49, 5, 1, 399.6),
+(49, 6, 3, -22500),
+(50, 5, 4, 399.6),
+(50, 6, 1, -22500),
+(51, 5, 1, 399.6),
+(51, 6, 1, -22500),
+(52, 11, 2, 5500);
 
 --
 -- Índices para tablas volcadas
@@ -629,16 +727,28 @@ ALTER TABLE `empleado`
   MODIFY `clave` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
+-- AUTO_INCREMENT de la tabla `inventario`
+--
+ALTER TABLE `inventario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT de la tabla `pedido`
+--
+ALTER TABLE `pedido`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT de la tabla `registro_horas`
@@ -653,10 +763,16 @@ ALTER TABLE `rol`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `sucursal`
+--
+ALTER TABLE `sucursal`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
 -- AUTO_INCREMENT de la tabla `venta`
 --
 ALTER TABLE `venta`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- Restricciones para tablas volcadas
@@ -666,67 +782,68 @@ ALTER TABLE `venta`
 -- Filtros para la tabla `empleado`
 --
 ALTER TABLE `empleado`
-  ADD CONSTRAINT `empleado_ibfk_1` FOREIGN KEY (`sucursal_id`) REFERENCES `sucursal` (`id`);
+  ADD CONSTRAINT `empleado_ibfk_1` FOREIGN KEY (`sucursal_id`) REFERENCES `sucursal` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `empleado_rol`
 --
 ALTER TABLE `empleado_rol`
-  ADD CONSTRAINT `empleado_rol_ibfk_1` FOREIGN KEY (`empleado_clave`) REFERENCES `empleado` (`clave`),
-  ADD CONSTRAINT `empleado_rol_ibfk_2` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`);
+  ADD CONSTRAINT `empleado_rol_ibfk_1` FOREIGN KEY (`empleado_clave`) REFERENCES `empleado` (`clave`) ON DELETE CASCADE,
+  ADD CONSTRAINT `empleado_rol_ibfk_2` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `inventario_producto`
 --
 ALTER TABLE `inventario_producto`
-  ADD CONSTRAINT `inventario_producto_ibfk_1` FOREIGN KEY (`Inventarioid`) REFERENCES `inventario` (`id`),
-  ADD CONSTRAINT `inventario_producto_ibfk_2` FOREIGN KEY (`Productoid`) REFERENCES `producto` (`id`);
+  ADD CONSTRAINT `inventario_producto_ibfk_1` FOREIGN KEY (`Inventarioid`) REFERENCES `inventario` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `inventario_producto_ibfk_2` FOREIGN KEY (`Productoid`) REFERENCES `producto` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `mensajeria`
 --
 ALTER TABLE `mensajeria`
-  ADD CONSTRAINT `mensajeria_ibfk_1` FOREIGN KEY (`remitente_id`) REFERENCES `empleado` (`clave`),
-  ADD CONSTRAINT `mensajeria_ibfk_2` FOREIGN KEY (`destinatario_id`) REFERENCES `empleado` (`clave`);
+  ADD CONSTRAINT `mensajeria_ibfk_1` FOREIGN KEY (`remitente_id`) REFERENCES `empleado` (`clave`) ON DELETE CASCADE,
+  ADD CONSTRAINT `mensajeria_ibfk_2` FOREIGN KEY (`destinatario_id`) REFERENCES `empleado` (`clave`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`empleado_clave`) REFERENCES `empleado` (`clave`);
+  ADD CONSTRAINT `fk_pagos_empleado` FOREIGN KEY (`empleado_clave`) REFERENCES `empleado` (`clave`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`empleado_clave`) REFERENCES `empleado` (`clave`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `pedido_producto`
 --
 ALTER TABLE `pedido_producto`
-  ADD CONSTRAINT `pedido_producto_ibfk_1` FOREIGN KEY (`Pedidoid`) REFERENCES `pedido` (`id`),
-  ADD CONSTRAINT `pedido_producto_ibfk_2` FOREIGN KEY (`Productoid`) REFERENCES `producto` (`id`);
+  ADD CONSTRAINT `pedido_producto_ibfk_1` FOREIGN KEY (`Pedidoid`) REFERENCES `pedido` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pedido_producto_ibfk_2` FOREIGN KEY (`Productoid`) REFERENCES `producto` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `registro_horas`
 --
 ALTER TABLE `registro_horas`
-  ADD CONSTRAINT `registro_horas_ibfk_1` FOREIGN KEY (`empleado_clave`) REFERENCES `empleado` (`clave`);
+  ADD CONSTRAINT `registro_horas_ibfk_1` FOREIGN KEY (`empleado_clave`) REFERENCES `empleado` (`clave`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `sucursal`
 --
 ALTER TABLE `sucursal`
-  ADD CONSTRAINT `sucursal_ibfk_1` FOREIGN KEY (`Inventarioid`) REFERENCES `inventario` (`id`);
+  ADD CONSTRAINT `sucursal_ibfk_1` FOREIGN KEY (`Inventarioid`) REFERENCES `inventario` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `venta`
 --
 ALTER TABLE `venta`
-  ADD CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`empleado`) REFERENCES `empleado` (`clave`),
-  ADD CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`sucursal`) REFERENCES `sucursal` (`id`);
+  ADD CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`empleado`) REFERENCES `empleado` (`clave`) ON DELETE CASCADE,
+  ADD CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`sucursal`) REFERENCES `sucursal` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `venta_producto`
 --
 ALTER TABLE `venta_producto`
-  ADD CONSTRAINT `venta_producto_ibfk_1` FOREIGN KEY (`Ventaid`) REFERENCES `venta` (`id`),
-  ADD CONSTRAINT `venta_producto_ibfk_2` FOREIGN KEY (`Productoid`) REFERENCES `producto` (`id`);
+  ADD CONSTRAINT `venta_producto_ibfk_1` FOREIGN KEY (`Ventaid`) REFERENCES `venta` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `venta_producto_ibfk_2` FOREIGN KEY (`Productoid`) REFERENCES `producto` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

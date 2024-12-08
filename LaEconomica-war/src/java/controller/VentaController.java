@@ -4,6 +4,7 @@
  */
 package controller;
 
+import com.sun.xml.ws.client.RequestContext;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -45,6 +46,8 @@ public class VentaController implements Serializable {
     private Sucursal sucursal;
     private InventarioService productoService = new InventarioService();
    private double totalCompra;
+   private double cantidadFinal=0;
+   private double cambio=0;
     @PostConstruct
     public void init() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -228,6 +231,22 @@ public class VentaController implements Serializable {
 
     public void setTotalCompra(double totalCompra) {
         this.totalCompra = totalCompra;
+    }
+
+    public double getCantidadFinal() {
+        return cantidadFinal;
+    }
+
+    public void setCantidadFinal(double cantidadFinal) {
+        this.cantidadFinal = cantidadFinal;
+    }
+
+    public double getCambio() {
+        return cambio;
+    }
+
+    public void setCambio(double cambio) {
+        this.cambio = cambio;
     }
 
 }

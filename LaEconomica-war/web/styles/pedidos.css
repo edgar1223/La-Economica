@@ -1,0 +1,102 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 7 dic. 2024, 13:46:40
+    Author     : Edgar
+*/
+
+/* General Body Styles */
+/* General Body Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #EAF5E5;
+    color: #333;
+}
+
+/* General Container Styles */
+.container {
+    margin: auto;
+    padding: 25px 30px;
+    max-width: 1200px;
+}
+
+.form-container {
+    margin: 20px auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+/* Panel Container Styles */
+.panel-container {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.panel-left, .panel-right {
+    flex: 1;
+}
+
+/* Panel Styles */
+.custom-panel {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* Form Grid Styles */
+.form-grid {
+    margin: 10px 0;
+    width: 100%;
+    border-spacing: 10px;
+}
+
+/* Buttons */
+.primary-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.primary-button:hover {
+    background-color: #0056b3;
+}
+
+.secondary-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.secondary-button:hover {
+    background-color: #5a6268;
+}
+
+/* DataTable */
+.ui-datatable {
+    margin-top: 10px;
+}
+
+.ui-datatable th {
+    background-color: #007bff;
+    color: white;
+    text-align: left;
+}
+
+.ui-datatable td {
+    text-align: left;
+    padding: 10px;
+}

@@ -33,7 +33,8 @@ public class InventarioDao {
         em = DatabaseProxy.getEntityManager();
         String jpql = "SELECT ip FROM InventarioProducto ip "
                 + "WHERE ip.inventario.id = "
-                + "(SELECT s.inventarioSucursal.id FROM Sucursal s WHERE s.id = :sucursalId)";
+                + "(SELECT s.inventarioSucursal.id FROM Sucursal s WHERE s.id = :sucursalId) "
+                + "ORDER BY ip.productoDisponible ASC";
         return em.createQuery(jpql, InventarioProducto.class)
                 .setParameter("sucursalId", sucursalId)
                 .getResultList();
@@ -148,6 +149,27 @@ public class InventarioDao {
             String jpql = "SELECT p FROM Producto p WHERE p.id NOT IN "
                     + "(SELECT ip.producto.id FROM InventarioProducto ip WHERE ip.inventario.id = "
                     + "(SELECT s.inventarioSucursal.id FROM Sucursal s WHERE s.id = :sucursalId))";
+            return em.createQuery(jpql, Producto.class)
+                    .setParameter("sucursalId", sucursalId)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace(); // Log del error
+            throw e;
+        } finally {
+            if (em != null) {
+                em.close(); // Cerrar el EntityManager
+            }
+        }
+    }
+
+    public List<Producto> obtenerProductosEnInventarioPorSucursal(int sucursalId) {
+        EntityManager em = null;
+        try {
+            em = DatabaseProxy.getEntityManager();
+            String jpql = "SELECT ip.producto FROM InventarioProducto ip "
+                    + "WHERE ip.inventario.id = "
+                    + "(SELECT s.inventarioSucursal.id FROM Sucursal s WHERE s.id = :sucursalId) "
+                    + "ORDER BY ip.productoDisponible DESC";
             return em.createQuery(jpql, Producto.class)
                     .setParameter("sucursalId", sucursalId)
                     .getResultList();
@@ -332,5 +354,15 @@ public class InventarioDao {
                 em.close();
             }
         }
+    }
+
+    public List<Producto> obtenerProductosAgotados() {
+        EntityManager em = DatabaseProxy.getEntityManager();
+        EntityTransaction transaction = null;
+
+        return em.createQuery(
+                "SELECT ip.producto FROM InventarioProducto ip WHERE ip.productoDisponible <= ip.cantidadMinima",
+                Producto.class
+        ).getResultList();
     }
 }

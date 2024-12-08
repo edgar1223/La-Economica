@@ -100,6 +100,7 @@ public class EmpleadoDAO {
      */
     public void eliminarEmpleado(int clave) {
         EntityManager em = DatabaseProxy.getEntityManager();
+       
         try {
             // Busca al empleado por su clave.
             Empleado empleado = em.find(Empleado.class, clave);

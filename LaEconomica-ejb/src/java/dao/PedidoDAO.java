@@ -1,0 +1,161 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package dao;
+
+import model.Pedido;
+import model.PedidoProducto;
+import model.Sucursal;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import java.util.List;
+
+import model.Pedido;
+
+import javax.persistence.EntityManager;
+
+import javax.persistence.EntityManager;
+
+import model.Pedido;
+
+import javax.persistence.EntityManager;
+import proxy.DatabaseProxy;
+
+public class PedidoDAO {
+
+    /**
+     * Agrega un nuevo pedido a la base de datos.
+     *
+     * @param pedido El pedido a agregar.
+     */
+    public Pedido agregarPedido(Pedido pedido) {
+        EntityManager em = DatabaseProxy.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            em.persist(pedido);
+            tx.commit();
+            return pedido; // Retorna el pedido persistido
+        } catch (Exception e) {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+            return null; // Devuelve null si ocurre un error
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Actualiza un pedido existente en la base de datos.
+     *
+     * @param pedido El pedido actualizado.
+     * @param id El ID del pedido a actualizar.
+     */
+    public void actualizarPedido(Pedido pedido, int id) {
+        EntityManager em = DatabaseProxy.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            Pedido pedidoExistente = em.find(Pedido.class, id);
+            if (pedidoExistente != null) {
+                pedido.setId(id);
+                em.merge(pedido);
+            } else {
+                System.out.println("El pedido no existe, no se puede actualizar.");
+            }
+            tx.commit();
+        } catch (Exception e) {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Lista todos los pedidos asociados a una sucursal específica.
+     *
+     * @param sucursalId El ID de la sucursal.
+     * @return Lista de pedidos asociados a la sucursal.
+     */
+    public List<Pedido> listarPedidosPorSucursal(int sucursalId) {
+        EntityManager em = DatabaseProxy.getEntityManager();
+        try {
+            return em.createQuery(
+                    "SELECT p FROM Pedido p JOIN Sucursal s ON p.id = s.inventario WHERE s.id = :sucursalId",
+                    Pedido.class)
+                    .setParameter("sucursalId", sucursalId)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    /**
+     * Agrega un producto a un pedido.
+     *
+     * @param pedidoProducto El objeto PedidoProducto que representa el producto
+     * y pedido.
+     */
+    public void agregarProductoAPedido(PedidoProducto pedidoProducto) {
+        EntityManager em = null;
+        try {
+            em = DatabaseProxy.getEntityManager();
+            em.getTransaction().begin(); // Iniciar la transacción
+
+            // Verificar si el Pedido está gestionado
+            Pedido pedido = em.find(Pedido.class, pedidoProducto.getPedido().getId());
+            if (pedido == null) {
+                // Persistir el Pedido si no existe
+                em.persist(pedidoProducto.getPedido());
+            } else {
+                // Usar el Pedido existente
+                pedidoProducto.setPedido(pedido);
+            }
+
+            // Persistir el PedidoProducto
+            em.persist(pedidoProducto);
+            em.getTransaction().commit(); // Confirmar la transacción
+        } catch (Exception e) {
+            if (em != null && em.getTransaction().isActive()) {
+                em.getTransaction().rollback(); // Revertir en caso de error
+            }
+            e.printStackTrace(); // Log del error
+            throw new RuntimeException("Error al agregar producto al pedido", e);
+        } finally {
+            if (em != null) {
+                em.close(); // Asegurar el cierre del EntityManager
+            }
+        }
+    }
+
+    /**
+     * Obtiene los productos asociados a un pedido específico.
+     *
+     * @param pedidoId El ID del pedido.
+     * @return Lista de productos asociados al pedido.
+     */
+    public List<PedidoProducto> listarProductosDePedido(int pedidoId) {
+        EntityManager em = DatabaseProxy.getEntityManager();
+        try {
+            return em.createQuery(
+                    "SELECT pp FROM PedidoProducto pp WHERE pp.id.pedidoId = :pedidoId",
+                    PedidoProducto.class)
+                    .setParameter("pedidoId", pedidoId)
+                    .getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Pedido findById(int id) {
+        EntityManager em = DatabaseProxy.getEntityManager();
+        return em.find(Pedido.class, id);
+    }
+}

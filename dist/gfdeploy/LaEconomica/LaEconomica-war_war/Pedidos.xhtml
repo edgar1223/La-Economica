@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <link rel="stylesheet" href="styles/pedidos.css" />
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+
+    </h:head>
+    <h:body>
+        <div class="menu-banner">
+            <ui:include src="/menu.xhtml" />
+        </div>
+        <div class="container">
+            <div class="form-container">
+                 <p:growl id="growl" showDetail="true" />
+                <h:form>
+                    <div class="panel-container">
+                        <!-- Información del Pedido -->
+                        <p:panel header="Información del Pedido" styleClass="custom-panel panel-left">
+                            <p:panelGrid columns="2" styleClass="form-grid">
+                                <p:outputLabel value="Estado:" for="estado" />
+                                <p:selectOneMenu id="estado" value="#{pedidoControlller.pedido.estado}">
+                                    <f:selectItem itemLabel="Seleccione alguna opción" itemValue="" />
+                                    <f:selectItem itemLabel="Urgente" itemValue="Urgente" />
+                                    <f:selectItem itemLabel="Normal" itemValue="Normal" />
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                            <p:commandButton value="Crear Pedido" 
+                                             actionListener="#{pedidoControlller.crearPedido()}" 
+                                             update=":imcOutput, @form" styleClass="primary-button" />
+                        </p:panel>
+
+                        <!-- Agregar Productos al Pedido -->
+                        <p:panel header="Agregar Productos al Pedido" rendered="#{pedidoControlller.pedidoCreado}" styleClass="custom-panel panel-right">
+                            <p:panelGrid columns="2" styleClass="form-grid">
+                                <p:outputLabel value="Producto:" for="producto" />
+                                <p:selectOneMenu id="producto" value="#{pedidoControlller.idProducto}">
+                                    <f:selectItem itemLabel="Seleccione una opción" itemValue="" />
+                                    <f:selectItems value="#{pedidoControlller.producto}" 
+                                                   var="producto" 
+                                                   itemLabel="#{producto.nombre}" 
+                                                   itemValue="#{producto.id}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Cantidad:" for="cantidadPedido" />
+                                <p:inputText id="cantidadPedido" 
+                                             value="#{pedidoControlller.cantidad}" 
+                                             required="true"
+                                             requiredMessage="La cantidad es requerida." />
+                            </p:panelGrid>
+                            <p:commandButton value="Agregar Producto" 
+                                             action="#{pedidoControlller.agregarLista()}"  
+                                             update="tablaProductoPedido , :growl" styleClass="secondary-button" />
+                        </p:panel>
+                    </div>
+
+                    <!-- Tabla de Productos Agregados -->
+                    <p:panel header="Productos Agregados" rendered="#{pedidoControlller.pedidoCreado}" styleClass="custom-panel">
+                        <p:dataTable id="tablaProductoPedido" value="#{pedidoControlller.productoSeleccionado}" var="producto">
+                            <p:column headerText="Producto">
+                                <h:outputText value="#{producto.key.nombre}" />
+                            </p:column>
+                            <p:column headerText="Cantidad">
+                                <h:outputText value="#{producto.value}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <h:panelGrid columns="3">
+                                    <h:outputText value="Sucursal: #{loginController.empleadoLogueado.sucursal_id.descripcion}" />
+                                    <h:outputText value="Quien lo Solicitó: #{loginController.empleadoLogueado.nombre}" />
+                                    <h:outputText value="#{pedidoControlller.fechaActual}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </h:panelGrid>
+                            </f:facet>
+
+                        </p:dataTable>
+                        <p:commandButton value="Confirmar Productos"  
+                                         action="#{pedidoControlller.agregarPedidoProducto()}" 
+                                         update="tablaProductoPedido ,:growl" styleClass="primary-button" >
+                            <p:dataExporter type="xls" target="tablaProductoPedido" fileName="Pedido Realizada" encoding="ISO-8859-1" />
+
+                        </p:commandButton>
+                    </p:panel>
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</html>

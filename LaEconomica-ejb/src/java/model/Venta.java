@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -32,6 +33,7 @@ public class Venta {
 
     @ManyToOne
     @JoinColumn(name = "empleado", nullable = false)
+        @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private Empleado empleado;
 
     @Column(nullable = false)
@@ -43,6 +45,7 @@ public class Venta {
 
     @ManyToOne
     @JoinColumn(name = "sucursal", nullable = false)
+        @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private Sucursal sucursal;
 
     // Getters y setters

@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "inventario_producto")
@@ -19,11 +20,13 @@ public class InventarioProducto {
     @ManyToOne
     @MapsId("inventarioId")
     @JoinColumn(name = "Inventarioid", nullable = false)
+        @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private Inventario inventario;
 
     @ManyToOne
     @MapsId("productoId")
     @JoinColumn(name = "Productoid", nullable = false)
+        @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private Producto producto;
 
     @Column(name = "producto_disponible", nullable = false)

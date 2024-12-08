@@ -42,6 +42,7 @@ public class RegistroHorasController implements Serializable {
     private Map<Integer, HorasTrabajadasResult> totalSueldo = new HashMap<>();
     private String mes;
     private RegistroHoras registroHoras=new RegistroHoras();
+    
 
     // ========================
     // Métodos para gastos mensuales

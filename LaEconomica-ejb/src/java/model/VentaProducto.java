@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -29,11 +30,13 @@ public class VentaProducto {
     @ManyToOne
     @MapsId("ventaId")
     @JoinColumn(name = "Ventaid", nullable = false)
+        @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private Venta venta;
 
     @ManyToOne
     @MapsId("productoId")
     @JoinColumn(name = "Productoid", nullable = false)
+        @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private Producto producto;
 
     @Column(name = "cantidad_vendida", nullable = false)

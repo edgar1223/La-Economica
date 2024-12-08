@@ -25,34 +25,49 @@
                     <p:panel header="Inventario General" styleClass="panel-header">
 
                         <h:panelGroup styleClass="botones-container">
-                              <p:commandButton 
-                            value="Agregar Producto" 
-                            action="AgregarInventarioProducto" 
-                            actionListener="#{inventarioControlador.EliminarProductoCargado()}" 
-                            styleClass="btn btn-agregar-empleado" 
-                            />
+                            <p:commandButton 
+                                value="Agregar Producto" 
+                                action="AgregarInventarioProducto" 
+                                actionListener="#{inventarioControlador.EliminarProductoCargado()}" 
+                                styleClass="btn btn-agregar-empleado" 
+                                />
                             <h:commandLink id="reportXls" styleClass="btn btn-exportar">
                                 <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
                                 <span>Exportar Excel</span>
                                 <p:dataExporter type="xls" target="tablaProductoIventario" fileName="Producto" encoding="ISO-8859-1" />
                             </h:commandLink>
                         </h:panelGroup>
-                        <p:dataTable id="tablaProductoIventario" value="#{inventarioControlador.listInventarioProducto}" var="item"  styleClass="general-table"
-                                     paginator="true" rows="5">
-                            <p:column headerText="Producto">
+                        <p:dataTable id="tablaProductoIventario" 
+                                     value="#{inventarioControlador.listInventarioProducto}" 
+                                     var="item"  
+                                     styleClass="general-table"
+                                     paginator="true" 
+                                     rows="5" 
+                                     paginatorPosition="bottom">
+
+                            <!-- Columna Producto con filtro -->
+                            <p:column headerText="Producto"
+                                      styleClass="#{inventarioControlador.obtenerClaseCantidad(item.productoDisponible, item.cantidadMinima,item.producto.nombre)}" 
+                                      filterBy="#{item.producto.nombre}" filterMatchMode="contains" filterPlaceholder="Buscar Producto" sortable="true">
                                 <h:outputText value="#{item.producto.nombre}" />
                             </p:column>
+
+                            <!-- Columna Cantidad Disponible con ordenamiento -->
                             <p:column headerText="Cantidad Disponible" 
-                                      styleClass="#{inventarioControlador.obtenerClaseCantidad(item.productoDisponible, item.cantidadMinima,item.producto.nombre)}" >
+                                      styleClass="#{inventarioControlador.obtenerClaseCantidad(item.productoDisponible, item.cantidadMinima,item.producto.nombre)}"
+                                      sortable="true" 
+                                      sortBy="#{item.productoDisponible}">
                                 <h:outputText value="#{item.productoDisponible}" />
                             </p:column>
 
-
-
-                            <p:column headerText="Cantidad Mínima">
+                            <!-- Columna Cantidad Mínima -->
+                            <p:column headerText="Cantidad Mínima"
+                                      styleClass="#{inventarioControlador.obtenerClaseCantidad(item.productoDisponible, item.cantidadMinima,item.producto.nombre)}">
                                 <h:outputText value="#{item.cantidadMinima}" />
                             </p:column>
-                            <p:column  headerText="Acciones" exportable="false">
+
+                            <!-- Columna Acciones -->
+                            <p:column headerText="Acciones" exportable="false">
                                 <div class="acciones">
                                     <p:commandButton icon="pi pi-eye" title="Ver" 
                                                      action="DetallesProducto"                                       
@@ -62,58 +77,67 @@
                                                      update=":dialogs:editDialogContent"
                                                      oncomplete="PF('editDialog').show()">
                                         <f:setPropertyActionListener value="#{item}" target="#{inventarioControlador.inventarioProductoSeleccionado}" />
-
                                     </p:commandButton>
-
                                 </div>
                             </p:column>
                         </p:dataTable>
+
+
                     </p:panel>
 
                     <p:panel header="Análisis de Productos" styleClass="panel-header">
                         <div class="flex-container">
+                            <!-- Productos Más Vendidos -->
                             <div class="flex-item">
                                 <p:panel header="Productos Más Vendidos" styleClass="panel-header">
-                                    <h:panelGroup styleClass="botones-container">
-                                        <h:commandLink id="reportXlsMasVendidos" styleClass="btn btn-exportar">
-                                            <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
-                                            <span>Exportar Excel</span>
-                                            <p:dataExporter type="xls" target="tablaInventarioVendidos" fileName="Producto mas vendidos" encoding="ISO-8859-1" />
-                                        </h:commandLink>
-                                    </h:panelGroup>
-                                    <p:dataTable value="#{inventarioControlador.productoVendidos}" var="vendido" styleClass="vendidos-table"
-                                                 id="tablaInventarioVendidos"   paginator="true" rows="5">
-                                        <p:column headerText="Producto">
+                                    <p:dataTable id="tablaInventarioVendidos" 
+                                                 value="#{inventarioControlador.productoVendidos}" 
+                                                 var="vendido" 
+                                                 styleClass="styled-table">
+                                        <p:column headerText="Producto" style="text-align: center;">
                                             <h:outputText value="#{vendido[0].nombre}" />
                                         </p:column>
-                                        <p:column headerText="Cantidad Vendida">
+                                        <p:column headerText="Cantidad Vendida" style="text-align: center;">
                                             <h:outputText value="#{vendido[1]}" />
                                         </p:column>
                                     </p:dataTable>
+
+
+                                    <h:commandLink id="reportXlsMasVendidos" styleClass="btn btn-exportar">
+                                        <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
+                                        <span>Exportar Excel</span>
+                                        <p:dataExporter type="xls" target="tablaInventarioVendidos" fileName="ProductosMasVendidos" encoding="ISO-8859-1" />
+                                    </h:commandLink>
                                 </p:panel>
                             </div>
+
+                            <!-- Productos Menos Vendidos -->
                             <div class="flex-item">
                                 <p:panel header="Productos Menos Vendidos" styleClass="panel-header">
-                                    <h:panelGroup styleClass="botones-container">
-                                        <h:commandLink id="reportXlsMenosVendidos" styleClass="btn btn-exportar">
-                                            <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
-                                            <span>Exportar Excel</span>
-                                            <p:dataExporter type="xls" target="tablaProductoMenosVendidos" fileName="Producto menos vendidos" encoding="ISO-8859-1" />
-                                        </h:commandLink>
-                                    </h:panelGroup>
-                                    <p:dataTable value="#{inventarioControlador.producroMenosVendidos}" var="menosVendido" styleClass="menos-vendidos-table"
-                                                 id="tablaProductoMenosVendidos" paginator="true" rows="5">
-                                        <p:column headerText="Producto">
+                                    <p:dataTable id="tablaProductoMenosVendidos" 
+                                                 value="#{inventarioControlador.producroMenosVendidos}" 
+                                                 var="menosVendido" 
+                                                 styleClass="styled-table">
+                                        <p:column headerText="Producto" style="text-align: center;">
                                             <h:outputText value="#{menosVendido[0].nombre}" />
                                         </p:column>
-                                        <p:column headerText="Cantidad Vendida">
+                                        <p:column headerText="Cantidad Vendida" style="text-align: center;">
                                             <h:outputText value="#{menosVendido[1]}" />
                                         </p:column>
                                     </p:dataTable>
+
+
+
+                                    <h:commandLink id="reportXlsMenosVendidos" styleClass="btn btn-exportar">
+                                        <img src="images/excel.png" width="20" height="20" alt="Exportar Excel" class="icono-exportar" />
+                                        <span>Exportar Excel</span>
+                                        <p:dataExporter type="xls" target="tablaProductoMenosVendidos" fileName="ProductosMenosVendidos" encoding="ISO-8859-1" />
+                                    </h:commandLink>
                                 </p:panel>
                             </div>
                         </div>
                     </p:panel>
+
 
                 </h:form>
             </div>

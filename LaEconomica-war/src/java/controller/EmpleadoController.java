@@ -6,6 +6,7 @@ package controller;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -19,6 +20,7 @@ import service.EmpleadoService;
 import javax.faces.context.ExternalContext;
 import javax.servlet.http.HttpSession;
 import model.Pago;
+import org.primefaces.model.charts.bar.BarChartModel;
 
 /**
  * Controlador para la gestión de empleados. Maneja operaciones como agregar,

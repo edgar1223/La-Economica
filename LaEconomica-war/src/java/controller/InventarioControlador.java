@@ -34,7 +34,7 @@ public class InventarioControlador implements Serializable {
     private List<Object[]> producroMenosVendidos;
     private List<Producto> productosDisponibles;
     private List<Producto> productosNoEnInventario;
-
+    
     // Variables para manejar productos seleccionados o nuevos
     private InventarioProducto inventarioProducto = new InventarioProducto();
     private InventarioProducto inventarioProductoSeleccionado = new InventarioProducto();
@@ -128,19 +128,19 @@ public class InventarioControlador implements Serializable {
      * @return Clase CSS (vacía o "warning-style").
      */
     public String obtenerClaseCantidad(int disponible, int minima, String nombre) {
-           if (disponible <= minima) {
-                    if(disponible==0)
-                    {
-                         FacesContext.getCurrentInstance().addMessage(null,
-                            new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia: El stock del producto'"+nombre+"' es 0", null));
-                    }else{
-                    FacesContext.getCurrentInstance().addMessage(null,
-                            new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia: El stock del producto'"+nombre+"' es bajo", null));
-                    }
-                }
+        if (disponible <= minima) {
+            if (disponible == 0) {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia: El stock del producto'" + nombre + "' es 0", null));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia: El stock del producto'" + nombre + "' es bajo", null));
+            }
+        }
         return disponible <= minima ? "warning-style" : "";
     }
 
+   
     /**
      * Limpia las variables de producto cargado y seleccionado.
      */
@@ -181,8 +181,8 @@ public class InventarioControlador implements Serializable {
     }
 
     public List<Producto> getProductosNoEnInventario() {
-        if(productosNoEnInventario==null){
-            productosNoEnInventario=obtenerProductosDisponibles();
+        if (productosNoEnInventario == null) {
+            productosNoEnInventario = obtenerProductosDisponibles();
         }
         return productosNoEnInventario;
     }
@@ -208,11 +208,11 @@ public class InventarioControlador implements Serializable {
     }
 
     public int getSucursalId() {
-         FacesContext facesContext = FacesContext.getCurrentInstance();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
         Empleado empl = (Empleado) session.getAttribute("empleadoLogueado");
         sucursalId = empl.getSucursal_id().getId();
-        
+
         return sucursalId;
     }
 

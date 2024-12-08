@@ -6,6 +6,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <link rel="icon" type="image/png" href="images/LogoI.webp" />
     <link rel="stylesheet" type="text/css" href="styles/menu.css" />
+
+
     <h:form>
         <p:megaMenu orientation="horizontal" autoDisplay="false">
             <f:facet name="start">
@@ -69,6 +71,20 @@
                 <p:column>
                     <p:submenu >
                         <p:menuitem value="Sucursal"  action="sucursal" 
+                                    icon="pi pi-fw pi-map-marker" />
+
+                    </p:submenu>
+
+
+                </p:column>
+
+
+            </p:submenu>
+            
+             <p:submenu label="Pedidos" icon="pi pi-fw pi-building">
+                <p:column>
+                    <p:submenu >
+                        <p:menuitem value="Pedidos"  action="Pedidos" actionListener="#{pedidoControlller.eliminarPedido()}" 
                                     icon="pi pi-fw pi-map-marker" />
 
                     </p:submenu>

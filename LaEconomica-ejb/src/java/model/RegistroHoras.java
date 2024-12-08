@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -32,6 +33,7 @@ public class RegistroHoras {
 
     @ManyToOne
     @JoinColumn(name = "empleado_clave", nullable = false)
+        @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private Empleado empleado_clave;
 
     @Temporal(TemporalType.DATE)

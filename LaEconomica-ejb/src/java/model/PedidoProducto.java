@@ -13,28 +13,31 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  *
  * @author Edgar
  */
-
-
 @Entity
 @Table(name = "pedido_producto")
 @XmlRootElement
 public class PedidoProducto {
+
     @EmbeddedId
     private PedidoProductoId id;
 
     @ManyToOne
     @MapsId("pedidoId")
     @JoinColumn(name = "Pedidoid", nullable = false)
+    @Cascade(CascadeType.PERSIST)
     private Pedido pedido;
 
     @ManyToOne
     @MapsId("productoId")
     @JoinColumn(name = "Productoid", nullable = false)
+        @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private Producto producto;
 
     @Column(name = "cantidad_pedido", nullable = false)
@@ -73,4 +76,3 @@ public class PedidoProducto {
         this.cantidadPedido = cantidadPedido;
     }
 }
-
