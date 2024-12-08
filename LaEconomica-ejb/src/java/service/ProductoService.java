@@ -80,10 +80,13 @@ public class ProductoService {
             float precio = (float) (producto.getPrecio() - (producto.getPrecio() * producto.getPromocion()));
             producto.setPrecio(precio);
             producto.setPromocion((float) (producto.getPromocion() * 100));
+            productoDAO.update(producto);
         } else {
-            producto.setPrecio(producto.getPrecio_original());
+                   productoDAO.update(producto);
+
+            
         }
-        productoDAO.update(producto);
+        
     }
 
     /**

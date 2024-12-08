@@ -93,7 +93,7 @@ public class VentaController implements Serializable {
 
             // Generar la venta usando el servicio
             ventaService.crearVenta(empl, sucursal, productosConDetalles, 0.0f);
-
+cargarVentasIniciales();
             // Mensaje de éxito
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Venta generada exitosamente", null));

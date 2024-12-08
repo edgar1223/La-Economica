@@ -162,9 +162,7 @@ public class InventarioControlador implements Serializable {
 
     // Getters y setters para las propiedades de la clase
     public List<InventarioProducto> getListInventarioProducto() {
-        if (listInventarioProducto == null) {
-            cargarIventario();
-        }
+       cargarIventario();
         return listInventarioProducto;
     }
 

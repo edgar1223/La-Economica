@@ -117,6 +117,7 @@ public class ProductoController implements Serializable {
                             "Éxito",
                             "El Producto '" + producto.getNombre() + "' ha sido actualizado exitosamente."));
             productos = productoService.obtenerTodosLosProductos(); // Recarga la lista de productos.
+            cargarProducto();
             producto = new Producto(); // Limpia el objeto producto para evitar conflictos en la vista.
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
