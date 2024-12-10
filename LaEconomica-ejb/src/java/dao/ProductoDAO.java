@@ -140,8 +140,7 @@ public class ProductoDAO {
         try {
             // Busca el producto por su identificador.
             Producto p = em.find(Producto.class, productoId);
-            System.out.println("Producto encontrado: " + p);
-            System.out.println("Descripción del producto: " + p.getDescripcion());
+            
             return p;
         } finally {
             em.close();
@@ -155,7 +154,6 @@ public class ProductoDAO {
      * @return Lista de objetos con la información de sucursales y ventas.
      */
     public List<Object[]> obtenerTopSucursalesPorProducto(int productoId) {
-        System.out.println("Entro obtenerTopSucursalesPorProducto Dao " + productoId);
 
         em = DatabaseProxy.getEntityManager();
         List<Object[]> resultados = new ArrayList<>();
@@ -222,7 +220,6 @@ public class ProductoDAO {
      * @return Lista de objetos con información de pedidos pendientes.
      */
     public List<Object[]> obtenerPedidosPendientes(int productoId) {
-        System.out.println("Entro obtenerPedidosPendientes Dao " + productoId);
 
         em = DatabaseProxy.getEntityManager();
         List<Object[]> resultados = new ArrayList<>();
@@ -230,7 +227,7 @@ public class ProductoDAO {
             String jpql = "SELECT pp.pedido.id, pp.cantidadPedido, p.fechaSolicitud, p.estado "
                     + "FROM PedidoProducto pp "
                     + "JOIN pp.pedido p "
-                    + "WHERE pp.producto.id = :productoId AND p.estado = 'Pendiente'";
+                    + "WHERE pp.producto.id = :productoId AND p.estado != 'Surtido'";
             TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
             query.setParameter("productoId", productoId);
             resultados = query.getResultList();

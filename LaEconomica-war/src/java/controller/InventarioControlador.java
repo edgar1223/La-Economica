@@ -91,12 +91,11 @@ public class InventarioControlador implements Serializable {
      * @return Lista de productos disponibles.
      */
     public List<Producto> obtenerProductosDisponibles() {
-        if (productosDisponibles == null || productosDisponibles.isEmpty()) {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
             Empleado empl = (Empleado) session.getAttribute("empleadoLogueado");
             productosDisponibles = iventarioService.obtenerProductosNoEnInventarioPorSucursal(empl.getSucursal_id().getId());
-        }
+        
         return productosDisponibles;
     }
  public void vProducto(FacesContext context, UIComponent component, Object value) throws ValidatorException {
@@ -190,9 +189,8 @@ public class InventarioControlador implements Serializable {
     }
 
     public List<Producto> getProductosNoEnInventario() {
-        if (productosNoEnInventario == null) {
             productosNoEnInventario = obtenerProductosDisponibles();
-        }
+        
         return productosNoEnInventario;
     }
 

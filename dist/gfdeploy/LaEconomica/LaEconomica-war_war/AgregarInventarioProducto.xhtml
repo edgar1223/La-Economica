@@ -36,8 +36,6 @@
                                            itemValue="#{producto.id}" />
                         </p:selectOneMenu>
                     </div>
-
-
                     <!-- Columna 2 -->
                     <div>
                         <p:outputLabel for="productoDisponible" value="Producto Disponible:" />
@@ -47,7 +45,6 @@
                         <p:inputText id="cantidadMinima" value="#{inventarioControlador.inventarioProducto.cantidadMinima}" />
                     </div>
                 </div>
-
                 <!-- Botón centrado -->
                 <div class="center-button">
                     <p:commandButton value="Registrar" update="messages"  action="Inventario" 

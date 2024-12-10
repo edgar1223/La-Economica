@@ -49,8 +49,9 @@ public class ProductoService {
     public void guardarProducto(Producto producto) {
         System.out.println("Entro al save service");
         if (producto.getPromocion() > 1) {
+             float descueto=producto.getPromocion()/100;
             producto.setPrecio_original(producto.getPrecio());
-            float precio = (float) (producto.getPrecio() - (producto.getPrecio() * producto.getPromocion()));
+           float precio = (float) (producto.getPrecio() - (producto.getPrecio() * descueto));
             producto.setPrecio(precio);
             producto.setPromocion((float) (producto.getPromocion() * 100));
         } else {
@@ -76,8 +77,9 @@ public class ProductoService {
      */
     public void actualizarProducto(Producto producto) {
         if (producto.getPromocion() > 1) {
+            float descueto=producto.getPromocion()/100;
             producto.setPrecio_original(producto.getPrecio());
-            float precio = (float) (producto.getPrecio() - (producto.getPrecio() * producto.getPromocion()));
+           float precio = (float) (producto.getPrecio() - (producto.getPrecio() * descueto));
             producto.setPrecio(precio);
             producto.setPromocion((float) (producto.getPromocion() * 100));
             productoDAO.update(producto);
