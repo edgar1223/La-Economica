@@ -69,18 +69,20 @@
                     <p:messages id="messageHora" closable="true" />
 
                     <p:dataTable id="tablaEmpleados" value="#{empleadoController.empleados}" var="empleado" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
-                                 paginator="true" rows="10" styleClass="mt-2">
+                                 paginator="true" rows="5"  paginatorPosition="bottom" styleClass="mt-2">
 
                         <p:column headerText="Clave">
                             <h:outputText value="#{empleado.clave}" />
                         </p:column>
-                        <p:column headerText="Nombre">
+                        <p:column headerText="Nombre"
+                                 filterBy="#{empleado.nombre}" filterMatchMode="contains" filterPlaceholder="Buscar Empleado" sortable="true">
                             <h:outputText value="#{empleado.nombre}" />
                         </p:column>
-                        <p:column headerText="Apellido">
+                        <p:column headerText="Apellido"
+                                    filterBy="#{empleado.apellidoPaterno}" filterMatchMode="contains" filterPlaceholder="Buscar Empleado" sortable="true">
                             <h:outputText value="#{empleado.apellidoPaterno}" />
                         </p:column>
-                        <p:column headerText="Edad">
+                        <p:column headerText="Edad"   sortable="true"  sortBy="#{empleado.edad}">
                             <h:outputText value="#{empleado.edad}" />
                         </p:column>
                         <p:column headerText="Domicilio">

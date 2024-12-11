@@ -40,21 +40,21 @@
                         <p:dataTable id="tablaProductoIventario" 
                                      value="#{inventarioControlador.listInventarioProducto}" 
                                      var="item"  
-                                     styleClass="general-table"
+                                     styleClass="styled-table"
                                      paginator="true" 
                                      rows="5" 
                                      paginatorPosition="bottom">
 
                             <!-- Columna Producto con filtro -->
                             <p:column headerText="Producto"
-                                      styleClass="#{inventarioControlador.obtenerClaseCantidad(item.productoDisponible, item.cantidadMinima,item.producto.nombre)}" 
+                                      styleClass="small-column #{inventarioControlador.obtenerClaseCantidad(item.productoDisponible, item.cantidadMinima,item.producto.nombre)}" 
                                       filterBy="#{item.producto.nombre}" filterMatchMode="contains" filterPlaceholder="Buscar Producto" sortable="true">
                                 <h:outputText value="#{item.producto.nombre}" />
                             </p:column>
 
                             <!-- Columna Cantidad Disponible con ordenamiento -->
                             <p:column headerText="Cantidad Disponible" 
-                                      styleClass="#{inventarioControlador.obtenerClaseCantidad(item.productoDisponible, item.cantidadMinima,item.producto.nombre)}"
+                                      styleClass="small-column #{inventarioControlador.obtenerClaseCantidad(item.productoDisponible, item.cantidadMinima,item.producto.nombre)}"
                                       sortable="true" 
                                       sortBy="#{item.productoDisponible}">
                                 <h:outputText value="#{item.productoDisponible}" />
@@ -62,12 +62,12 @@
 
                             <!-- Columna Cantidad Mínima -->
                             <p:column headerText="Cantidad Mínima"
-                                      styleClass="#{inventarioControlador.obtenerClaseCantidad(item.productoDisponible, item.cantidadMinima,item.producto.nombre)}">
+                                      styleClass=" small-column #{inventarioControlador.obtenerClaseCantidad(item.productoDisponible, item.cantidadMinima,item.producto.nombre)}">
                                 <h:outputText value="#{item.cantidadMinima}" />
                             </p:column>
 
                             <!-- Columna Acciones -->
-                            <p:column headerText="Acciones" exportable="false">
+                            <p:column headerText="Acciones" exportable="false" styleClass=" small-column">
                                 <div class="acciones">
                                     <p:commandButton icon="pi pi-eye" title="Ver" 
                                                      action="DetallesProducto"                                       

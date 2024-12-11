@@ -38,7 +38,8 @@
                             </h:commandLink>
                         </h:panelGroup>
                         <p:dataTable value="#{productoController.productos}" var="item" 
-                                     paginator="true" rows="10" 
+                                     paginator="true" rows="5" 
+                                      paginatorPosition="bottom"
                                      id="tablaProductos"
                                      styleClass="table-styled">
 
@@ -48,12 +49,14 @@
                             </p:column>
 
                             <!-- Columna: Nombre -->
-                            <p:column headerText="Nombre">
+                            <p:column headerText="Nombre" 
+                                       filterBy="#{item.nombre}" filterMatchMode="contains" filterPlaceholder="Buscar Producto" sortable="true"
+>
                                 <h:outputText value="#{item.nombre}" />
                             </p:column>
 
                             <!-- Columna: Precio -->
-                            <p:column headerText="Precio">
+                            <p:column headerText="Precio"   sortable="true"  sortBy="#{item.precio}">
                                 <h:outputText value="#{item.precio}" />
                             </p:column>
 
@@ -63,7 +66,7 @@
                             </p:column>
 
                             <!-- Columna: Fecha de Caducidad -->
-                            <p:column headerText="Fecha de Caducidad">
+                            <p:column headerText="Fecha de Caducidad"  sortable="true"  sortBy="#{item.fechaCaducidad}">
                                 <h:outputText value="#{item.fechaCaducidad}">
                                     <f:convertDateTime pattern="MM/dd/yyyy" />
                                 </h:outputText>

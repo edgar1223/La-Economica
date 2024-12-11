@@ -29,7 +29,7 @@
                         </h:commandLink>
                     </h:panelGroup>
                     <p:dataTable id="ventasPorSucursal" value="#{ventaController.ventasPorSucursal}" var="venta"
-                                 paginator="true" rows="10" rowsPerPageTemplate="5,10,20"
+                                 paginator="true" rows="5"  paginatorPosition="bottom"
                                  sortBy="#{venta[0]}" 
                                  emptyMessage="No hay ventas para mostrar.">
                         <p:column headerText="ID Venta" sortBy="#{venta[0]}">

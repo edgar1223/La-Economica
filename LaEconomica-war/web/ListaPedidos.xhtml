@@ -27,12 +27,13 @@
                              paginator="true" 
                              rows="5" 
                              paginatorPosition="bottom">
-                    <p:column headerText="Fecha de solicitud">
+                    <p:column headerText="Fecha de solicitud"   >
                         <h:outputText value="#{producto.key.fechaSolicitud}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Estado">
+                    <p:column headerText="Estado"  filterBy="#{producto.key.estado}" filterMatchMode="contains" filterPlaceholder="Buscar Pedido" sortable="true"
+>
                         <h:outputText value="#{producto.key.estado}" />
                     </p:column>
                     <p:column headerText="Producto">
