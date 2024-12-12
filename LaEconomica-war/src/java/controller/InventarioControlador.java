@@ -108,6 +108,7 @@ public class InventarioControlador implements Serializable {
             throw new ValidatorException(message);
         }
     }
+ 
     /**
      * Registra un nuevo producto en el inventario de la sucursal actual.
      * Muestra un mensaje según el éxito o fallo de la operación.

@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Inventario de Productos</title>
         <link rel="stylesheet" type="text/css" href="styles/RelizarVenta.css" />
@@ -19,22 +20,44 @@
                 <div class="grid-column">
                     <p:messages id="messages" closable="true" />
                     <h:form id="formularioProductos">
-                        <h1>Agregar Producto al Inventario</h1>
+                        <h1>Agregar Producto</h1>
                         <div class="form-group">
-                            <p:outputLabel for="productoId" value="ID del Producto:" />
-                            <p:inputText id="productoId" value="#{ventaController.productoId}" />
+                            <p:outputLabel for="productoId" value="ID del Producto:" class="form-label" />
+                            <p:selectOneMenu id="productoId" value="#{ventaController.productoId}"  
+                                             required="true" 
+                                             filter="true" 
+                                             filterMatchMode="startsWith"
+                                             requiredMessage="Selecciona un producto."
+                                             validator="#{pedidoControlller.vProducto}" 
+                                             styleClass="form-select">
+                                <f:selectItem itemLabel="Seleccione una opción" itemValue="" />
+                                <f:selectItems value="#{pedidoControlller.producto}" 
+                                               var="producto" 
+                                               itemLabel="#{producto.id} - #{producto.nombre}" 
+                                               itemValue="#{producto.id}" />
+                                <p:ajax event="change" listener="#{ventaController.buscar()}" update="cantidaDisponible" />
+                            </p:selectOneMenu>
+                            <p:outputLabel id="cantidaDisponible" 
+
+                                           value="Cantidad Disponible: #{ventaController.cantidadDisponilbe}" 
+                                           class="cantidad-label" />
                         </div>
                         <div class="form-group">
-                            <p:outputLabel for="cantidad" value="Cantidad:" />
-                            <p:inputText id="cantidad" value="#{ventaController.cantidad}" validator="#{ventaController.vCantidad}" />
+                            <p:outputLabel for="cantidad" value="Cantidad:" class="form-label" />
+                            <p:inputText id="cantidad" value="#{ventaController.cantidad}" 
+                                         validator="#{ventaController.vCantidad}" 
+                                         class="form-input" />
                         </div>
-                        <p:commandButton value="Agregar" action="#{ventaController.verificar}" update="messages :ListaProductos:productosTable" styleClass="btn btn-primary" />
+                        <p:commandButton value="Agregar" action="#{ventaController.verificar}" 
+                                         update="messages :ListaProductos:productosTable" 
+                                         styleClass="btn btn-primary" />
                     </h:form>
+
                 </div>
 
                 <!-- Columna 2: Tabla -->
                 <div class="grid-column">
-                    <h2>Productos en Inventario</h2>
+                    <h2>Lista de compra</h2>
                     <h:form id="ListaProductos">
                         <p:messages id="messagesForm" closable="true" />
                         <p:dataTable id="productosTable" value="#{ventaController.productosConCantidad}" var="entry" styleClass="table">
@@ -50,18 +73,24 @@
                             <p:column headerText="Cantidad">
                                 <h:outputText value="#{entry.value}" />
                             </p:column>
-                            <p:column headerText="Total">
+                            <p:column headerText="Total"   footerText="Total de la Compra: #{ventaController.totalCompra}">
                                 <h:outputText value="#{ventaController.total(entry.key.precio,entry.value)}" />
+                            </p:column>    
+                            <p:column headerText="Acciones">
+                                <p:commandButton 
+                                                 icon="pi pi-trash" 
+                                                 action="#{ventaController.eliminarProducto(entry.key.id)}" 
+                                                 update="productosTable messagesForm" 
+                                                 styleClass="btn btn-danger" />
                             </p:column>
-                            <p:column headerText="Total Compra" footerText="Total de la Compra: #{ventaController.totalCompra}">
-                                <h:outputText value="#{ventaController.calcularTotalCompra()}" />
-                            </p:column>
-                            <p:column headerText="Cambio" footerText="Cambio: #{ventaController.cambio}">
 
-                            </p:column>
-                            <p:column headerText="Atendido Por" footerText="Atendido Por: #{loginController.empleadoLogueado.nombre}">
+                            <f:facet name="footer">
+                                <h:panelGrid columns="3">
+                                    <h:outputText value="Cambio: #{ventaController.cambio}" />
+                                    <h:outputText value="Atendido Por: #{loginController.empleadoLogueado.nombre}" />
 
-                            </p:column>
+                                </h:panelGrid>
+                            </f:facet>
                         </p:dataTable>
                         <h:outputLabel for="dineroRecibido" value="Dinero Recibido:" />
                         <p:inputText id="dineroRecibido" value="#{ventaController.dineroRecibido}" >

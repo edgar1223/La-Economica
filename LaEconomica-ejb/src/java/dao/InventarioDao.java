@@ -365,4 +365,39 @@ public class InventarioDao {
                 Producto.class
         ).getResultList();
     }
+    /**
+ * Obtiene la cantidad disponible de un producto en cualquier sucursal.
+ *
+ * @param productoId Identificador del producto.
+ * @return la cantidad disponible del producto, o null si no se encuentra en el inventario.
+ */
+public Integer obtenerCantidadDisponibleProducto(int productoId) {
+    EntityManager em = null;
+    try {
+        em = DatabaseProxy.getEntityManager();
+
+        String jpql = "SELECT SUM(ip.productoDisponible) FROM InventarioProducto ip "
+                    + "WHERE ip.producto.id = :productoId";
+
+        // Recupera la suma de las cantidades disponibles del producto en todas las sucursales
+        Long cantidadDisponible = em.createQuery(jpql, Long.class)
+                                    .setParameter("productoId", productoId)
+                                    .getSingleResult();
+
+        // Retorna la cantidad disponible como Integer, o null si no existe
+        return cantidadDisponible != null ? cantidadDisponible.intValue() : null;
+
+    } catch (javax.persistence.NoResultException e) {
+        // Retorna null si no se encuentra el producto en el inventario
+        return null;
+    } catch (Exception e) {
+        e.printStackTrace(); // Log del error
+        throw new RuntimeException("Error al obtener la cantidad disponible del producto", e);
+    } finally {
+        if (em != null) {
+            em.close(); // Asegurar el cierre del EntityManager
+        }
+    }
+}
+
 }

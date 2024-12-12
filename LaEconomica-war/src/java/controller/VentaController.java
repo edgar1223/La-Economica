@@ -23,6 +23,7 @@ import model.Producto;
 import model.Sucursal;
 import model.Venta;
 import service.InventarioService;
+import service.PedidoService;
 import service.ProductoService;
 import service.VentaService;
 
@@ -35,6 +36,7 @@ import service.VentaService;
 public class VentaController implements Serializable {
 
     private VentaService ventaService = new VentaService();
+    private PedidoService pedidService = new PedidoService();
     private List<Object[]> ventasPorSucursal;
     private List<Object[]> topEmpleados;
     private List<Object[]> ventasPorMes;
@@ -51,6 +53,8 @@ public class VentaController implements Serializable {
     private double cantidadFinal = 0;
     private double cambio = 0;
     private double dineroRecibido = 0;
+    private double cantidadDisponilbe;
+    private List<Producto> producto;
 
     @PostConstruct
     public void init() {
@@ -75,7 +79,7 @@ public class VentaController implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "No es suficiente dinero para pagar los productos", null));
             return;
-                    }
+        }
         try {
             // Convertir `productosConCantidad` al formato requerido por `crearVenta`
             Map<Producto, float[]> productosConDetalles = new HashMap<>();
@@ -93,7 +97,7 @@ public class VentaController implements Serializable {
 
             // Generar la venta usando el servicio
             ventaService.crearVenta(empl, sucursal, productosConDetalles, 0.0f);
-cargarVentasIniciales();
+            cargarVentasIniciales();
             // Mensaje de éxito
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Venta generada exitosamente", null));
@@ -159,6 +163,7 @@ cargarVentasIniciales();
                         return;
                     } else {
                         productosConCantidad.put(producto, cantidad);
+                        calcularTotalCompra();
                         encontrado = true;
                         break;
                     }
@@ -168,10 +173,12 @@ cargarVentasIniciales();
             if (!encontrado) {
                 if (productoService.verificarProductoCantidadDisponible(sucursalId, productoId, cantidad)) {
                     productosConCantidad.put(p, cantidad);
+                    calcularTotalCompra();
                     FacesContext.getCurrentInstance().addMessage(null,
                             new FacesMessage(FacesMessage.SEVERITY_INFO,
                                     "El Producto '" + p.getNombre() + "' ha sido registrado exitosamente.",
                                     "El Producto '" + p.getNombre() + "' ha sido registrado exitosamente."));
+
                 } else {
                     FacesContext.getCurrentInstance().addMessage(null,
                             new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -185,6 +192,18 @@ cargarVentasIniciales();
                             "El Producto No Encontrado ",
                             "El Producto No Encontrado "));
         }
+    }
+
+    public void eliminarProducto(int productoId) {
+        productosConCantidad.entrySet().removeIf(entry -> entry.getKey().getId() == productoId);
+
+        // Opcional: Recalcula el total de la compra si lo necesitas
+        calcularTotalCompra();
+    }
+
+    public void buscar() {
+        System.out.print("entro a buscar");
+        cantidadDisponilbe = productoService.obtenerCantidadDisponibleProducto(productoId);
     }
 
     public double total(double a, double b) {
@@ -223,6 +242,13 @@ cargarVentasIniciales();
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "No es suficiente dinero para pagar los productos", null));
 
         }
+    }
+
+    public void cargarProducto() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Empleado empl = (Empleado) session.getAttribute("empleadoLogueado");
+        producto = pedidService.obtenerProducto(empl.getSucursal_id().getId());
     }
 
     /**
@@ -319,6 +345,25 @@ cargarVentasIniciales();
 
     public void setDineroRecibido(double dineroRecibido) {
         this.dineroRecibido = dineroRecibido;
+    }
+
+    public List<Producto> getProducto() {
+
+        cargarProducto();
+
+        return producto;
+    }
+
+    public void setProducto(List<Producto> producto) {
+        this.producto = producto;
+    }
+
+    public double getCantidadDisponilbe() {
+        return cantidadDisponilbe;
+    }
+
+    public void setCantidadDisponilbe(double cantidadDisponilbe) {
+        this.cantidadDisponilbe = cantidadDisponilbe;
     }
 
 }

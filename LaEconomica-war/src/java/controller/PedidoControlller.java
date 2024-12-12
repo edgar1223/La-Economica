@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -130,6 +131,8 @@ public class PedidoControlller implements Serializable {
         addMessage(FacesMessage.SEVERITY_INFO, "Exitoso", "Estado Cambiado ");
         cargarPedidos();
     }
+
+   
 
     public Pedido getPedido() {
         return pedido;
