@@ -76,6 +76,7 @@ public class ProductoService {
      * @param producto Producto con los datos actualizados.
      */
     public void actualizarProducto(Producto producto) {
+        producto.setPrecio_original(producto.getPrecio());
                    productoDAO.update(producto);
 
 

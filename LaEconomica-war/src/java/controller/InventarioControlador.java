@@ -108,7 +108,26 @@ public class InventarioControlador implements Serializable {
             throw new ValidatorException(message);
         }
     }
- 
+  public void vCantidad(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        int datovp = (int) value;
+
+        if (datovp <= 0) {
+            // Add a validation error message
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error La cantidad  debe ser mayor a 0", "Producto no valido");
+            throw new ValidatorException(message);
+        }
+    }
+   public void vCantidadMinima(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        int datovp = (int) value;
+
+        if (datovp <= 0) {
+            // Add a validation error message
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error La cantidad minima debe ser mayor a 0", "Producto no valido");
+            throw new ValidatorException(message);
+        }
+    }
     /**
      * Registra un nuevo producto en el inventario de la sucursal actual.
      * Muestra un mensaje según el éxito o fallo de la operación.
