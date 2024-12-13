@@ -104,7 +104,8 @@ public class VentaController implements Serializable {
 
             // Limpiar los datos después de la venta
             productosConCantidad.clear();
-
+            buscar();
+            cantidad = 0;
         } catch (Exception e) {
             // Manejo de errores
             FacesContext.getCurrentInstance().addMessage(null,
@@ -164,6 +165,7 @@ public class VentaController implements Serializable {
                     } else {
                         productosConCantidad.put(producto, cantidad);
                         calcularTotalCompra();
+                        buscar();
                         encontrado = true;
                         break;
                     }
@@ -174,6 +176,7 @@ public class VentaController implements Serializable {
                 if (productoService.verificarProductoCantidadDisponible(sucursalId, productoId, cantidad)) {
                     productosConCantidad.put(p, cantidad);
                     calcularTotalCompra();
+                    buscar();
                     FacesContext.getCurrentInstance().addMessage(null,
                             new FacesMessage(FacesMessage.SEVERITY_INFO,
                                     "El Producto '" + p.getNombre() + "' ha sido registrado exitosamente.",
@@ -202,8 +205,7 @@ public class VentaController implements Serializable {
     }
 
     public void buscar() {
-        System.out.print("entro a buscar");
-        cantidadDisponilbe = productoService.obtenerCantidadDisponibleProducto(productoId);
+        cantidadDisponilbe = productoService.obtenerCantidadDisponibleProducto(productoId,empl.getSucursal_id().getId());
     }
 
     public double total(double a, double b) {

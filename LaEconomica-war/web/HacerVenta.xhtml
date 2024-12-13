@@ -31,7 +31,7 @@
                                              validator="#{pedidoControlller.vProducto}" 
                                              styleClass="form-select">
                                 <f:selectItem itemLabel="Seleccione una opción" itemValue="" />
-                                <f:selectItems value="#{pedidoControlller.producto}" 
+                                <f:selectItems value="#{ventaController.producto}" 
                                                var="producto" 
                                                itemLabel="#{producto.id} - #{producto.nombre}" 
                                                itemValue="#{producto.id}" />
@@ -95,7 +95,7 @@
                         <p:inputText id="dineroRecibido" value="#{ventaController.dineroRecibido}" >
                             <p:ajax event="keyup" listener="#{ventaController.procesarPago}" update="productosTable messagesForm"/>
                         </p:inputText>
-                        <p:commandButton value="Crear Venta" action="#{ventaController.generarVenta}" update="productosTable messagesForm" styleClass="btn btn-success" >
+                        <p:commandButton value="Crear Venta" action="#{ventaController.generarVenta}" update="productosTable messagesForm :formularioProductos" styleClass="btn btn-success" >
                             <p:dataExporter type="xls" target="productosTable" fileName="Venta Realizada" encoding="ISO-8859-1" />
 
                         </p:commandButton>

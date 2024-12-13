@@ -30,11 +30,9 @@ public class InventarioProducto {
         @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private Producto producto;
     
-    @DecimalMin(value = "0", inclusive = false, message = "La cantidad disponible debe ser mayor a 0")
     @Column(name = "producto_disponible", nullable = false)
     private int productoDisponible;
 
-        @DecimalMin(value = "0", inclusive = false, message = "La cantidad minima disponilbe debe ser mayor a 0")
     @Column(name = "cantida_minima", nullable = false)
     private int cantidadMinima;
 

@@ -112,8 +112,8 @@ public class InventarioService {
     public boolean verificarProductoCantidadDisponible(int sucursalId, int productoId, int cantidadSolicitada) {
         return inventarioDao.verificarProductoCantidadDisponible(sucursalId, productoId, cantidadSolicitada);
     }
-    public Integer obtenerCantidadDisponibleProducto(int id){
-        return inventarioDao.obtenerCantidadDisponibleProducto(id);
+    public Integer obtenerCantidadDisponibleProducto(int id,int idE){
+        return inventarioDao.obtenerCantidadDisponible(idE,id);
     }
    
 }

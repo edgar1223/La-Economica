@@ -365,39 +365,41 @@ public class InventarioDao {
                 Producto.class
         ).getResultList();
     }
+
     /**
- * Obtiene la cantidad disponible de un producto en cualquier sucursal.
- *
- * @param productoId Identificador del producto.
- * @return la cantidad disponible del producto, o null si no se encuentra en el inventario.
- */
-public Integer obtenerCantidadDisponibleProducto(int productoId) {
-    EntityManager em = null;
-    try {
-        em = DatabaseProxy.getEntityManager();
+     * Obtiene la cantidad disponible de un producto en el inventario de una
+     * sucursal.
+     *
+     * @param sucursalId Identificador de la sucursal.
+     * @param productoId Identificador del producto.
+     * @return Cantidad disponible del producto en la sucursal o null si no está
+     * en el inventario.
+     */
+    public Integer obtenerCantidadDisponible(int sucursalId, int productoId) {
+        EntityManager em = null;
+        try {
+            em = DatabaseProxy.getEntityManager();
+            String jpql = "SELECT ip.productoDisponible FROM InventarioProducto ip "
+                    + "WHERE ip.producto.id = :productoId "
+                    + "AND ip.inventario.id = (SELECT s.inventarioSucursal.id FROM Sucursal s WHERE s.id = :sucursalId)";
 
-        String jpql = "SELECT SUM(ip.productoDisponible) FROM InventarioProducto ip "
-                    + "WHERE ip.producto.id = :productoId";
+            // Recupera la cantidad disponible del producto
+            return em.createQuery(jpql, Integer.class)
+                    .setParameter("productoId", productoId)
+                    .setParameter("sucursalId", sucursalId)
+                    .getSingleResult();
 
-        // Recupera la suma de las cantidades disponibles del producto en todas las sucursales
-        Long cantidadDisponible = em.createQuery(jpql, Long.class)
-                                    .setParameter("productoId", productoId)
-                                    .getSingleResult();
-
-        // Retorna la cantidad disponible como Integer, o null si no existe
-        return cantidadDisponible != null ? cantidadDisponible.intValue() : null;
-
-    } catch (javax.persistence.NoResultException e) {
-        // Retorna null si no se encuentra el producto en el inventario
-        return null;
-    } catch (Exception e) {
-        e.printStackTrace(); // Log del error
-        throw new RuntimeException("Error al obtener la cantidad disponible del producto", e);
-    } finally {
-        if (em != null) {
-            em.close(); // Asegurar el cierre del EntityManager
+        } catch (javax.persistence.NoResultException e) {
+            // Retorna null si no se encuentra el producto en el inventario
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace(); // Log del error
+            throw new RuntimeException("Error al obtener la cantidad disponible del producto", e);
+        } finally {
+            if (em != null) {
+                em.close(); // Asegurar el cierre del EntityManager
+            }
         }
     }
-}
 
 }
