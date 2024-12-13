@@ -76,7 +76,7 @@
                             <p:column headerText="Total"   footerText="Total de la Compra: #{ventaController.totalCompra}">
                                 <h:outputText value="#{ventaController.total(entry.key.precio,entry.value)}" />
                             </p:column>    
-                            <p:column headerText="Acciones">
+                            <p:column headerText="Acciones"  exportable="false">
                                 <p:commandButton 
                                                  icon="pi pi-trash" 
                                                  action="#{ventaController.eliminarProducto(entry.key.id)}" 
@@ -86,8 +86,7 @@
 
                             <f:facet name="footer">
                                 <h:panelGrid columns="3">
-                                    <h:outputText value="Cambio: #{ventaController.cambio}" />
-                                    <h:outputText value="Atendido Por: #{loginController.empleadoLogueado.nombre}" />
+                                    <h:outputText value="Cambio: #{ventaController.cambio} || Atendido Por: #{loginController.empleadoLogueado.nombre}" />
 
                                 </h:panelGrid>
                             </f:facet>
